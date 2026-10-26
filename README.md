@@ -1,8 +1,8 @@
-# Universe of Legends TCG — Digital Origins (v5 Magitek Edition)
+# Universe of Legends TCG — Digital Origins
 
 **Universe of Legends TCG — Digital Origins** is a self-contained, single-page web application (`index.html` / `UofL_v5.html`) built for deck building, solo and 2-player hotseat playtesting, booster pack simulation, and live cloud card/deck administration for the **Universe of Legends Trading Card Game** (*Fractures in Time* expansion).
 
-Designed around the game's core blend of **Magic**, **Fantasy**, and **Technology** (**"Magitek"**), the application runs directly in any desktop or mobile horizontal browser while dynamically syncing with Google Sheets, Google Apps Script, and local asset folders.
+Designed around the game's core blend of **Magic**, **Fantasy**, and **Technology**, the application runs directly in any desktop or mobile horizontal browser while dynamically syncing with Google Sheets, Google Apps Script, and local asset folders.
 
 ## 1. Core Application Modules & How They Work
 
