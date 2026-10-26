@@ -1,0 +1,4 @@
+/Card_Images/*
+  Cache-Control: public, max-age=31536000, immutable
+/Assets/*
+  Cache-Control: public, max-age=31536000, immutable
