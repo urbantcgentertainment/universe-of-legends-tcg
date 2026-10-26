@@ -709,7 +709,9 @@
             overflow-x: auto;
         }
         #playmat {
-            flex-grow: 1;
+            flex: 1 1 0%;
+            height: 0;
+            min-height: 0;
             position: relative;
             background-color: #0b0e18;
             background-image:
@@ -1588,106 +1590,1125 @@
             }
         }
 
+        /* Dynamic Viewport Height Support for Mobile Browsers with Address Bars */
+        body, #start-view, #playtest-view, #pack-opening-view {
+            height: 100vh;
+            height: 100dvh;
+            height: var(--app-height, 100dvh);
+            max-height: var(--app-height, 100dvh);
+        }
+        #builder-view {
+            height: calc(var(--app-height, 100dvh) - 50px);
+        }
+
         /* Mobile & Compact Horizontal (Landscape) Screens */
         @media screen and (max-width: 980px), screen and (max-height: 560px) {
+            /* 1. Top Navigation Bar (Deck Builder) — Fits 100% within 800px width with no scrollbar */
             #top-nav-bar {
-                height: 40px;
-                padding: 0 8px;
-                overflow-x: auto;
-                gap: 6px;
+                height: 34px !important;
+                min-height: 34px !important;
+                padding: 0 6px !important;
+                overflow: hidden !important;
+                gap: 4px !important;
             }
-            .game-title { font-size: 0.9rem; }
-            .deck-mode-badge { display: none; }
-            .nav-stats { font-size: 10.5px; padding: 2px 6px; gap: 5px; }
-            .nav-actions button, .nav-actions label { padding: 3px 7px !important; font-size: 10px !important; }
+            .nav-brand { gap: 4px !important; }
+            .nav-brand button { padding: 2px 6px !important; font-size: 9px !important; margin-right: 1px !important; }
+            .game-title { font-size: 0.66rem !important; letter-spacing: 0.2px !important; }
+            .deck-mode-badge { display: none !important; }
+            .nav-stats {
+                font-size: 8.5px !important;
+                padding: 2px 5px !important;
+                gap: 3px !important;
+                flex-shrink: 0;
+                overflow: hidden !important;
+            }
+            #nav-allowed-colors { display: none !important; }
+            .nav-stats .stat-divider:nth-child(6) { display: none !important; }
+            .nav-actions { gap: 3px !important; }
+            #saved-decks-dropdown {
+                max-width: 108px !important;
+                padding: 1px 4px !important;
+                font-size: 9px !important;
+                height: 22px !important;
+            }
+            .nav-actions button, .nav-actions label {
+                padding: 2px 5px !important;
+                font-size: 8.5px !important;
+                letter-spacing: 0.2px !important;
+            }
 
-            /* Start Screen Split Layout on Mobile Landscape */
-            .start-top-hud { padding: 6px 16px; }
+            /* 2. Start Screen Split Layout on Mobile Landscape */
+            .start-top-hud { padding: 4px 12px !important; min-height: 32px; }
+            .hud-profile-box { padding: 3px 10px !important; gap: 8px !important; }
             .start-split-layout {
-                grid-template-columns: 46% 54%;
-                padding: 0 16px;
+                grid-template-columns: 48% 52% !important;
+                padding: 4px 14px !important;
+                height: calc(var(--app-height, 100dvh) - 36px);
             }
-            .start-left-column { gap: 8px; }
-            .start-menu-buttons { gap: 8px; max-width: 300px; }
-            .start-btn { padding: 9px 16px; font-size: 12.5px; letter-spacing: 1px; }
-            #start-gate-section { padding: 12px 14px; max-width: 320px; }
-            .arcane-tech-circle { width: 220px; height: 220px; }
-            .start-logo { max-height: 42vh; max-width: 290px; }
-            .realm-hex-bar { margin-top: 6px; gap: 6px; }
-            .realm-pill { padding: 3px 8px; font-size: 9px; }
-            .start-bottom-footer { padding: 4px 16px; font-size: 9.5px; }
+            .start-left-column {
+                gap: 6px !important;
+                padding-right: 8px !important;
+                max-width: 100%;
+            }
+            .start-command-title { font-size: 9.5px !important; letter-spacing: 2px !important; margin-bottom: -2px !important; }
+            #start-gate-section {
+                padding: 10px 12px !important;
+                max-width: 310px !important;
+                width: 100% !important;
+                gap: 6px !important;
+            }
+            #start-gate-section > div:first-child { font-size: 12px !important; }
+            #start-gate-section > div:nth-child(2) { font-size: 10.5px !important; line-height: 1.25 !important; }
+            #start-passcode-input {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                min-width: 0 !important;
+            }
+            #start-passcode-submit-btn {
+                padding: 6px 12px !important;
+                font-size: 11px !important;
+                min-width: 64px !important;
+            }
+            .start-menu-buttons { gap: 6px !important; max-width: 280px !important; }
+            .start-btn {
+                padding: 8px 14px !important;
+                font-size: 11.5px !important;
+                letter-spacing: 1px !important;
+            }
+            .start-right-showcase {
+                justify-content: center !important;
+                align-items: center !important;
+                height: 100% !important;
+            }
+            .arcane-tech-circle {
+                width: min(190px, 52dvh) !important;
+                height: min(190px, 52dvh) !important;
+            }
+            .start-logo {
+                max-height: 48dvh !important;
+                max-width: min(260px, 38vw) !important;
+            }
+            .start-bottom-footer { display: none !important; }
 
-            /* 3-Column Deck Builder on Mobile Landscape */
+            /* 3. 3-Column Deck Builder on Mobile Landscape */
             #builder-view {
-                grid-template-columns: 200px 1fr 270px;
-                height: calc(100vh - 40px);
+                grid-template-columns: 190px 1fr 245px !important;
+                height: calc(var(--app-height, 100dvh) - 34px) !important;
             }
-            #card-detail-section { padding: 6px 8px; }
-            .detail-image.vertical-perspective { width: 110px; }
-            .detail-image.horizontal-perspective { max-width: 175px; }
-            .detail-title { font-size: 0.92rem; }
-            .detail-stats { font-size: 11px; margin-bottom: 3px; }
-            .detail-text { font-size: 11px; padding: 5px 6px; min-height: 45px; }
-            #barrier-selection-section { padding: 5px 8px; }
-            .barrier-card-horizontal { height: 36px; }
-            .barrier-thumb-img { width: 50px; }
-            .barrier-empty-slot { height: 34px; font-size: 9.5px; }
+            /* Side-by-Side Grid for Card Detail on Mobile so Image + Title + Stats + Effect all show at once */
+            #card-detail-section {
+                padding: 5px 6px !important;
+                flex: 0 0 44% !important;
+                max-height: 44% !important;
+                display: grid !important;
+                grid-template-columns: 56px 1fr !important;
+                grid-template-rows: auto auto auto 1fr !important;
+                column-gap: 6px !important;
+                row-gap: 1px !important;
+                align-items: start !important;
+                overflow: hidden !important;
+            }
+            #card-detail-section .detail-image {
+                grid-column: 1 !important;
+                grid-row: 1 / span 3 !important;
+                margin: 0 !important;
+            }
+            #card-detail-section .detail-image.vertical-perspective {
+                width: 56px !important;
+                max-width: 56px !important;
+            }
+            #card-detail-section .detail-image.horizontal-perspective {
+                width: 56px !important;
+                max-width: 56px !important;
+            }
+            #card-detail-section .detail-title {
+                grid-column: 2 !important;
+                grid-row: 1 !important;
+                font-size: 0.74rem !important;
+                padding-bottom: 1px !important;
+                margin-bottom: 1px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #card-detail-section .detail-stats:nth-of-type(2) {
+                grid-column: 2 !important;
+                grid-row: 2 !important;
+            }
+            #card-detail-section .detail-stats:nth-of-type(3) {
+                grid-column: 2 !important;
+                grid-row: 3 !important;
+            }
+            .detail-stats {
+                font-size: 8.5px !important;
+                margin-bottom: 1px !important;
+                gap: 3px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #card-detail-section .detail-text {
+                grid-column: 1 / -1 !important;
+                grid-row: 4 !important;
+                font-size: 9px !important;
+                line-height: 1.22 !important;
+                padding: 3px 5px !important;
+                margin-top: 3px !important;
+                min-height: 0 !important;
+                max-height: 100% !important;
+                height: 100% !important;
+                overflow-y: auto !important;
+            }
 
+            /* Selected Barriers Section (56% height — fits all 5 barriers comfortably) */
+            #barrier-selection-section {
+                padding: 4px 6px !important;
+                flex: 1 1 56% !important;
+            }
+            .section-header {
+                margin-bottom: 3px !important;
+                font-size: 9.5px !important;
+            }
+            #barrier-grid { gap: 3px !important; }
+            .barrier-card-horizontal { height: 27px !important; }
+            .barrier-thumb-img { width: 40px !important; }
+            .barrier-card-info { padding: 1px 6px !important; }
+            .barrier-card-name { font-size: 9px !important; }
+            .barrier-card-color { font-size: 7.5px !important; margin-top: 0 !important; }
+            .barrier-empty-slot { height: 25px !important; font-size: 8.5px !important; }
+
+            /* Center Deck Grids */
+            .deck-section-header {
+                padding: 3px 6px !important;
+                font-size: 8.5px !important;
+                letter-spacing: 0.3px !important;
+                white-space: nowrap;
+            }
+            .deck-section-header span:last-child {
+                font-size: 7.5px !important;
+            }
             #main-deck-grid {
-                padding: 8px;
-                grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-                gap: 6px;
+                padding: 5px !important;
+                grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)) !important;
+                gap: 4px !important;
             }
             #reaction-deck-container {
-                height: 115px;
-                min-height: 115px;
+                height: 76px !important;
+                min-height: 76px !important;
             }
-            #reaction-deck-grid .card-thumb { width: 64px; }
+            #reaction-deck-grid {
+                padding: 3px 6px !important;
+                gap: 4px !important;
+            }
+            #reaction-deck-grid .card-thumb { width: 38px !important; }
+
+            /* Right Catalog Column */
+            .catalog-header {
+                padding: 3px 8px !important;
+                font-size: 9.5px !important;
+            }
+            .btn-filter-toggle {
+                padding: 2px 6px !important;
+                font-size: 8.5px !important;
+            }
+            .catalog-search-bar {
+                padding: 3px 5px !important;
+                gap: 3px !important;
+            }
+            .catalog-search-bar input {
+                padding: 3px 7px !important;
+                font-size: 10px !important;
+            }
+            .btn-clear-search {
+                padding: 2px 6px !important;
+                font-size: 9px !important;
+            }
+            .catalog-category-tabs {
+                flex-wrap: wrap !important;
+                gap: 2px !important;
+                padding: 3px 4px !important;
+                overflow-x: hidden !important;
+                justify-content: flex-start !important;
+            }
+            .cat-tab {
+                padding: 2px 4px !important;
+                font-size: 8px !important;
+                letter-spacing: 0.2px !important;
+                flex: 1 1 auto !important;
+            }
             #catalog-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 4px;
-                padding: 6px;
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 4px !important;
+                padding: 4px !important;
             }
 
-            /* Playtest Area on Mobile Landscape */
+            /* 4. Playtest Arena on Mobile Landscape */
             #playtest-left {
-                width: 185px;
-                padding: 8px;
+                width: 145px !important;
+                padding: 5px !important;
             }
-            #playtest-left .detail-title { font-size: 0.95rem; }
-            #playtest-left .detail-stats { font-size: 11px; }
-            #playtest-left .detail-text { font-size: 11px; max-height: 110px; }
+            #playtest-left .detail-image.vertical-perspective {
+                width: 72px !important;
+                margin-bottom: 3px !important;
+            }
+            #playtest-left .detail-image.horizontal-perspective {
+                max-width: 125px !important;
+                margin-bottom: 3px !important;
+            }
+            #playtest-left .detail-title { font-size: 0.76rem !important; margin-bottom: 2px !important; }
+            #playtest-left .detail-stats { font-size: 9px !important; margin-bottom: 2px !important; }
+            #playtest-left .detail-text { font-size: 9px !important; line-height: 1.25 !important; padding: 4px 5px !important; max-height: 110px !important; }
+
             #controls {
-                padding: 4px 8px;
-                gap: 5px;
+                height: 28px !important;
+                min-height: 28px !important;
+                padding: 2px 4px !important;
+                gap: 2px !important;
+                justify-content: space-between !important;
+                overflow: hidden !important;
             }
             #controls button {
-                padding: 4px 8px;
-                font-size: 10px;
+                padding: 2px 3px !important;
+                font-size: 6.4px !important;
+                letter-spacing: 0px !important;
+                border-left-width: 2px !important;
+                margin-left: 0 !important;
+                flex-shrink: 1 !important;
             }
+            #controls #deck-counter {
+                font-size: 7.5px !important;
+                margin-left: 1px !important;
+                margin-right: 1px !important;
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+            #controls #bgSelector {
+                width: 68px !important;
+                max-width: 68px !important;
+                min-width: 56px !important;
+                padding: 1px 2px !important;
+                font-size: 7px !important;
+                margin-left: 0 !important;
+                flex-shrink: 0 !important;
+            }
+
+            #playmat {
+                flex: 1 1 0% !important;
+                height: 0 !important;
+                min-height: 0 !important;
+            }
+
             #hand {
-                height: 118px;
-                padding: 4px 10px;
-                gap: 6px;
+                height: 68px !important;
+                min-height: 68px !important;
+                max-height: 68px !important;
+                padding: 2px 8px !important;
+                gap: 4px !important;
             }
             #hand .play-card {
-                width: 72px;
+                width: 42px !important;
+                height: 59px !important;
             }
+
             #action-log-sidebar {
-                width: 165px;
-                min-width: 165px;
-                max-width: 165px;
+                width: 135px !important;
+                min-width: 135px !important;
+                max-width: 135px !important;
             }
+            .action-log-header { padding: 4px 6px !important; }
+            .action-log-title { font-size: 9px !important; }
+            .btn-undo { padding: 2px 5px !important; font-size: 8.5px !important; }
+            #action-log-list { padding: 4px !important; gap: 3px !important; }
+            .log-entry { padding: 3px 5px !important; font-size: 8.5px !important; }
 
-            /* Pack Opening Simulator on Mobile Landscape */
-            .booster-pack-wrapper { width: 155px; height: 225px; }
+            /* 5. Pack Opening Simulator on Mobile Landscape */
+            .pack-top-nav {
+                padding: 4px 10px !important;
+                min-height: 34px !important;
+            }
+            .pack-top-nav span {
+                font-size: 0.88rem !important;
+            }
+            .pack-top-nav button {
+                padding: 3px 8px !important;
+                font-size: 10px !important;
+            }
+            .pack-main-stage {
+                padding: 4px 8px 6px !important;
+                justify-content: center !important;
+            }
+            .booster-pack-wrapper {
+                width: 130px !important;
+                height: 190px !important;
+            }
+            #booster-pack-stage > div:last-child {
+                margin-top: 10px !important;
+                font-size: 11px !important;
+            }
+            #pack-instruction-hint {
+                font-size: 10px !important;
+                margin-bottom: 6px !important;
+            }
+            .pack-row-top {
+                gap: 14px !important;
+                margin-bottom: 8px !important;
+            }
+            .pack-row-bottom {
+                gap: 8px !important;
+            }
             .pack-card-container, .pack-opened-center-anchor {
-                width: 96px;
-                height: 134px;
+                width: 74px !important;
+                height: 104px !important;
             }
+            .rare-slot-tag {
+                top: -15px !important;
+                font-size: 7.5px !important;
+                padding: 1px 5px !important;
+            }
+            #pack-card-detail-bar {
+                margin-top: 6px !important;
+                padding: 4px 10px !important;
+            }
+            #pack-detail-name { font-size: 11.5px !important; }
+            #pack-detail-type, #pack-detail-stats, #pack-detail-text { font-size: 10px !important; }
         }
-    </style>
+</style>
 
+    
+
+</head>
+<body>
+        <!-- Portrait Mode Mobile Advisory Overlay (Dismissible) -->
+    <div id="portrait-orientation-banner">
+        <div style="font-size: 38px; margin-bottom: 12px; color: var(--tech-cyan); filter: drop-shadow(0 0 12px rgba(0,229,255,0.6));">&#8635;</div>
+        <div style="font-size: 16px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">
+            Horizontal (Landscape) Mode Recommended
+        </div>
+        <div style="font-size: 13px; color: #b8c4d8; max-width: 320px; line-height: 1.5; margin-bottom: 20px;">
+            Universe of Legends TCG is optimized for horizontal widescreen play. Rotate your device horizontally for the best experience.
+        </div>
+        <button class="btn-blue" onclick="document.getElementById('portrait-orientation-banner').classList.add('dismissed')">
+            Continue in Current View
+        </button>
+    </div>
+
+    <!-- ================= START PAGE VIEW (MASTER DUEL SPLIT MAGITEK LAYOUT) ================= -->
+    <div id="start-view">
+        <!-- Atmospheric Crystalline Shards (5 Barrier Colors) -->
+        <div class="magitek-bg-decor">
+            <div class="crystal-shard shard-blue"></div>
+            <div class="crystal-shard shard-purple"></div>
+            <div class="crystal-shard shard-gold"></div>
+            <div class="crystal-shard shard-green"></div>
+            <div class="crystal-shard shard-red"></div>
+        </div>
+
+        <!-- Top HUD Bar -->
+        <div class="start-top-hud">
+            <div class="hud-profile-box">
+                <span style="font-size: 11px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px;">UNIVERSE OF LEGENDS</span>
+                <span style="color: #445;">|</span>
+                <div class="hud-crystal-pips" title="5 Barrier Crystal Colors: Blue, Green, Red, Yellow, Purple">
+                    <span class="crystal-pip" style="background: var(--crystal-blue); color: var(--crystal-blue);"></span>
+                    <span class="crystal-pip" style="background: var(--crystal-green); color: var(--crystal-green);"></span>
+                    <span class="crystal-pip" style="background: var(--crystal-red); color: var(--crystal-red);"></span>
+                    <span class="crystal-pip" style="background: var(--crystal-yellow); color: var(--crystal-yellow);"></span>
+                    <span class="crystal-pip" style="background: var(--crystal-purple); color: var(--crystal-purple);"></span>
+                </div>
+            </div>
+
+            <!-- Authenticated Role Status Banner -->
+            <div id="start-auth-status" style="display: none; align-items: center; gap: 12px;">
+                <span id="start-role-badge" style="font-size: 11.5px; padding: 5px 14px; clip-path: var(--clip-btn); font-weight: 800; letter-spacing: 0.6px;"></span>
+                <button class="btn-blue" onclick="logoutPasscode()" style="padding: 5px 12px; font-size: 11px;">Switch Code</button>
+            </div>
+        </div>
+
+        <!-- Master Duel Split Center Content -->
+        <div class="start-split-layout">
+            <!-- LEFT COLUMN: Passcode Gate & Vertical Menu Blades -->
+            <div class="start-left-column">
+                <div class="start-command-title">Magitek Tactical Terminal</div>
+
+                <!-- 1. Passcode Gate Section (Shown if unauthenticated) -->
+                <div id="start-gate-section" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+                    <div style="font-size: 14px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase;">
+                        Enter Access Passcode
+                    </div>
+                    <div style="font-size: 12px; color: #9aa8c2; line-height: 1.4;">
+                        Authenticate your terminal to unlock the Deck Builder, Testing Arena, and Pack Simulator.
+                    </div>
+                    <div style="display: flex; gap: 8px; width: 100%; align-items: center; margin-top: 4px;">
+                        <input type="password" id="start-passcode-input" onkeydown="if(event.key==='Enter') submitStartPasscode()" placeholder="Access Code..." style="flex: 1 1 auto; min-width: 0; width: 100%; background: #070912; border: 1.5px solid var(--tech-cyan-dim); clip-path: var(--clip-btn); padding: 9px 12px; color: #fff; font-size: 13.5px; outline: none; transition: border-color 0.2s;">
+                        <button id="start-passcode-submit-btn" class="btn-blue" onclick="submitStartPasscode()" style="padding: 9px 16px; font-size: 12.5px; min-width: 78px; flex-shrink: 0;">Enter</button>
+                    </div>
+                    <div id="start-passcode-error" style="color: var(--crystal-red); font-size: 12px; font-weight: 700; display: none;"></div>
+                </div>
+
+                <!-- 2. Master Duel Vertical Menu Blades (Enabled once authenticated) -->
+                <div id="start-menu-buttons-container" class="start-menu-buttons" style="display: none;">
+                    <button class="start-btn start-btn-primary" onclick="goToDeckBuilder()">
+                        <span>Deck Builder</span>
+                    </button>
+                    <button class="start-btn start-btn-secondary" onclick="goToTestingArea()">
+                        <span>Testing Area</span>
+                    </button>
+                    <button class="start-btn start-btn-pack" onclick="goToPackOpening()">
+                        <span>Pack Opening Simulator</span>
+                    </button>
+                    <button id="start-card-editor-btn" class="start-btn start-btn-admin" onclick="openCardEditorModal()" style="display: none;">
+                        <span>Card Database Editor</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Hero Logo Showcase & Realm Emblems -->
+            <div class="start-right-showcase">
+                <div class="arcane-tech-circle"></div>
+                <img src="Assets/Color_Logo_Tight.webp" alt="Universe of Legends" class="start-logo" onerror="if(!this.dataset.t1){this.dataset.t1='1';this.src='Assets/Color_Logo.png';}else if(!this.dataset.t2){this.dataset.t2='1';this.src='Assets/logo.png';}else{this.onerror=null;this.src='downloads/logo.png';}">
+
+            </div>
+        </div>
+
+        <!-- Bottom Status Footer -->
+        <div class="start-bottom-footer">
+            <span>UNIVERSE OF LEGENDS TCG &bull; FRACTURES IN TIME</span>
+            <span style="color: var(--tech-cyan);">MAGITEK HORIZONTAL EDITION &bull; DESKTOP &amp; MOBILE READY</span>
+        </div>
+    </div>
+
+
+    <!-- ================= TOP NAVIGATION BAR ================= -->
+    <div id="top-nav-bar" style="display: none;">
+        <div class="nav-brand">
+            <button class="btn-blue" onclick="goToStartPage()" style="padding: 5px 10px; font-size: 12px; margin-right: 8px; background: #232533; border: 1px solid #444;">Home</button>
+            <span class="game-title">Universe of Legends</span>
+            <span class="deck-mode-badge">Deck Builder</span>
+        </div>
+        <div class="nav-stats">
+            <span id="nav-main-count">Main: <b>0</b>/50</span>
+            <span class="stat-divider">|</span>
+            <span id="nav-reaction-count">Re/Action: <b>0</b>/10</span>
+            <span class="stat-divider">|</span>
+            <span id="nav-barrier-count">Barriers: <b>0</b>/5</span>
+            <span class="stat-divider">|</span>
+            <span id="nav-allowed-colors">Allowed Colors: <b style="color: #00b4ff;">All (Pick 5 Barriers to Lock)</b></span>
+        </div>
+        <div class="nav-actions">
+
+            <select id="saved-decks-dropdown" onchange="handleDeckDropdownSelect(this)" title="Load a saved deck from Google Sheets" style="background: #191b26; color: #ffd700; border: 1px solid #ffd700; border-radius: 4px; padding: 5px 8px; font-size: 12px; max-width: 175px; cursor: pointer; font-weight: 500;">
+                <option value="">-- Load Saved Deck --</option>
+            </select>
+            <button class="btn-blue" onclick="refreshSavedDecks()" title="Refresh decks from Google Sheet" style="padding: 5px 7px; font-size: 11px;">↻</button>
+            <button class="btn-blue" onclick="openSaveDeckModal()">Save Deck</button>
+            <button class="btn-blue" onclick="sortDecks()">Sort</button>
+            <button class="btn-red" onclick="clearAllDecks()">Clear All</button>
+            <button id="nav-backend-btn" class="btn-purple" onclick="openBackendModal()" style="display: none; padding: 5px 8px; font-size: 12px;" title="Backend & Deck Locks Settings">⚙ Backend</button>
+            <button class="btn-green" onclick="startPlaytest()">Test Deck ▶</button>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 1: THE DECK BUILDER ================= -->
+    <div id="builder-view" style="display: none;">
+        
+        <!-- LEFT COLUMN: Card Details + Barrier Selection -->
+        <div id="builder-left">
+            <!-- Upper Section: Card Detail Preview -->
+            <div id="card-detail-section">
+                <img id="detail-image" src="Assets/Regular_Card_Back.png" alt="Card Detail" class="detail-image vertical-perspective" onerror="handleCardBackImgError(this);">
+                <div id="detail-name" class="detail-title">Hover a Card</div>
+                <div class="detail-stats">
+                    <span id="detail-type">Type: ---</span> | 
+                    <span id="detail-cost">Cost: ---</span>
+                </div>
+                <div class="detail-stats">
+                    <span id="detail-atk">ATK: ---</span> | 
+                    <span id="detail-hp">DEF/HP: ---</span>
+                </div>
+                <div id="detail-text" class="detail-text">Hover any card to read its full effect and text.</div>
+            </div>
+
+            <!-- Lower Section: Barrier Selection (Horizontal Format) -->
+            <div id="barrier-selection-section">
+                <div class="section-header">
+                    <span>Selected Barriers (<span id="barrier-count-badge">0/5</span>)</span>
+                    <button class="btn-red" style="padding: 2px 6px; font-size: 10px;" onclick="clearBarriers()">Clear</button>
+                </div>
+                <div id="barrier-grid">
+                    <!-- 5 Barrier Slots rendered by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER COLUMN: Main Deck (Top) + Re/Action Deck (Bottom) -->
+        <div id="builder-center">
+            <!-- Main Universe Deck Container -->
+            <div id="main-deck-container">
+                <div class="deck-section-header">
+                    <span>Main Universe Deck (<span id="main-count-badge">0</span> Cards &bull; Min 40 - Max 50)</span>
+                    <span style="font-size: 11px; color: #888;">Click card to remove</span>
+                </div>
+                <div id="main-deck-grid"></div>
+            </div>
+
+            <!-- Re/Action Deck Container (Bottom Tray) -->
+            <div id="reaction-deck-container">
+                <div class="deck-section-header reaction-header">
+                    <span>Re/Action Deck (<span id="reaction-count-badge">0/10</span> &bull; 1 Alpha Max)</span>
+                    <span style="font-size: 11px; color: #7289da;">Click card to remove</span>
+                </div>
+                <div id="reaction-deck-grid"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Card Catalog -->
+        <div id="builder-right">
+            <div class="catalog-header">
+                <span id="catalog-count-badge">Catalog (149)</span>
+                <button id="toggle-barrier-filter-btn" class="btn-filter-toggle" onclick="toggleBarrierFilter()">Filter: ON</button>
+            </div>
+            <div class="catalog-search-bar">
+                <input id="catalog-search" type="text" placeholder="Search name, color, type, effect, cost..." oninput="filterCatalog()">
+                <button class="btn-clear-search" onclick="document.getElementById('catalog-search').value=''; filterCatalog();">✕</button>
+            </div>
+            <div class="catalog-category-tabs">
+                <button class="cat-tab active" onclick="setCategoryFilter('all', this)">All</button>
+                <button class="cat-tab" onclick="setCategoryFilter('barriers', this)">Barriers</button>
+                <button class="cat-tab" onclick="setCategoryFilter('legends', this)">Legends</button>
+                <button class="cat-tab" onclick="setCategoryFilter('minions', this)">Minions</button>
+                <button class="cat-tab" onclick="setCategoryFilter('items', this)">Items</button>
+                <button class="cat-tab" onclick="setCategoryFilter('anchors', this)">Anchors</button>
+                <button class="cat-tab" onclick="setCategoryFilter('reactions', this)">Re/Actions</button>
+            </div>
+            <div id="catalog-grid" onmouseleave="resetBuilderDetailView()"></div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 2: THE PLAYTEST SANDBOX ================= -->
+    <div id="playtest-view">
+        <div id="playtest-left">
+            <img id="playtest-detail-image" src="" alt="Card Detail" class="detail-image vertical-perspective">
+            <div id="playtest-detail-name" class="detail-title">Hover a Card</div>
+            <div class="detail-stats">
+                <span id="playtest-detail-type">Type: ---</span> | 
+                <span id="playtest-detail-cost">Cost: ---</span>
+            </div>
+            <div class="detail-stats">
+                <span id="playtest-detail-atk">ATK: ---</span> | 
+                <span id="playtest-detail-hp">DEF/HP: ---</span>
+            </div>
+            <div id="playtest-detail-text" class="detail-text" style="max-height: 180px;">Card details appear here.</div>
+        </div>
+
+        <div id="playtest-main">
+            <div id="controls">
+                <button class="btn-blue" onclick="goToStartPage()" style="background: #232533; border: 1px solid #555; padding: 6px 12px;">Main Menu</button>
+                <button class="btn-red" onclick="returnToBuilder()">◀ Back to Builder</button>
+                <button class="btn-blue" onclick="drawCard()">Draw Card</button>
+                <button class="btn-green" onclick="drawStartingHand()" style="margin-left: 6px;">Starting Hand (7)</button>
+                <button class="btn-blue" onclick="openMulliganModal()" style="margin-left: 6px;">Mulligan</button>
+                <span id="deck-counter" style="font-weight: bold; color: #ffd700; margin-left: 10px;">Main: 0</span>
+                <button class="btn-blue" onclick="readyAllCards()" style="margin-left: 15px;">Ready Cards</button>
+                <button class="btn-blue" onclick="spawnShield()">+ Shield Token</button>
+                
+                <input type="file" id="customPlaymatInput" accept="image/*" style="display: none;" onchange="handleCustomPlaymatUploaded(event)">
+                <select id="bgSelector" onchange="changeBackground()" style="margin-left: auto; max-width: 180px;">
+                    <option value="default">Playmat: Default Grid</option>
+                    <option value="__custom_file__">+ Load Custom Playmat Image...</option>
+                    <option value="Assets/Playmats/Raya.png">Playmat: Raya</option>
+                    <option value="Assets/Playmats/Mervant.png">Playmat: Mervant</option>
+                    <option value="Assets/Playmats/Copy_of_Radiating_Lotus.png">Playmat: Radiating Lotus</option>
+                    <option value="Assets/Playmats/Copy_of_Stone_of_life_and_Riches.png">Playmat: Stone of Life</option>
+                    <option value="Assets/Playmats/Copy_of_Pearl_of_Burning_Passion_and_Desire.png">Playmat: Burning Passion</option>
+                    <option value="Assets/Playmats/Copy_of_Isis,_The_Diamond_of_Hope.png">Playmat: Diamond of Hope</option>
+                    <option value="Assets/Playmats/Rise_Up_King_final.png">Playmat: Rise Up King</option>
+                    <option value="Assets/Playmats/rabbit.png">Playmat: Black Rabbit</option>
+                    <option value="Assets/Playmats/Copy_of_Meteor,_Tip_of_the_Great_Pyramid.png">Playmat: Great Pyramid</option>
+                    <option value="Assets/Playmats/PSD.png">Playmat: Cosmic Arena</option>
+                    <option value="Assets/Playmats/final_artwork_fix.png">Playmat: Universe Showcase</option>
+                </select>
+            </div>
+
+            <div id="playmat" ondrop="dropOnPlaymat(event)" ondragover="allowDrop(event)" onclick="clearSelection(event)">
+                <div id="playmat-surface">
+                    <div id="playmat-zones">
+                    <!-- Top-Left Barrier Zone (Horizontal Landscape Format) -->
+                    <div id="zone-top-left" class="play-zone snap-center" style="top: 50px; left: 80px; width: 225px; height: 155px; border-color: #ffd700; border-width: 2.5px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 6px; box-shadow: 0 0 0 1.5px #000, inset 0 0 15px rgba(0,0,0,0.6);">
+                        <div style="font-size: 11px; font-weight: bold; color: #ffd700; letter-spacing: 1px; text-transform: uppercase;">Barrier Zone</div>
+                        <div id="barrier-stack-indicator" style="font-size: 10px; color: #aaa;">Stack: 5</div>
+                    </div>
+                    
+                    <!-- Bottom-Left Re/Action Deck (Shifted down next to Energy Zone) -->
+                    <div id="zone-mid-left" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% - 580px); width: 140px; height: 195px; border-color: #7289da; border-width: 2.5px; box-shadow: 0 0 0 1.5px #000, inset 0 0 15px rgba(0,0,0,0.6);"></div>
+
+                    <!-- 4 Field Units Combat Zones (Vertical Stack Limit of 3, Total ATK/DEF at Top) -->
+                    <div id="mid-zone-1" class="play-zone snap-stack" style="top: 8%; left: calc(50% - 370px); width: 145px; height: 330px; position: absolute;">
+                        <div id="stats-mid-zone-1" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
+                    </div>
+                    <div id="mid-zone-2" class="play-zone snap-stack" style="top: 8%; left: calc(50% - 180px); width: 145px; height: 330px; position: absolute;">
+                        <div id="stats-mid-zone-2" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
+                    </div>
+                    <div id="mid-zone-3" class="play-zone snap-stack" style="top: 8%; left: calc(50% + 10px); width: 145px; height: 330px; position: absolute;">
+                        <div id="stats-mid-zone-3" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
+                    </div>
+                    <div id="mid-zone-4" class="play-zone snap-stack" style="top: 8%; left: calc(50% + 200px); width: 145px; height: 330px; position: absolute;">
+                        <div id="stats-mid-zone-4" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
+                    </div>
+
+                    <!-- Activation Area / The Flow Zone (Upper Right Space) -->
+                    <div id="zone-activation" class="play-zone snap-center" style="top: 8%; left: calc(50% + 380px); width: 280px; height: 280px; border-radius: 50%; border: 2.5px dashed #00b4ff; box-shadow: 0 0 0 1.5px #000, inset 0 0 20px rgba(0,0,0,0.6); background: radial-gradient(circle, rgba(0, 180, 255, 0.12) 0%, rgba(26, 27, 40, 0.4) 65%, transparent 100%); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div style="font-size: 13px; font-weight: bold; color: #00b4ff; letter-spacing: 1px; text-transform: uppercase;">Activation Area</div>
+                        <div style="font-size: 10px; color: #aaa; margin-top: 3px; text-align: center; max-width: 170px;">Tokens &amp; Re/Actions activate here</div>
+                    </div>
+
+                    <!-- Bottom Energy Fan Zone (Max 10 Cards) -->
+                    <div id="bottom-fan-zone" class="play-zone snap-fan" style="top: calc(8% + 355px); left: calc(50% - 370px); width: 715px; height: 195px; border-color: #4CAF50; border-width: 2.5px; box-shadow: 0 0 0 1.5px #000, inset 0 0 15px rgba(0,0,0,0.6); position: absolute;">
+                        <div id="energy-zone-watermark" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); color: rgba(76, 175, 80, 0.7); font-size: 12px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; pointer-events: none; white-space: nowrap;">
+                            ⚡ Energy Zone (Max 10 Cards) &bull; <span id="energy-count-live">0 / 10</span>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Right: Discard / The Unknown Zone -->
+                    <div id="zone-bot-right-1" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% + 380px); width: 140px; height: 195px; border-color: #888;"></div>
+                    
+                    <!-- Bottom Right: Universe Deck Zone -->
+                    <div id="zone-bot-right-2" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border-color: #ffd700;"></div>
+                </div>
+
+                <!-- Interactive Deck Buttons on Playmat -->
+                <div class="deck-btn deck-btn-purple" onclick="openReactionModal()" style="top: calc(8% + 355px); left: calc(50% - 580px); width: 140px; height: 195px;">
+                    <div class="btn-label">Re/Action<br>(<span id="playtest-reaction-count">0</span>)</div>
+                </div>
+
+                <!-- Interactive Unknown / Discard Pile Button -->
+                <div id="unknown-deck-btn" class="deck-btn" onclick="openUnknownModal()" style="top: calc(8% + 355px); left: calc(50% + 380px); width: 140px; height: 195px; border-color: #888; background: linear-gradient(145deg, #1f1f2e, #13131c); z-index: 15;">
+                    <div class="btn-label" style="color: #bbb;">UNKNOWN<br>(<span id="unknown-count-display">0</span>)</div>
+                </div>
+
+                <!-- Interactive Universe Draw Deck with Regular Card Back -->
+                <div id="draw-deck-btn" class="deck-btn" onclick="drawCard()" oncontextmenu="searchDeckModal(event)" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border: 2px solid #ffd700; border-radius: 8px; position: absolute; z-index: 15; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8); background: #1a1c26;">
+                    <img id="draw-deck-img" src="Assets/Regular_Card_Back.png" alt="" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; pointer-events: none;" onerror="handleCardBackImgError(this);">
+                    <div class="btn-label" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 4px 10px; width: 85%; text-align: center; pointer-events: none; z-index: 2;">Draw<br><span id="deck-counter-card" style="font-size: 11px; color: #ffd700; font-weight: bold;">Main: 0</span></div>
+                </div>
+            </div> <!-- End #playmat-surface -->
+        </div> <!-- End #playmat -->
+
+            <!-- Bottom Hand Area (Centered at bottom of the page) -->
+            <div id="hand" ondrop="dropOnHand(event)" ondragover="allowDrop(event)" onclick="clearSelection(event)"></div>
+        </div> <!-- End #playtest-main -->
+
+        <!-- Right Sidebar: Actions Taken & Undo System (Locked to Right Side of Play Area) -->
+        <div id="action-log-sidebar">
+            <div class="action-log-header">
+                <span class="action-log-title">Actions Taken</span>
+                <button id="btn-undo-action" class="btn-undo" onclick="undoLastAction()" disabled>Undo</button>
+            </div>
+            <div id="action-log-list">
+                <div style="color: #666; font-size: 11px; text-align: center; margin-top: 20px;">No actions recorded yet.</div>
+            </div>
+        </div> <!-- End #action-log-sidebar -->
+    </div> <!-- End #playtest-view -->
+
+    
+    <!-- ================= VIEW 4: PACK OPENING SIMULATOR (MTG ARENA 2-ROW LAYOUT) ================= -->
+    <div id="pack-opening-view" style="display: none;">
+        
+        <!-- Top Navigation Bar -->
+        <div class="pack-top-nav">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="btn-blue" onclick="goToStartPage()" style="padding: 6px 14px; font-size: 13px;">Home</button>
+                <span style="font-size: 1.25rem; font-weight: bold; color: #ffd700; letter-spacing: 1px;">PACK OPENING SIMULATOR</span>
+                <span style="font-size: 11px; background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.4); padding: 3px 8px; border-radius: 4px; font-weight: bold;">Fractures in Time (7 Cards / Pack)</span>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button id="btn-reveal-all-pack" class="btn-purple" onclick="revealAllPackCards()" style="display: none; padding: 6px 16px; font-size: 13px;">Reveal All</button>
+                <button id="btn-open-another-pack" class="btn-green" onclick="resetPackOpening()" style="display: none; padding: 6px 16px; font-size: 13px;">Open Another Pack</button>
+            </div>
+        </div>
+
+        <!-- Main Stage Container -->
+        <div class="pack-main-stage">
+            
+            <!-- STAGE 1: Sealed Booster Pack Floating in Center -->
+            <div id="booster-pack-stage" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: auto;">
+                <div id="booster-pack-wrapper" onclick="openBoosterPack()" class="booster-pack-wrapper">
+                    <div class="foil-glimmer"></div>
+                    <img src="Assets/Booster_Pack.webp" alt="Fractures in Time Booster Pack" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1;" onerror="handleBoosterPackImgError(this);">
+                    <div style="position: absolute; bottom: 12px; background: rgba(6,8,16,0.88); border: 1.5px solid var(--fantasy-gold); padding: 4px 14px; clip-path: var(--clip-btn); font-size: 10.5px; color: var(--fantasy-gold); font-weight: 800; letter-spacing: 0.8px; z-index: 6; box-shadow: 0 4px 12px rgba(0,0,0,0.85);">7 CARDS INSIDE</div>
+                </div>
+                <div style="margin-top: 25px; font-size: 14px; font-weight: bold; color: #ffd700; letter-spacing: 1.5px; animation: pulseGlow 1.5s infinite alternate; text-shadow: 0 0 10px rgba(255,215,0,0.5);">
+                    CLICK PACK TO OPEN
+                </div>
+            </div>
+
+            <!-- STAGE 2: 2-Row Opened Cards Display (Matching MTG Arena!) -->
+            <div id="cards-opened-stage" style="display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+                
+                <div id="pack-instruction-hint" style="font-size: 13px; color: #aaa; margin-bottom: 20px; letter-spacing: 0.5px; text-align: center;">
+                    Click on each card to reveal what you pulled! The 7th card has the golden aura representing your <b>Guaranteed Rare</b>.
+                </div>
+
+                <!-- TOP ROW: [Card 1]  [Opened Booster Pack Centerpiece]  [Card 2] -->
+                <div class="pack-row-top" style="display: flex; gap: 30px; justify-content: center; align-items: center; margin-bottom: 22px;">
+                    <div id="pack-slot-0"></div>
+
+                    <!-- Centerpiece: Opened Pack with Radiating Golden Rays -->
+                    <div class="pack-opened-center-anchor">
+                        <div class="pack-radiating-rays"></div>
+                        <img src="Assets/Booster_Pack.webp" alt="Fractures in Time Pack" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1;" onerror="handleBoosterPackImgError(this);">
+
+                    </div>
+
+                    <div id="pack-slot-1"></div>
+                </div>
+
+                <!-- BOTTOM ROW: 5 Cards Spread Horizontally [Card 3] [Card 4] [Card 5] [Card 6] [Card 7 (Rare!)] -->
+                <div class="pack-row-bottom" style="display: flex; gap: 18px; justify-content: center; align-items: center; flex-wrap: nowrap;">
+                    <div id="pack-slot-2"></div>
+                    <div id="pack-slot-3"></div>
+                    <div id="pack-slot-4"></div>
+                    <div id="pack-slot-5"></div>
+                    <div id="pack-slot-6"></div>
+                </div>
+
+                <!-- Hover Inspection Details Banner -->
+                <div id="pack-card-detail-bar" style="margin-top: 22px; padding: 10px 24px; background: rgba(16, 18, 28, 0.9); border: 1px solid #2a2c3d; border-radius: 8px; max-width: 750px; width: 90%; text-align: center; display: none;">
+                    <div>
+                        <span id="pack-detail-name" style="font-size: 15px; font-weight: bold; color: #ffd700;">Card Name</span>
+                        <span id="pack-detail-type" style="font-size: 12px; color: #aaa; margin-left: 10px;">Type</span>
+                        <span id="pack-detail-stats" style="font-size: 12px; color: #00b4ff; margin-left: 10px;">Stats</span>
+                    </div>
+                    <div id="pack-detail-text" style="font-size: 12px; color: #ddd; margin-top: 4px; line-height: 1.45;">Card abilities</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= APPLICATION MODALS (GLOBAL) ================= -->
+
+    <!-- ================= CARD DATABASE EDITOR MODAL (ADMIN ONLY) ================= -->
+    <div id="card-editor-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 950px; width: 95vw; background: #141622; border: 2px solid #ab47bc; box-shadow: 0 10px 40px rgba(0,0,0,0.9); max-height: 90vh; display: flex; flex-direction: column;">
+            
+            <!-- Modal Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 12px; flex-shrink: 0;">
+                <div>
+                    <h2 style="margin: 0; color: #ba68c8; font-size: 1.3rem;">Card Database Editor (Admin Mode)</h2>
+                    <div style="font-size: 11px; color: #aaa; margin-top: 3px;">Edit card attributes, abilities, stats, and artwork tied to Google Sheets</div>
+                </div>
+                <button class="close-btn" onclick="closeCardEditorModal()">X</button>
+            </div>
+
+            <!-- Modal Body (Two-Column Flex) -->
+            <div style="display: flex; gap: 15px; overflow-y: auto; flex-grow: 1; padding-right: 4px;">
+                
+                <!-- Left Column: Card Selector & Live Preview (~300px) -->
+                <div style="width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 12px; font-weight: bold; color: #ffd700;">Select Card to Edit:</div>
+                    <input type="text" id="card-editor-search" placeholder="Filter card list..." oninput="filterCardEditorList(this.value)" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 12px;">
+                    
+                    <select id="card-editor-select" size="11" onchange="loadCardIntoEditor(this.value)" style="width: 100%; height: 230px; background: #0e1017; color: #fff; border: 1px solid #3a3b4f; border-radius: 4px; padding: 4px; font-size: 12px; outline: none;">
+                        <!-- Populated by JS -->
+                    </select>
+
+                    <div style="background: #0e1017; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                        <div style="font-size: 11px; color: #888; margin-bottom: 6px;">Image Preview:</div>
+                        <img id="card-editor-image-preview" src="Assets/Regular_Card_Back.png" style="width: 180px; max-height: 250px; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);" onerror="this.onerror=null; this.src=getDefaultCardBackSvg();">
+                        <div id="card-editor-img-caption" style="font-size: 10px; color: #aaa; margin-top: 6px; word-break: break-all;">No card selected</div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Card Attribute Fields Form (~600px) -->
+                <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
+                    
+                    <!-- Row 1: Name & ID -->
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Name:</label>
+                            <input type="text" id="edit-card-name" placeholder="Card Name..." style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card ID / Filename:</label>
+                            <input type="text" id="edit-card-id" readonly style="width: 100%; box-sizing: border-box; background: #191b26; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #aaa; font-size: 13px;">
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Type, Realm, Color -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Type:</label>
+                            <select id="edit-card-type" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
+                                <option value="Legend">Legend</option>
+                                <option value="Minion">Minion</option>
+                                <option value="Barrier">Barrier</option>
+                                <option value="Item">Item</option>
+                                <option value="Action">Action</option>
+                                <option value="Re-Action">Re-Action</option>
+                                <option value="Anchor">Anchor</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Realm / Affinity:</label>
+                            <select id="edit-card-realm" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
+                                <option value="Fantasy">Fantasy</option>
+                                <option value="Tech">Tech</option>
+                                <option value="Magic">Magic</option>
+                                <option value="N/A">N/A (None)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Color:</label>
+                            <select id="edit-card-color" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
+                                <option value="Blue">Blue</option>
+                                <option value="Green">Green</option>
+                                <option value="Red">Red</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Purple">Purple</option>
+                                <option value="White">White</option>
+                                <option value="N/A">N/A (Colorless)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Cost, ATK, DEF -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Energy Cost:</label>
+                            <input type="text" id="edit-card-cost" placeholder="e.g. 1, 2, -" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">ATK:</label>
+                            <input type="text" id="edit-card-atk" placeholder="e.g. 2, -" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">DEF / HP:</label>
+                            <input type="text" id="edit-card-def" placeholder="e.g. 3, -" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Keywords & Image File Name -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Keywords:</label>
+                            <input type="text" id="edit-card-keywords" placeholder="e.g. ARRIVE, VAPORIZE" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Image File Path / WebP:</label>
+                            <input type="text" id="edit-card-image" oninput="updateEditorImagePreview(this.value)" placeholder="Card_Images/Unit_001.webp" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Card Text & Abilities -->
+                    <div>
+                        <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Text & Abilities:</label>
+                        <textarea id="edit-card-text" rows="5" placeholder="Enter complete rules text, arrive effects, or stack abilities..." style="width: 100%; box-sizing: border-box; background: #0e1017; color: #fff; border: 1px solid #3a3b4f; border-radius: 4px; padding: 8px 10px; font-size: 13px; line-height: 1.45; resize: vertical;"></textarea>
+                    </div>
+
+                    <!-- Save Status Banner -->
+                    <div id="card-editor-status-banner" style="display: none; padding: 8px 12px; border-radius: 4px; font-size: 12px;"></div>
+                </div>
+            </div>
+
+            <!-- Modal Footer Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #2a2c3d; padding-top: 12px; margin-top: 12px; flex-shrink: 0;">
+                <div style="font-size: 11px; color: #777;">
+                    Updates save immediately to your app and sync to your Google Sheet backend.
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-red" onclick="closeCardEditorModal()" style="padding: 7px 16px;">Cancel</button>
+                    <button class="btn-purple" onclick="addNewCardFromEditor()" style="padding: 7px 16px;">+ Add as New Card</button>
+                    <button id="btn-save-card-changes" class="btn-green" onclick="saveCardChangesFromEditor()" style="padding: 7px 22px; font-size: 13px; font-weight: bold;">Save Card to Sheet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Mulligan Dialog Box -->
+            <div id="mulligan-modal" class="modal-hidden">
+                <div class="modal-content" style="max-width: 860px; width: 92vw; background: #161824; border: 2px solid #ffd700; box-shadow: 0 10px 40px rgba(0,0,0,0.85);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 12px; margin-bottom: 15px;">
+                        <div>
+                            <h2 style="margin: 0; color: #ffd700; font-size: 1.25rem;">Mulligan: Replace Hand Cards</h2>
+                            <div style="font-size: 12px; color: #aaa; margin-top: 4px;">
+                                Drag cards into the replacement box (or click cards in your hand below) to put them on the bottom of your Universe deck.
+                            </div>
+                        </div>
+                        <button class="close-btn" onclick="closeMulliganModal()">X</button>
+                    </div>
+
+                    <!-- MULLIGAN DROP ZONE -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 13px; font-weight: bold; color: #00b4ff;">
+                                Drop Zone &bull; Cards to Return to Bottom of Universe (<span id="mulligan-count">0</span>)
+                            </span>
+                            <span style="font-size: 11px; color: #888;">(Click a card in the drop zone to unselect it)</span>
+                        </div>
+                        <div id="mulligan-drop-zone" ondrop="dropOnMulliganZone(event)" ondragover="allowDrop(event)" style="min-height: 145px; border: 2.5px dashed #00b4ff; box-shadow: 0 0 0 1.5px #000, inset 0 0 20px rgba(0,0,0,0.6); border-radius: 8px; background: rgba(0, 180, 255, 0.06); padding: 12px; display: flex; gap: 10px; align-items: center; overflow-x: auto;">
+                            <div id="mulligan-empty-hint" style="color: #778; font-size: 13px; margin: auto; text-align: center;">
+                                Drag cards from hand here (or click any card from your hand below)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CURRENT HAND SELECTION -->
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 13px; font-weight: bold; color: #ddd; margin-bottom: 6px;">
+                            Your Hand (<span id="mulligan-hand-count">0</span>)
+                        </div>
+                        <div id="mulligan-hand-grid" style="min-height: 140px; background: #111219; border: 1px solid #282a3c; border-radius: 8px; padding: 10px; display: flex; gap: 10px; align-items: center; overflow-x: auto;">
+                            <!-- Hand cards populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- MODAL FOOTER BUTTONS -->
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #2a2c3d; padding-top: 15px;">
+                        <button class="btn-red" onclick="closeMulliganModal()" style="padding: 8px 18px;">Cancel</button>
+                        <button id="btn-confirm-mulligan" class="btn-green" onclick="confirmMulligan()" style="padding: 8px 22px; font-size: 14px;" disabled>Confirm Mulligan (Replace 0)</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reaction-modal" class="modal-hidden">
+                <div class="modal-content">
+                    <h2 style="margin-top: 0; color: #7289da;">Select a Re/Action Card</h2>
+                    <button class="close-btn" onclick="closeReactionModal()">X</button>
+                    <div id="reaction-modal-grid" class="modal-grid"></div>
+                </div>
+            </div>
+
+            
+    <!-- ================= SAVE DECK MODAL ================= -->
+    <div id="save-deck-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 500px; width: 90vw; background: #161824; border: 2px solid #ffd700; box-shadow: 0 10px 40px rgba(0,0,0,0.85);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 15px;">
+                <h2 style="margin: 0; color: #ffd700; font-size: 1.25rem;">Save Deck to Google Sheet</h2>
+                <button class="close-btn" onclick="closeSaveDeckModal()">X</button>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 12px; font-weight: bold; color: #bbb; margin-bottom: 6px;">Deck Name:</label>
+                <input type="text" id="save-deck-name-input" oninput="handleSaveDeckNameInput(this.value)" placeholder="Enter a unique deck name..." style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 10px; color: #fff; font-size: 14px;">
+            </div>
+
+            <!-- Status Badge: New vs Existing vs Locked -->
+            <div id="save-deck-status-box" style="margin-bottom: 15px; padding: 10px; border-radius: 4px; font-size: 12px; line-height: 1.4; display: none;"></div>
+
+            <!-- Admin Lock Checkbox (Visible in Admin Mode) -->
+            <div id="save-deck-admin-lock-row" style="margin-bottom: 15px; display: none; background: rgba(255, 215, 0, 0.08); padding: 8px 10px; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 4px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #ffd700; cursor: pointer; font-weight: bold;">
+                    <input type="checkbox" id="save-deck-lock-checkbox">
+                    Mark as LOCKED ('X') in Google Sheet (Prevents non-admin changes)
+                </label>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #2a2c3d; padding-top: 12px;">
+                <button class="btn-red" onclick="closeSaveDeckModal()" style="padding: 7px 16px;">Cancel</button>
+                <button id="btn-submit-save-deck" class="btn-green" onclick="submitSaveDeck()" style="padding: 7px 20px; font-size: 13px;">Save Deck</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= BACKEND & DECK LOCKS MODAL ================= -->
+    <div id="backend-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 680px; width: 92vw; background: #161824; border: 2px solid #a479e2; box-shadow: 0 10px 40px rgba(0,0,0,0.85); max-height: 88vh; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 12px; flex-shrink: 0;">
+                <div>
+                    <h2 style="margin: 0; color: #a479e2; font-size: 1.25rem;">Backend & Deck Management</h2>
+                    <div style="font-size: 11px; color: #aaa; margin-top: 3px;">Google Sheets database connection & override lock control</div>
+                </div>
+                <button class="close-btn" onclick="closeBackendModal()">X</button>
+            </div>
+
+            <div style="overflow-y: auto; padding-right: 4px; flex-grow: 1;">
+                <!-- Google Sheet Information -->
+                <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-size: 12px; font-weight: bold; color: #ffd700;">Google Sheet Database</span>
+                        <a href="https://docs.google.com/spreadsheets/d/1Z7mxql5ZswCbE927ZOIWmEbnadCA4fzIjLPyX3bqXFU/edit" target="_blank" style="color: #00b4ff; font-size: 11px; text-decoration: underline;">Open Google Sheet ↗</a>
+                    </div>
+                    <div style="font-size: 11px; color: #888; word-break: break-all;">
+                        Sheet: <b>Universe of Legends - Saved Decks</b><br>
+                        ID: <code style="color: #bbb;">1Z7mxql5ZswCbE927ZOIWmEbnadCA4fzIjLPyX3bqXFU</code>
+                    </div>
+                </div>
+
+                <!-- Web App Endpoint URL Configuration -->
+                <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: bold; color: #ddd; margin-bottom: 4px;">Google Apps Script Web App URL (for Saving):</label>
+                    <div style="display: flex; gap: 6px;">
+                        <input type="text" id="backend-webapp-url-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex-grow: 1; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
+                        <button class="btn-blue" onclick="saveBackendWebappUrl()" style="padding: 7px 14px; font-size: 11px;">Save URL</button>
+                    </div>
+                    <div style="font-size: 10px; color: #777; margin-top: 4px;">
+                        Deploy your Google Apps Script in the Google Sheet (Extensions -> Apps Script -> Deploy as Web App) and paste the URL here.
+                    </div>
+                </div>
+
+                <!-- Admin Mode & Passcode Section -->
+                <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-size: 12px; font-weight: bold; color: #ffd700;">Admin Mode (Backend Deck Lock Control)</span>
+                        <span id="admin-status-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #333; color: #aaa;">User Mode</span>
+                    </div>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <input type="password" id="admin-passcode-input" placeholder="Enter admin passcode..." style="flex-grow: 1; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 12px;">
+                        <button class="btn-green" onclick="verifyAdminPasscode()" style="padding: 6px 14px; font-size: 11px;">Unlock Admin</button>
+                    </div>
+                </div>
+
+                <!-- Deck List Table with Lock Status -->
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-size: 12px; font-weight: bold; color: #ddd;">Saved Decks Database (<span id="backend-deck-count">0</span>)</span>
+                        <button class="btn-blue" onclick="refreshSavedDecks()" style="padding: 3px 8px; font-size: 10px;">Refresh List</button>
+                    </div>
+                    <div id="backend-deck-table-container" style="max-height: 180px; overflow-y: auto; border: 1px solid #2a2c3d; border-radius: 6px; background: #0e1017;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Local File Backup Utilities -->
+                <div style="border-top: 1px solid #2a2c3d; padding-top: 10px;">
+                    <div style="font-size: 11px; font-weight: bold; color: #888; margin-bottom: 6px;">Local File Backup (JSON):</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-blue" onclick="exportDeckJson()" style="font-size: 11px; padding: 5px 10px;">Export Current Deck to JSON</button>
+                        <label class="btn-purple" style="font-size: 11px; padding: 5px 10px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center;">
+                            Import Deck from JSON <input type="file" accept=".json" onchange="importDeckJson(event)" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; border-top: 1px solid #2a2c3d; padding-top: 10px; margin-top: 10px; flex-shrink: 0;">
+                <button class="btn-blue" onclick="closeBackendModal()" style="padding: 6px 16px; font-size: 12px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+            <!-- Unknown / Discard Modal -->
+            <div id="unknown-modal" class="modal-hidden">
+                <div class="modal-content">
+                    <h2 style="margin-top: 0; color: #bbb; display: flex; justify-content: space-between; align-items: center;">
+                        <span>The Unknown (Discard Pile) - <span id="unknown-modal-title-count">0</span> Cards</span>
+                        <span style="font-size: 12px; color: #00b4ff; font-weight: normal;">Click a card to revive to Activation Area</span>
+                    </h2>
+                    <button class="close-btn" onclick="closeUnknownModal()">X</button>
+                    <div id="unknown-modal-grid" class="modal-grid"></div>
+                </div>
+            </div>
+
+            <div id="search-modal" class="modal-hidden">
+                <div class="modal-content">
+                    <h2 style="margin-top: 0; color: #ffd700;">Search Main Universe Deck</h2>
+                    <button class="close-btn" onclick="closeSearchModal()">X</button>
+                    <div id="search-modal-grid" class="modal-grid"></div>
+                </div>
+            </div>
+
+    <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
     <script>
         // --- BASELINE CARD BACK SVG & MULTI-PATH RESOLVERS (DEFINED IN HEAD) ---
         function getDefaultCardBackSvg() {
@@ -3718,27 +4739,33 @@
                 return;
             }
 
-            // 1. Select 7 random cards:
-            // Cards 1-6: Random cards from entire pool
-            // Card 7: Guaranteed Rare/Holo card (Legends, Anchors, Barriers)
+            // 1. Select 7 random cards (excluding Barrier cards):
+            // Cards 1-6: Random non-Barrier cards from general pool
+            // Card 7: Guaranteed Rare/Holo card (Legends & Anchors, excluding Barriers)
             currentPackCards = [];
             revealedCardIndices.clear();
 
-            const rarePool = catalog.filter(c => {
+            const nonBarrierCatalog = catalog.filter(c => {
                 const t = (c.type || '').toLowerCase();
-                return t.includes('legend') || t.includes('anchor') || t.includes('barrier');
+                const cid = (c.id || '').toLowerCase();
+                return !t.includes('barrier') && !cid.startsWith('barrier');
             });
-            const generalPool = catalog.filter(c => !rarePool.some(r => r.id === c.id));
 
-            // Pick first 6 cards from general pool (or full catalog if pool small)
-            const sourcePool = generalPool.length >= 6 ? generalPool : catalog;
+            const rarePool = nonBarrierCatalog.filter(c => {
+                const t = (c.type || '').toLowerCase();
+                return t.includes('legend') || t.includes('anchor');
+            });
+            const generalPool = nonBarrierCatalog.filter(c => !rarePool.some(r => r.id === c.id));
+
+            // Pick first 6 cards from general pool (or non-Barrier catalog if pool small)
+            const sourcePool = generalPool.length >= 6 ? generalPool : nonBarrierCatalog;
             for (let i = 0; i < 6; i++) {
                 const randomIndex = Math.floor(Math.random() * sourcePool.length);
                 currentPackCards.push(sourcePool[randomIndex]);
             }
 
-            // Pick 7th card from Rare pool
-            const targetRarePool = rarePool.length > 0 ? rarePool : catalog;
+            // Pick 7th card from Rare pool (Legends & Anchors, no Barriers)
+            const targetRarePool = rarePool.length > 0 ? rarePool : nonBarrierCatalog;
             const rareIndex = Math.floor(Math.random() * targetRarePool.length);
             currentPackCards.push(targetRarePool[rareIndex]);
 
@@ -3929,7 +4956,7 @@
 
         function initPasscodeGate() {
             // Check session storage
-            const savedRole = sessionStorage.getItem('uofl_auth_role');
+            let savedRole = null; try { savedRole = sessionStorage.getItem('uofl_auth_role'); } catch(e) {}
             if (savedRole === 'admin' || savedRole === 'player') {
                 applyAccessRole(savedRole);
             } else {
@@ -3940,7 +4967,7 @@
         function showPasscodeGate() {
             currentAccessRole = null;
             isAdminModeActive = false;
-            sessionStorage.removeItem('uofl_auth_role');
+            try { sessionStorage.removeItem('uofl_auth_role'); } catch(e) {}
 
             const gateSec = document.getElementById('start-gate-section');
             const authSec = document.getElementById('start-auth-status');
@@ -3993,7 +5020,7 @@
 
         function applyAccessRole(role) {
             currentAccessRole = role;
-            sessionStorage.setItem('uofl_auth_role', role);
+            try { sessionStorage.setItem('uofl_auth_role', role); } catch(e) {}
 
             const gateSec = document.getElementById('start-gate-section');
             const authSec = document.getElementById('start-auth-status');
@@ -4328,6 +5355,8 @@
 
 
         function goToStartPage() {
+            const packView = document.getElementById('pack-opening-view');
+            if (packView) packView.style.display = 'none';
             document.getElementById('start-view').style.display = 'flex';
             document.getElementById('top-nav-bar').style.display = 'none';
             document.getElementById('builder-view').style.display = 'none';
@@ -4342,6 +5371,10 @@
             }
             closeSaveDeckModal();
             closeBackendModal();
+            closeCardEditorModal();
+            const packView = document.getElementById('pack-opening-view');
+            if (packView) packView.style.display = 'none';
+            document.getElementById('playtest-view').style.display = 'none';
             document.getElementById('start-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'flex';
             document.getElementById('builder-view').style.display = 'grid';
@@ -4605,18 +5638,62 @@
             renderBackendDecksTable();
         }
 
+        function parseCsvRowReliable(line) {
+            const result = [];
+            let cur = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                if (inQuotes) {
+                    if (ch === '"') {
+                        if (i + 1 < line.length && line[i + 1] === '"') {
+                            cur += '"';
+                            i++;
+                        } else {
+                            inQuotes = false;
+                        }
+                    } else {
+                        cur += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuotes = true;
+                    } else if (ch === ',') {
+                        result.push(cur.trim());
+                        cur = '';
+                    } else {
+                        cur += ch;
+                    }
+                }
+            }
+            result.push(cur.trim());
+            return result;
+        }
+
+        function buildDefaultStarterDeckJson() {
+            const starterBarriers = ["Barrier_011", "Barrier_004", "Barrier_005", "Barrier_012", "Barrier_013"];
+            const starterMain = catalog.filter(c => !c.type.includes("Barrier") && !c.type.includes("Action") && !c.type.includes("Reaction")).slice(0, 40).map(c => c.id);
+            const starterReac = catalog.filter(c => c.type.includes("Action") || c.type.includes("Reaction")).slice(0, 5).map(c => c.id);
+            return JSON.stringify({
+                deckName: "Starter Deck - Fractures in Time",
+                barriers: starterBarriers,
+                mainDeck: starterMain,
+                reactionDeck: starterReac
+            });
+        }
+
         function parseSavedDecksCsv(csvText) {
             const lines = csvText.split(/\r?\n/);
             if (lines.length < 2) return;
 
-            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const headers = parseCsvRowReliable(lines[0]);
             const nameIdx = headers.findIndex(h => /deck\s*name/i.test(h));
             const lockIdx = headers.findIndex(h => /locked/i.test(h));
             const barIdx = headers.findIndex(h => /barrier/i.test(h));
             const mainIdx = headers.findIndex(h => /main/i.test(h));
-            const reacIdx = headers.findIndex(h => /re\s*action/i.test(h));
+            const reacIdx = headers.findIndex(h => /re\/?action/i.test(h));
             const dateIdx = headers.findIndex(h => /updated|date/i.test(h));
-            const jsonIdx = headers.findIndex(h => /json/i.test(h));
+            const jsonIdx = headers.findIndex(h => /json|deck\s*data/i.test(h));
 
             if (nameIdx === -1) return;
             savedDecksMap = {};
@@ -4625,23 +5702,32 @@
                 const line = lines[i].trim();
                 if (!line) continue;
 
-                const row = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || line.split(',');
-                const cleanRow = row.map(cell => cell.trim().replace(/^"|"$/g, '').replace(/""/g, '"'));
-
+                const cleanRow = parseCsvRowReliable(line);
                 const deckName = cleanRow[nameIdx];
                 if (!deckName) continue;
 
-                const lockVal = lockIdx !== -1 ? cleanRow[lockIdx].toUpperCase() : '';
+                const lockVal = (lockIdx !== -1 && cleanRow[lockIdx]) ? cleanRow[lockIdx].toUpperCase() : '';
                 const isLocked = (lockVal === 'X');
+
+                let rawJson = (jsonIdx !== -1 && cleanRow[jsonIdx]) ? cleanRow[jsonIdx] : '';
+                // Verify JSON validity; if starter deck has malformed JSON, repair automatically
+                try {
+                    if (!rawJson) throw new Error("Empty JSON");
+                    JSON.parse(rawJson);
+                } catch (e) {
+                    if (deckName.toLowerCase().includes("starter deck")) {
+                        rawJson = buildDefaultStarterDeckJson();
+                    }
+                }
 
                 savedDecksMap[deckName.toLowerCase()] = {
                     deckName: deckName,
                     isLocked: isLocked,
-                    barriers: barIdx !== -1 ? cleanRow[barIdx] : '',
-                    mainCount: mainIdx !== -1 ? parseInt(cleanRow[mainIdx]) || 0 : 0,
-                    reactionCount: reacIdx !== -1 ? parseInt(cleanRow[reacIdx]) || 0 : 0,
-                    lastUpdated: dateIdx !== -1 ? cleanRow[dateIdx] : '',
-                    deckDataJson: jsonIdx !== -1 ? cleanRow[jsonIdx] : ''
+                    barriers: barIdx !== -1 ? (cleanRow[barIdx] || '') : '',
+                    mainCount: mainIdx !== -1 ? (parseInt(cleanRow[mainIdx]) || 0) : 0,
+                    reactionCount: reacIdx !== -1 ? (parseInt(cleanRow[reacIdx]) || 0) : 0,
+                    lastUpdated: dateIdx !== -1 ? (cleanRow[dateIdx] || '') : '',
+                    deckDataJson: rawJson
                 };
             }
         }
@@ -4710,10 +5796,16 @@
             let data = null;
             if (deck.deckDataJson) {
                 try {
-                    data = JSON.parse(deck.deckDataJson);
+                    data = typeof deck.deckDataJson === 'object' ? deck.deckDataJson : JSON.parse(deck.deckDataJson);
                 } catch (e) {
-                    console.error("Error parsing deckDataJson:", e);
+                    console.warn("Error parsing deckDataJson, attempting recovery:", e);
                 }
+            }
+
+            if (!data && deck.deckName && deck.deckName.toLowerCase().includes("starter deck")) {
+                try {
+                    data = JSON.parse(buildDefaultStarterDeckJson());
+                } catch (e) {}
             }
 
             if (!data) {
@@ -4727,22 +5819,34 @@
 
             if (Array.isArray(data.barriers)) {
                 data.barriers.forEach(id => {
-                    const found = catalog.find(c => c.id === id);
+                    const found = catalog.find(c => c.id === id || c.name === id);
                     if (found) barrierDeck.push({ ...found });
                 });
             }
 
             if (Array.isArray(data.mainDeck)) {
                 data.mainDeck.forEach(id => {
-                    const found = catalog.find(c => c.id === id);
-                    if (found) mainDeck.push({ ...found, id: `deck_${Math.random().toString(36).substr(2, 9)}` });
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) {
+                        mainDeck.push({ ...found });
+                    }
                 });
             }
 
             if (Array.isArray(data.reactionDeck)) {
+                const allReactions = catalog.filter(c => {
+                    const t = (c.type || '').toLowerCase();
+                    return t.includes('action') || t.includes('reaction');
+                });
                 data.reactionDeck.forEach(id => {
-                    const found = catalog.find(c => c.id === id);
-                    if (found) reactionDeck.push({ ...found, id: `deck_${Math.random().toString(36).substr(2, 9)}` });
+                    let found = catalog.find(c => c.id === id || c.name === id);
+                    // Repair legacy 'deck_...' IDs if present in older saved sheet rows
+                    if (!found && String(id).startsWith('deck_')) {
+                        found = allReactions.find(rc => !reactionDeck.some(existing => existing.id === rc.id) && !rc.type.toLowerCase().includes('alpha'));
+                    }
+                    if (found && !reactionDeck.some(existing => existing.id === found.id)) {
+                        reactionDeck.push({ ...found });
+                    }
                 });
             }
 
@@ -5663,6 +6767,9 @@
             updateSelectionVisuals();
 
             // Show playtest view FIRST so layout has valid coordinates!
+            const packView = document.getElementById('pack-opening-view');
+            if (packView) packView.style.display = 'none';
+            document.getElementById('start-view').style.display = 'none';
             document.getElementById('builder-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'none';
             document.getElementById('playtest-view').style.display = 'flex';
@@ -5751,6 +6858,9 @@ function renderPlaytestBarrier() {
         }
 
         function returnToBuilder() {
+            const packView = document.getElementById('pack-opening-view');
+            if (packView) packView.style.display = 'none';
+            document.getElementById('start-view').style.display = 'none';
             document.getElementById('playtest-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'flex';
             document.getElementById('builder-view').style.display = 'grid';
@@ -6450,7 +7560,11 @@ function renderPlaytestBarrier() {
             const isNowRested = !cardEl.classList.contains('rotated');
             cardEl.classList.toggle('rotated');
             const cName = cardEl.cardData ? cardEl.cardData.name : 'Card';
-            logAction(`${isNowRested ? 'Rested' : 'Readied'} "${cName}"`, () => {
+            const isEnergyZone = Boolean(cardEl.dataset && cardEl.dataset.zone === 'bottom-fan-zone');
+            const actionText = isNowRested
+                ? (isEnergyZone ? `Rested "${cName}" for energy` : `Rested "${cName}"`)
+                : `Readied "${cName}"`;
+            logAction(actionText, () => {
                 cardEl.classList.toggle('rotated');
             });
         }
@@ -6829,7 +7943,15 @@ function renderPlaytestBarrier() {
             });
         }
 
+        function syncDynamicViewportHeight() {
+            if (window.innerHeight) {
+                document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+            }
+        }
+        syncDynamicViewportHeight();
+
         window.addEventListener('resize', () => {
+            syncDynamicViewportHeight();
             updatePlaymatScale();
             const activeZones = new Set();
             document.querySelectorAll('.play-card, .token').forEach(el => {
@@ -6843,751 +7965,5 @@ function renderPlaytestBarrier() {
             initPasscodeGate();
         };
     </script>
-
-</head>
-<body>
-        <!-- Portrait Mode Mobile Advisory Overlay (Dismissible) -->
-    <div id="portrait-orientation-banner">
-        <div style="font-size: 38px; margin-bottom: 12px; color: var(--tech-cyan); filter: drop-shadow(0 0 12px rgba(0,229,255,0.6));">&#8635;</div>
-        <div style="font-size: 16px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">
-            Horizontal (Landscape) Mode Recommended
-        </div>
-        <div style="font-size: 13px; color: #b8c4d8; max-width: 320px; line-height: 1.5; margin-bottom: 20px;">
-            Universe of Legends TCG is optimized for horizontal widescreen play. Rotate your device horizontally for the best experience.
-        </div>
-        <button class="btn-blue" onclick="document.getElementById('portrait-orientation-banner').classList.add('dismissed')">
-            Continue in Current View
-        </button>
-    </div>
-
-    <!-- ================= START PAGE VIEW (MASTER DUEL SPLIT MAGITEK LAYOUT) ================= -->
-    <div id="start-view">
-        <!-- Atmospheric Crystalline Shards (5 Barrier Colors) -->
-        <div class="magitek-bg-decor">
-            <div class="crystal-shard shard-blue"></div>
-            <div class="crystal-shard shard-purple"></div>
-            <div class="crystal-shard shard-gold"></div>
-            <div class="crystal-shard shard-green"></div>
-            <div class="crystal-shard shard-red"></div>
-        </div>
-
-        <!-- Top HUD Bar -->
-        <div class="start-top-hud">
-            <div class="hud-profile-box">
-                <span style="font-size: 11px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px;">UNIVERSE OF LEGENDS</span>
-                <span style="color: #445;">|</span>
-                <div class="hud-crystal-pips" title="5 Barrier Crystal Colors: Blue, Green, Red, Yellow, Purple">
-                    <span class="crystal-pip" style="background: var(--crystal-blue); color: var(--crystal-blue);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-green); color: var(--crystal-green);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-red); color: var(--crystal-red);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-yellow); color: var(--crystal-yellow);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-purple); color: var(--crystal-purple);"></span>
-                </div>
-            </div>
-
-            <!-- Authenticated Role Status Banner -->
-            <div id="start-auth-status" style="display: none; align-items: center; gap: 12px;">
-                <span id="start-role-badge" style="font-size: 11.5px; padding: 5px 14px; clip-path: var(--clip-btn); font-weight: 800; letter-spacing: 0.6px;"></span>
-                <button class="btn-blue" onclick="logoutPasscode()" style="padding: 5px 12px; font-size: 11px;">Switch Code</button>
-            </div>
-        </div>
-
-        <!-- Master Duel Split Center Content -->
-        <div class="start-split-layout">
-            <!-- LEFT COLUMN: Passcode Gate & Vertical Menu Blades -->
-            <div class="start-left-column">
-                <div class="start-command-title">Magitek Tactical Terminal</div>
-
-                <!-- 1. Passcode Gate Section (Shown if unauthenticated) -->
-                <div id="start-gate-section" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
-                    <div style="font-size: 14px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase;">
-                        Enter Access Passcode
-                    </div>
-                    <div style="font-size: 12px; color: #9aa8c2; line-height: 1.4;">
-                        Authenticate your terminal to unlock the Deck Builder, Testing Arena, and Pack Simulator.
-                    </div>
-                    <div style="display: flex; gap: 8px; width: 100%; align-items: center; margin-top: 4px;">
-                        <input type="password" id="start-passcode-input" onkeydown="if(event.key==='Enter') submitStartPasscode()" placeholder="Access Code..." style="flex-grow: 1; background: #070912; border: 1.5px solid var(--tech-cyan-dim); clip-path: var(--clip-btn); padding: 10px 14px; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s;">
-                        <button class="btn-blue" onclick="submitStartPasscode()" style="padding: 10px 20px; font-size: 13px; min-width: 95px;">Enter</button>
-                    </div>
-                    <div id="start-passcode-error" style="color: var(--crystal-red); font-size: 12px; font-weight: 700; display: none;"></div>
-                </div>
-
-                <!-- 2. Master Duel Vertical Menu Blades (Enabled once authenticated) -->
-                <div id="start-menu-buttons-container" class="start-menu-buttons" style="display: none;">
-                    <button class="start-btn start-btn-primary" onclick="goToDeckBuilder()">
-                        <span>Deck Builder</span>
-                    </button>
-                    <button class="start-btn start-btn-secondary" onclick="goToTestingArea()">
-                        <span>Testing Area</span>
-                    </button>
-                    <button class="start-btn start-btn-pack" onclick="goToPackOpening()">
-                        <span>Pack Opening Simulator</span>
-                    </button>
-                    <button id="start-card-editor-btn" class="start-btn start-btn-admin" onclick="openCardEditorModal()" style="display: none;">
-                        <span>Card Database Editor</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN: Hero Logo Showcase & Realm Emblems -->
-            <div class="start-right-showcase">
-                <div class="arcane-tech-circle"></div>
-                <img src="Assets/Color_Logo_Tight.webp" alt="Universe of Legends" class="start-logo" onerror="if(!this.dataset.t1){this.dataset.t1='1';this.src='Assets/Color_Logo.png';}else if(!this.dataset.t2){this.dataset.t2='1';this.src='Assets/logo.png';}else{this.onerror=null;this.src='downloads/logo.png';}">
-                <div class="realm-hex-bar">
-                    <div class="realm-pill" style="color: var(--crystal-purple); border-color: var(--magic-purple-dim);">
-                        <span>&#10022;</span> <span>Magic</span>
-                    </div>
-                    <div class="realm-pill" style="color: var(--fantasy-gold); border-color: var(--fantasy-gold-dim);">
-                        <span>&#9876;</span> <span>Fantasy</span>
-                    </div>
-                    <div class="realm-pill" style="color: var(--tech-cyan); border-color: var(--tech-cyan-dim);">
-                        <span>&#11042;</span> <span>Technology</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Status Footer -->
-        <div class="start-bottom-footer">
-            <span>UNIVERSE OF LEGENDS TCG &bull; FRACTURES IN TIME</span>
-            <span style="color: var(--tech-cyan);">MAGITEK HORIZONTAL EDITION &bull; DESKTOP &amp; MOBILE READY</span>
-        </div>
-    </div>
-
-
-    <!-- ================= TOP NAVIGATION BAR ================= -->
-    <div id="top-nav-bar" style="display: none;">
-        <div class="nav-brand">
-            <button class="btn-blue" onclick="goToStartPage()" style="padding: 5px 10px; font-size: 12px; margin-right: 8px; background: #232533; border: 1px solid #444;">Home</button>
-            <span class="game-title">Universe of Legends</span>
-            <span class="deck-mode-badge">Deck Builder</span>
-        </div>
-        <div class="nav-stats">
-            <span id="nav-main-count">Main: <b>0</b>/50</span>
-            <span class="stat-divider">|</span>
-            <span id="nav-reaction-count">Re/Action: <b>0</b>/10</span>
-            <span class="stat-divider">|</span>
-            <span id="nav-barrier-count">Barriers: <b>0</b>/5</span>
-            <span class="stat-divider">|</span>
-            <span id="nav-allowed-colors">Allowed Colors: <b style="color: #00b4ff;">All (Pick 5 Barriers to Lock)</b></span>
-        </div>
-        <div class="nav-actions">
-
-            <select id="saved-decks-dropdown" onchange="handleDeckDropdownSelect(this)" title="Load a saved deck from Google Sheets" style="background: #191b26; color: #ffd700; border: 1px solid #ffd700; border-radius: 4px; padding: 5px 8px; font-size: 12px; max-width: 175px; cursor: pointer; font-weight: 500;">
-                <option value="">-- Load Saved Deck --</option>
-            </select>
-            <button class="btn-blue" onclick="refreshSavedDecks()" title="Refresh decks from Google Sheet" style="padding: 5px 7px; font-size: 11px;">↻</button>
-            <button class="btn-blue" onclick="openSaveDeckModal()">Save Deck</button>
-            <button class="btn-blue" onclick="sortDecks()">Sort</button>
-            <button class="btn-red" onclick="clearAllDecks()">Clear All</button>
-            <button id="nav-backend-btn" class="btn-purple" onclick="openBackendModal()" style="display: none; padding: 5px 8px; font-size: 12px;" title="Backend & Deck Locks Settings">⚙ Backend</button>
-            <button class="btn-green" onclick="startPlaytest()">Test Deck ▶</button>
-        </div>
-    </div>
-
-    <!-- ================= VIEW 1: THE DECK BUILDER ================= -->
-    <div id="builder-view" style="display: none;">
-        
-        <!-- LEFT COLUMN: Card Details + Barrier Selection -->
-        <div id="builder-left">
-            <!-- Upper Section: Card Detail Preview -->
-            <div id="card-detail-section">
-                <img id="detail-image" src="Assets/Regular_Card_Back.png" alt="Card Detail" class="detail-image vertical-perspective" onerror="handleCardBackImgError(this);">
-                <div id="detail-name" class="detail-title">Hover a Card</div>
-                <div class="detail-stats">
-                    <span id="detail-type">Type: ---</span> | 
-                    <span id="detail-cost">Cost: ---</span>
-                </div>
-                <div class="detail-stats">
-                    <span id="detail-atk">ATK: ---</span> | 
-                    <span id="detail-hp">DEF/HP: ---</span>
-                </div>
-                <div id="detail-text" class="detail-text">Hover any card to read its full effect and text.</div>
-            </div>
-
-            <!-- Lower Section: Barrier Selection (Horizontal Format) -->
-            <div id="barrier-selection-section">
-                <div class="section-header">
-                    <span>Selected Barriers (<span id="barrier-count-badge">0/5</span>)</span>
-                    <button class="btn-red" style="padding: 2px 6px; font-size: 10px;" onclick="clearBarriers()">Clear</button>
-                </div>
-                <div id="barrier-grid">
-                    <!-- 5 Barrier Slots rendered by JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- CENTER COLUMN: Main Deck (Top) + Re/Action Deck (Bottom) -->
-        <div id="builder-center">
-            <!-- Main Universe Deck Container -->
-            <div id="main-deck-container">
-                <div class="deck-section-header">
-                    <span>Main Universe Deck (<span id="main-count-badge">0</span> Cards &bull; Min 40 - Max 50)</span>
-                    <span style="font-size: 11px; color: #888;">Click card to remove</span>
-                </div>
-                <div id="main-deck-grid"></div>
-            </div>
-
-            <!-- Re/Action Deck Container (Bottom Tray) -->
-            <div id="reaction-deck-container">
-                <div class="deck-section-header reaction-header">
-                    <span>Re/Action Deck (<span id="reaction-count-badge">0/10</span> &bull; 1 Alpha Max)</span>
-                    <span style="font-size: 11px; color: #7289da;">Click card to remove</span>
-                </div>
-                <div id="reaction-deck-grid"></div>
-            </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Card Catalog -->
-        <div id="builder-right">
-            <div class="catalog-header">
-                <span id="catalog-count-badge">Catalog (149)</span>
-                <button id="toggle-barrier-filter-btn" class="btn-filter-toggle" onclick="toggleBarrierFilter()">Filter: ON</button>
-            </div>
-            <div class="catalog-search-bar">
-                <input id="catalog-search" type="text" placeholder="Search name, color, type, effect, cost..." oninput="filterCatalog()">
-                <button class="btn-clear-search" onclick="document.getElementById('catalog-search').value=''; filterCatalog();">✕</button>
-            </div>
-            <div class="catalog-category-tabs">
-                <button class="cat-tab active" onclick="setCategoryFilter('all', this)">All</button>
-                <button class="cat-tab" onclick="setCategoryFilter('barriers', this)">Barriers</button>
-                <button class="cat-tab" onclick="setCategoryFilter('legends', this)">Legends</button>
-                <button class="cat-tab" onclick="setCategoryFilter('minions', this)">Minions</button>
-                <button class="cat-tab" onclick="setCategoryFilter('items', this)">Items</button>
-                <button class="cat-tab" onclick="setCategoryFilter('anchors', this)">Anchors</button>
-                <button class="cat-tab" onclick="setCategoryFilter('reactions', this)">Re/Actions</button>
-            </div>
-            <div id="catalog-grid" onmouseleave="resetBuilderDetailView()"></div>
-        </div>
-    </div>
-
-    <!-- ================= VIEW 2: THE PLAYTEST SANDBOX ================= -->
-    <div id="playtest-view">
-        <div id="playtest-left">
-            <img id="playtest-detail-image" src="" alt="Card Detail" class="detail-image vertical-perspective">
-            <div id="playtest-detail-name" class="detail-title">Hover a Card</div>
-            <div class="detail-stats">
-                <span id="playtest-detail-type">Type: ---</span> | 
-                <span id="playtest-detail-cost">Cost: ---</span>
-            </div>
-            <div class="detail-stats">
-                <span id="playtest-detail-atk">ATK: ---</span> | 
-                <span id="playtest-detail-hp">DEF/HP: ---</span>
-            </div>
-            <div id="playtest-detail-text" class="detail-text" style="max-height: 180px;">Card details appear here.</div>
-        </div>
-
-        <div id="playtest-main">
-            <div id="controls">
-                <button class="btn-blue" onclick="goToStartPage()" style="background: #232533; border: 1px solid #555; padding: 6px 12px;">Main Menu</button>
-                <button class="btn-red" onclick="returnToBuilder()">◀ Back to Builder</button>
-                <button class="btn-blue" onclick="drawCard()">Draw Card</button>
-                <button class="btn-green" onclick="drawStartingHand()" style="margin-left: 6px;">Starting Hand (7)</button>
-                <button class="btn-blue" onclick="openMulliganModal()" style="margin-left: 6px;">Mulligan</button>
-                <span id="deck-counter" style="font-weight: bold; color: #ffd700; margin-left: 10px;">Main: 0</span>
-                <button class="btn-blue" onclick="readyAllCards()" style="margin-left: 15px;">Ready Cards</button>
-                <button class="btn-blue" onclick="spawnShield()">+ Shield Token</button>
-                
-                <input type="file" id="customPlaymatInput" accept="image/*" style="display: none;" onchange="handleCustomPlaymatUploaded(event)">
-                <select id="bgSelector" onchange="changeBackground()" style="margin-left: auto; max-width: 180px;">
-                    <option value="default">Playmat: Default Grid</option>
-                    <option value="__custom_file__">+ Load Custom Playmat Image...</option>
-                    <option value="Assets/Playmats/Raya.png">Playmat: Raya</option>
-                    <option value="Assets/Playmats/Mervant.png">Playmat: Mervant</option>
-                    <option value="Assets/Playmats/Copy_of_Radiating_Lotus.png">Playmat: Radiating Lotus</option>
-                    <option value="Assets/Playmats/Copy_of_Stone_of_life_and_Riches.png">Playmat: Stone of Life</option>
-                    <option value="Assets/Playmats/Copy_of_Pearl_of_Burning_Passion_and_Desire.png">Playmat: Burning Passion</option>
-                    <option value="Assets/Playmats/Copy_of_Isis,_The_Diamond_of_Hope.png">Playmat: Diamond of Hope</option>
-                    <option value="Assets/Playmats/Rise_Up_King_final.png">Playmat: Rise Up King</option>
-                    <option value="Assets/Playmats/rabbit.png">Playmat: Black Rabbit</option>
-                    <option value="Assets/Playmats/Copy_of_Meteor,_Tip_of_the_Great_Pyramid.png">Playmat: Great Pyramid</option>
-                    <option value="Assets/Playmats/PSD.png">Playmat: Cosmic Arena</option>
-                    <option value="Assets/Playmats/final_artwork_fix.png">Playmat: Universe Showcase</option>
-                </select>
-            </div>
-
-            <div id="playmat" ondrop="dropOnPlaymat(event)" ondragover="allowDrop(event)" onclick="clearSelection(event)">
-                <div id="playmat-surface">
-                    <div id="playmat-zones">
-                    <!-- Top-Left Barrier Zone (Horizontal Landscape Format) -->
-                    <div id="zone-top-left" class="play-zone snap-center" style="top: 50px; left: 80px; width: 225px; height: 155px; border-color: #ffd700; border-width: 2.5px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 6px; box-shadow: 0 0 0 1.5px #000, inset 0 0 15px rgba(0,0,0,0.6);">
-                        <div style="font-size: 11px; font-weight: bold; color: #ffd700; letter-spacing: 1px; text-transform: uppercase;">Barrier Zone</div>
-                        <div id="barrier-stack-indicator" style="font-size: 10px; color: #aaa;">Stack: 5</div>
-                    </div>
-                    
-                    <!-- Bottom-Left Re/Action Deck (Shifted down next to Energy Zone) -->
-                    <div id="zone-mid-left" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% - 580px); width: 140px; height: 195px; border-color: #7289da; border-width: 2.5px; box-shadow: 0 0 0 1.5px #000, inset 0 0 15px rgba(0,0,0,0.6);"></div>
-
-                    <!-- 4 Field Units Combat Zones (Vertical Stack Limit of 3, Total ATK/DEF at Top) -->
-                    <div id="mid-zone-1" class="play-zone snap-stack" style="top: 8%; left: calc(50% - 370px); width: 145px; height: 330px; position: absolute;">
-                        <div id="stats-mid-zone-1" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
-                    </div>
-                    <div id="mid-zone-2" class="play-zone snap-stack" style="top: 8%; left: calc(50% - 180px); width: 145px; height: 330px; position: absolute;">
-                        <div id="stats-mid-zone-2" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
-                    </div>
-                    <div id="mid-zone-3" class="play-zone snap-stack" style="top: 8%; left: calc(50% + 10px); width: 145px; height: 330px; position: absolute;">
-                        <div id="stats-mid-zone-3" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
-                    </div>
-                    <div id="mid-zone-4" class="play-zone snap-stack" style="top: 8%; left: calc(50% + 200px); width: 145px; height: 330px; position: absolute;">
-                        <div id="stats-mid-zone-4" class="zone-combat-stats" style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: rgba(18, 20, 30, 0.95); border: 2px solid #ffd700; border-radius: 6px; padding: 2px 8px; display: none; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.8); z-index: 50; white-space: nowrap; pointer-events: none;"></div>
-                    </div>
-
-                    <!-- Activation Area / The Flow Zone (Upper Right Space) -->
-                    <div id="zone-activation" class="play-zone snap-center" style="top: 8%; left: calc(50% + 380px); width: 280px; height: 280px; border-radius: 50%; border: 2.5px dashed #00b4ff; box-shadow: 0 0 0 1.5px #000, inset 0 0 20px rgba(0,0,0,0.6); background: radial-gradient(circle, rgba(0, 180, 255, 0.12) 0%, rgba(26, 27, 40, 0.4) 65%, transparent 100%); display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <div style="font-size: 13px; font-weight: bold; color: #00b4ff; letter-spacing: 1px; text-transform: uppercase;">Activation Area</div>
-                        <div style="font-size: 10px; color: #aaa; margin-top: 3px; text-align: center; max-width: 170px;">Tokens &amp; Re/Actions activate here</div>
-                    </div>
-
-                    <!-- Bottom Energy Fan Zone (Max 10 Cards) -->
-                    <div id="bottom-fan-zone" class="play-zone snap-fan" style="top: calc(8% + 355px); left: calc(50% - 370px); width: 715px; height: 195px; border-color: #4CAF50; border-width: 2.5px; box-shadow: 0 0 0 1.5px #000, inset 0 0 15px rgba(0,0,0,0.6); position: absolute;">
-                        <div id="energy-zone-watermark" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); color: rgba(76, 175, 80, 0.7); font-size: 12px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; pointer-events: none; white-space: nowrap;">
-                            ⚡ Energy Zone (Max 10 Cards) &bull; <span id="energy-count-live">0 / 10</span>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Right: Discard / The Unknown Zone -->
-                    <div id="zone-bot-right-1" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% + 380px); width: 140px; height: 195px; border-color: #888;"></div>
-                    
-                    <!-- Bottom Right: Universe Deck Zone -->
-                    <div id="zone-bot-right-2" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border-color: #ffd700;"></div>
-                </div>
-
-                <!-- Interactive Deck Buttons on Playmat -->
-                <div class="deck-btn deck-btn-purple" onclick="openReactionModal()" style="top: calc(8% + 355px); left: calc(50% - 580px); width: 140px; height: 195px;">
-                    <div class="btn-label">Re/Action<br>(<span id="playtest-reaction-count">0</span>)</div>
-                </div>
-
-                <!-- Interactive Unknown / Discard Pile Button -->
-                <div id="unknown-deck-btn" class="deck-btn" onclick="openUnknownModal()" style="top: calc(8% + 355px); left: calc(50% + 380px); width: 140px; height: 195px; border-color: #888; background: linear-gradient(145deg, #1f1f2e, #13131c); z-index: 15;">
-                    <div class="btn-label" style="color: #bbb;">UNKNOWN<br>(<span id="unknown-count-display">0</span>)</div>
-                </div>
-
-                <!-- Interactive Universe Draw Deck with Regular Card Back -->
-                <div id="draw-deck-btn" class="deck-btn" onclick="drawCard()" oncontextmenu="searchDeckModal(event)" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border: 2px solid #ffd700; border-radius: 8px; position: absolute; z-index: 15; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8); background: #1a1c26;">
-                    <img id="draw-deck-img" src="Assets/Regular_Card_Back.png" alt="" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; pointer-events: none;" onerror="handleCardBackImgError(this);">
-                    <div class="btn-label" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 4px 10px; width: 85%; text-align: center; pointer-events: none; z-index: 2;">Draw<br><span id="deck-counter-card" style="font-size: 11px; color: #ffd700; font-weight: bold;">Main: 0</span></div>
-                </div>
-            </div> <!-- End #playmat-surface -->
-        </div> <!-- End #playmat -->
-
-            <!-- Bottom Hand Area (Centered at bottom of the page) -->
-            <div id="hand" ondrop="dropOnHand(event)" ondragover="allowDrop(event)" onclick="clearSelection(event)"></div>
-        </div> <!-- End #playtest-main -->
-
-        <!-- Right Sidebar: Actions Taken & Undo System (Locked to Right Side of Play Area) -->
-        <div id="action-log-sidebar">
-            <div class="action-log-header">
-                <span class="action-log-title">Actions Taken</span>
-                <button id="btn-undo-action" class="btn-undo" onclick="undoLastAction()" disabled>Undo</button>
-            </div>
-            <div id="action-log-list">
-                <div style="color: #666; font-size: 11px; text-align: center; margin-top: 20px;">No actions recorded yet.</div>
-            </div>
-        </div> <!-- End #action-log-sidebar -->
-    </div> <!-- End #playtest-view -->
-
-    
-    <!-- ================= VIEW 4: PACK OPENING SIMULATOR (MTG ARENA 2-ROW LAYOUT) ================= -->
-    <div id="pack-opening-view" style="display: none;">
-        
-        <!-- Top Navigation Bar -->
-        <div class="pack-top-nav">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <button class="btn-blue" onclick="goToStartPage()" style="padding: 6px 14px; font-size: 13px;">Home</button>
-                <span style="font-size: 1.25rem; font-weight: bold; color: #ffd700; letter-spacing: 1px;">PACK OPENING SIMULATOR</span>
-                <span style="font-size: 11px; background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.4); padding: 3px 8px; border-radius: 4px; font-weight: bold;">Fractures in Time (7 Cards / Pack)</span>
-            </div>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <button id="btn-reveal-all-pack" class="btn-purple" onclick="revealAllPackCards()" style="display: none; padding: 6px 16px; font-size: 13px;">Reveal All</button>
-                <button id="btn-open-another-pack" class="btn-green" onclick="resetPackOpening()" style="display: none; padding: 6px 16px; font-size: 13px;">Open Another Pack</button>
-            </div>
-        </div>
-
-        <!-- Main Stage Container -->
-        <div class="pack-main-stage">
-            
-            <!-- STAGE 1: Sealed Booster Pack Floating in Center -->
-            <div id="booster-pack-stage" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: auto;">
-                <div id="booster-pack-wrapper" onclick="openBoosterPack()" class="booster-pack-wrapper">
-                    <div class="foil-glimmer"></div>
-                    <img src="Assets/Booster_Pack.webp" alt="Fractures in Time Booster Pack" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1;" onerror="handleBoosterPackImgError(this);">
-                    <div style="position: absolute; bottom: 12px; background: rgba(6,8,16,0.88); border: 1.5px solid var(--fantasy-gold); padding: 4px 14px; clip-path: var(--clip-btn); font-size: 10.5px; color: var(--fantasy-gold); font-weight: 800; letter-spacing: 0.8px; z-index: 6; box-shadow: 0 4px 12px rgba(0,0,0,0.85);">7 CARDS INSIDE</div>
-                </div>
-                <div style="margin-top: 25px; font-size: 14px; font-weight: bold; color: #ffd700; letter-spacing: 1.5px; animation: pulseGlow 1.5s infinite alternate; text-shadow: 0 0 10px rgba(255,215,0,0.5);">
-                    CLICK PACK TO OPEN
-                </div>
-            </div>
-
-            <!-- STAGE 2: 2-Row Opened Cards Display (Matching MTG Arena!) -->
-            <div id="cards-opened-stage" style="display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                
-                <div id="pack-instruction-hint" style="font-size: 13px; color: #aaa; margin-bottom: 20px; letter-spacing: 0.5px; text-align: center;">
-                    Click on each card to reveal what you pulled! The 7th card has the golden aura representing your <b>Guaranteed Rare</b>.
-                </div>
-
-                <!-- TOP ROW: [Card 1]  [Opened Booster Pack Centerpiece]  [Card 2] -->
-                <div style="display: flex; gap: 30px; justify-content: center; align-items: center; margin-bottom: 22px;">
-                    <div id="pack-slot-0"></div>
-
-                    <!-- Centerpiece: Opened Pack with Radiating Golden Rays -->
-                    <div class="pack-opened-center-anchor">
-                        <div class="pack-radiating-rays"></div>
-                        <img src="Assets/Booster_Pack.webp" alt="Fractures in Time Pack" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1;" onerror="handleBoosterPackImgError(this);">
-                        <div style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(6,8,16,0.9); border: 1px solid var(--fantasy-gold); clip-path: var(--clip-btn); padding: 3px 8px; font-size: 9.5px; color: var(--fantasy-gold); font-weight: 800; z-index: 2; white-space: nowrap;">
-                            FRACTURES IN TIME
-                        </div>
-                    </div>
-
-                    <div id="pack-slot-1"></div>
-                </div>
-
-                <!-- BOTTOM ROW: 5 Cards Spread Horizontally [Card 3] [Card 4] [Card 5] [Card 6] [Card 7 (Rare!)] -->
-                <div style="display: flex; gap: 18px; justify-content: center; align-items: center; flex-wrap: wrap;">
-                    <div id="pack-slot-2"></div>
-                    <div id="pack-slot-3"></div>
-                    <div id="pack-slot-4"></div>
-                    <div id="pack-slot-5"></div>
-                    <div id="pack-slot-6"></div>
-                </div>
-
-                <!-- Hover Inspection Details Banner -->
-                <div id="pack-card-detail-bar" style="margin-top: 22px; padding: 10px 24px; background: rgba(16, 18, 28, 0.9); border: 1px solid #2a2c3d; border-radius: 8px; max-width: 750px; width: 90%; text-align: center; display: none;">
-                    <div>
-                        <span id="pack-detail-name" style="font-size: 15px; font-weight: bold; color: #ffd700;">Card Name</span>
-                        <span id="pack-detail-type" style="font-size: 12px; color: #aaa; margin-left: 10px;">Type</span>
-                        <span id="pack-detail-stats" style="font-size: 12px; color: #00b4ff; margin-left: 10px;">Stats</span>
-                    </div>
-                    <div id="pack-detail-text" style="font-size: 12px; color: #ddd; margin-top: 4px; line-height: 1.45;">Card abilities</div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ================= APPLICATION MODALS (GLOBAL) ================= -->
-
-    <!-- ================= CARD DATABASE EDITOR MODAL (ADMIN ONLY) ================= -->
-    <div id="card-editor-modal" class="modal-hidden">
-        <div class="modal-content" style="max-width: 950px; width: 95vw; background: #141622; border: 2px solid #ab47bc; box-shadow: 0 10px 40px rgba(0,0,0,0.9); max-height: 90vh; display: flex; flex-direction: column;">
-            
-            <!-- Modal Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 12px; flex-shrink: 0;">
-                <div>
-                    <h2 style="margin: 0; color: #ba68c8; font-size: 1.3rem;">Card Database Editor (Admin Mode)</h2>
-                    <div style="font-size: 11px; color: #aaa; margin-top: 3px;">Edit card attributes, abilities, stats, and artwork tied to Google Sheets</div>
-                </div>
-                <button class="close-btn" onclick="closeCardEditorModal()">X</button>
-            </div>
-
-            <!-- Modal Body (Two-Column Flex) -->
-            <div style="display: flex; gap: 15px; overflow-y: auto; flex-grow: 1; padding-right: 4px;">
-                
-                <!-- Left Column: Card Selector & Live Preview (~300px) -->
-                <div style="width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px;">
-                    <div style="font-size: 12px; font-weight: bold; color: #ffd700;">Select Card to Edit:</div>
-                    <input type="text" id="card-editor-search" placeholder="Filter card list..." oninput="filterCardEditorList(this.value)" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 12px;">
-                    
-                    <select id="card-editor-select" size="11" onchange="loadCardIntoEditor(this.value)" style="width: 100%; height: 230px; background: #0e1017; color: #fff; border: 1px solid #3a3b4f; border-radius: 4px; padding: 4px; font-size: 12px; outline: none;">
-                        <!-- Populated by JS -->
-                    </select>
-
-                    <div style="background: #0e1017; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                        <div style="font-size: 11px; color: #888; margin-bottom: 6px;">Image Preview:</div>
-                        <img id="card-editor-image-preview" src="Assets/Regular_Card_Back.png" style="width: 180px; max-height: 250px; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);" onerror="this.onerror=null; this.src=getDefaultCardBackSvg();">
-                        <div id="card-editor-img-caption" style="font-size: 10px; color: #aaa; margin-top: 6px; word-break: break-all;">No card selected</div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Card Attribute Fields Form (~600px) -->
-                <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
-                    
-                    <!-- Row 1: Name & ID -->
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Name:</label>
-                            <input type="text" id="edit-card-name" placeholder="Card Name..." style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card ID / Filename:</label>
-                            <input type="text" id="edit-card-id" readonly style="width: 100%; box-sizing: border-box; background: #191b26; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #aaa; font-size: 13px;">
-                        </div>
-                    </div>
-
-                    <!-- Row 2: Type, Realm, Color -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Type:</label>
-                            <select id="edit-card-type" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
-                                <option value="Legend">Legend</option>
-                                <option value="Minion">Minion</option>
-                                <option value="Barrier">Barrier</option>
-                                <option value="Item">Item</option>
-                                <option value="Action">Action</option>
-                                <option value="Re-Action">Re-Action</option>
-                                <option value="Anchor">Anchor</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Realm / Affinity:</label>
-                            <select id="edit-card-realm" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
-                                <option value="Fantasy">Fantasy</option>
-                                <option value="Tech">Tech</option>
-                                <option value="Magic">Magic</option>
-                                <option value="N/A">N/A (None)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Color:</label>
-                            <select id="edit-card-color" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
-                                <option value="Blue">Blue</option>
-                                <option value="Green">Green</option>
-                                <option value="Red">Red</option>
-                                <option value="Yellow">Yellow</option>
-                                <option value="Purple">Purple</option>
-                                <option value="White">White</option>
-                                <option value="N/A">N/A (Colorless)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Row 3: Cost, ATK, DEF -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Energy Cost:</label>
-                            <input type="text" id="edit-card-cost" placeholder="e.g. 1, 2, -" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">ATK:</label>
-                            <input type="text" id="edit-card-atk" placeholder="e.g. 2, -" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">DEF / HP:</label>
-                            <input type="text" id="edit-card-def" placeholder="e.g. 3, -" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
-                        </div>
-                    </div>
-
-                    <!-- Row 4: Keywords & Image File Name -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Keywords:</label>
-                            <input type="text" id="edit-card-keywords" placeholder="e.g. ARRIVE, VAPORIZE" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Image File Path / WebP:</label>
-                            <input type="text" id="edit-card-image" oninput="updateEditorImagePreview(this.value)" placeholder="Card_Images/Unit_001.webp" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 13px;">
-                        </div>
-                    </div>
-
-                    <!-- Row 5: Card Text & Abilities -->
-                    <div>
-                        <label style="display: block; font-size: 11px; font-weight: bold; color: #bbb; margin-bottom: 3px;">Card Text & Abilities:</label>
-                        <textarea id="edit-card-text" rows="5" placeholder="Enter complete rules text, arrive effects, or stack abilities..." style="width: 100%; box-sizing: border-box; background: #0e1017; color: #fff; border: 1px solid #3a3b4f; border-radius: 4px; padding: 8px 10px; font-size: 13px; line-height: 1.45; resize: vertical;"></textarea>
-                    </div>
-
-                    <!-- Save Status Banner -->
-                    <div id="card-editor-status-banner" style="display: none; padding: 8px 12px; border-radius: 4px; font-size: 12px;"></div>
-                </div>
-            </div>
-
-            <!-- Modal Footer Buttons -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #2a2c3d; padding-top: 12px; margin-top: 12px; flex-shrink: 0;">
-                <div style="font-size: 11px; color: #777;">
-                    Updates save immediately to your app and sync to your Google Sheet backend.
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-red" onclick="closeCardEditorModal()" style="padding: 7px 16px;">Cancel</button>
-                    <button class="btn-purple" onclick="addNewCardFromEditor()" style="padding: 7px 16px;">+ Add as New Card</button>
-                    <button id="btn-save-card-changes" class="btn-green" onclick="saveCardChangesFromEditor()" style="padding: 7px 22px; font-size: 13px; font-weight: bold;">Save Card to Sheet</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Mulligan Dialog Box -->
-            <div id="mulligan-modal" class="modal-hidden">
-                <div class="modal-content" style="max-width: 860px; width: 92vw; background: #161824; border: 2px solid #ffd700; box-shadow: 0 10px 40px rgba(0,0,0,0.85);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 12px; margin-bottom: 15px;">
-                        <div>
-                            <h2 style="margin: 0; color: #ffd700; font-size: 1.25rem;">Mulligan: Replace Hand Cards</h2>
-                            <div style="font-size: 12px; color: #aaa; margin-top: 4px;">
-                                Drag cards into the replacement box (or click cards in your hand below) to put them on the bottom of your Universe deck.
-                            </div>
-                        </div>
-                        <button class="close-btn" onclick="closeMulliganModal()">X</button>
-                    </div>
-
-                    <!-- MULLIGAN DROP ZONE -->
-                    <div style="margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <span style="font-size: 13px; font-weight: bold; color: #00b4ff;">
-                                Drop Zone &bull; Cards to Return to Bottom of Universe (<span id="mulligan-count">0</span>)
-                            </span>
-                            <span style="font-size: 11px; color: #888;">(Click a card in the drop zone to unselect it)</span>
-                        </div>
-                        <div id="mulligan-drop-zone" ondrop="dropOnMulliganZone(event)" ondragover="allowDrop(event)" style="min-height: 145px; border: 2.5px dashed #00b4ff; box-shadow: 0 0 0 1.5px #000, inset 0 0 20px rgba(0,0,0,0.6); border-radius: 8px; background: rgba(0, 180, 255, 0.06); padding: 12px; display: flex; gap: 10px; align-items: center; overflow-x: auto;">
-                            <div id="mulligan-empty-hint" style="color: #778; font-size: 13px; margin: auto; text-align: center;">
-                                Drag cards from hand here (or click any card from your hand below)
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CURRENT HAND SELECTION -->
-                    <div style="margin-bottom: 20px;">
-                        <div style="font-size: 13px; font-weight: bold; color: #ddd; margin-bottom: 6px;">
-                            Your Hand (<span id="mulligan-hand-count">0</span>)
-                        </div>
-                        <div id="mulligan-hand-grid" style="min-height: 140px; background: #111219; border: 1px solid #282a3c; border-radius: 8px; padding: 10px; display: flex; gap: 10px; align-items: center; overflow-x: auto;">
-                            <!-- Hand cards populated by JS -->
-                        </div>
-                    </div>
-
-                    <!-- MODAL FOOTER BUTTONS -->
-                    <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #2a2c3d; padding-top: 15px;">
-                        <button class="btn-red" onclick="closeMulliganModal()" style="padding: 8px 18px;">Cancel</button>
-                        <button id="btn-confirm-mulligan" class="btn-green" onclick="confirmMulligan()" style="padding: 8px 22px; font-size: 14px;" disabled>Confirm Mulligan (Replace 0)</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="reaction-modal" class="modal-hidden">
-                <div class="modal-content">
-                    <h2 style="margin-top: 0; color: #7289da;">Select a Re/Action Card</h2>
-                    <button class="close-btn" onclick="closeReactionModal()">X</button>
-                    <div id="reaction-modal-grid" class="modal-grid"></div>
-                </div>
-            </div>
-
-            
-    <!-- ================= SAVE DECK MODAL ================= -->
-    <div id="save-deck-modal" class="modal-hidden">
-        <div class="modal-content" style="max-width: 500px; width: 90vw; background: #161824; border: 2px solid #ffd700; box-shadow: 0 10px 40px rgba(0,0,0,0.85);">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 15px;">
-                <h2 style="margin: 0; color: #ffd700; font-size: 1.25rem;">Save Deck to Google Sheet</h2>
-                <button class="close-btn" onclick="closeSaveDeckModal()">X</button>
-            </div>
-            
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 12px; font-weight: bold; color: #bbb; margin-bottom: 6px;">Deck Name:</label>
-                <input type="text" id="save-deck-name-input" oninput="handleSaveDeckNameInput(this.value)" placeholder="Enter a unique deck name..." style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 10px; color: #fff; font-size: 14px;">
-            </div>
-
-            <!-- Status Badge: New vs Existing vs Locked -->
-            <div id="save-deck-status-box" style="margin-bottom: 15px; padding: 10px; border-radius: 4px; font-size: 12px; line-height: 1.4; display: none;"></div>
-
-            <!-- Admin Lock Checkbox (Visible in Admin Mode) -->
-            <div id="save-deck-admin-lock-row" style="margin-bottom: 15px; display: none; background: rgba(255, 215, 0, 0.08); padding: 8px 10px; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 4px;">
-                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #ffd700; cursor: pointer; font-weight: bold;">
-                    <input type="checkbox" id="save-deck-lock-checkbox">
-                    Mark as LOCKED ('X') in Google Sheet (Prevents non-admin changes)
-                </label>
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #2a2c3d; padding-top: 12px;">
-                <button class="btn-red" onclick="closeSaveDeckModal()" style="padding: 7px 16px;">Cancel</button>
-                <button id="btn-submit-save-deck" class="btn-green" onclick="submitSaveDeck()" style="padding: 7px 20px; font-size: 13px;">Save Deck</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= BACKEND & DECK LOCKS MODAL ================= -->
-    <div id="backend-modal" class="modal-hidden">
-        <div class="modal-content" style="max-width: 680px; width: 92vw; background: #161824; border: 2px solid #a479e2; box-shadow: 0 10px 40px rgba(0,0,0,0.85); max-height: 88vh; display: flex; flex-direction: column;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 12px; flex-shrink: 0;">
-                <div>
-                    <h2 style="margin: 0; color: #a479e2; font-size: 1.25rem;">Backend & Deck Management</h2>
-                    <div style="font-size: 11px; color: #aaa; margin-top: 3px;">Google Sheets database connection & override lock control</div>
-                </div>
-                <button class="close-btn" onclick="closeBackendModal()">X</button>
-            </div>
-
-            <div style="overflow-y: auto; padding-right: 4px; flex-grow: 1;">
-                <!-- Google Sheet Information -->
-                <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-size: 12px; font-weight: bold; color: #ffd700;">Google Sheet Database</span>
-                        <a href="https://docs.google.com/spreadsheets/d/1Z7mxql5ZswCbE927ZOIWmEbnadCA4fzIjLPyX3bqXFU/edit" target="_blank" style="color: #00b4ff; font-size: 11px; text-decoration: underline;">Open Google Sheet ↗</a>
-                    </div>
-                    <div style="font-size: 11px; color: #888; word-break: break-all;">
-                        Sheet: <b>Universe of Legends - Saved Decks</b><br>
-                        ID: <code style="color: #bbb;">1Z7mxql5ZswCbE927ZOIWmEbnadCA4fzIjLPyX3bqXFU</code>
-                    </div>
-                </div>
-
-                <!-- Web App Endpoint URL Configuration -->
-                <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
-                    <label style="display: block; font-size: 12px; font-weight: bold; color: #ddd; margin-bottom: 4px;">Google Apps Script Web App URL (for Saving):</label>
-                    <div style="display: flex; gap: 6px;">
-                        <input type="text" id="backend-webapp-url-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex-grow: 1; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 12px;">
-                        <button class="btn-blue" onclick="saveBackendWebappUrl()" style="padding: 7px 14px; font-size: 11px;">Save URL</button>
-                    </div>
-                    <div style="font-size: 10px; color: #777; margin-top: 4px;">
-                        Deploy your Google Apps Script in the Google Sheet (Extensions -> Apps Script -> Deploy as Web App) and paste the URL here.
-                    </div>
-                </div>
-
-                <!-- Admin Mode & Passcode Section -->
-                <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-size: 12px; font-weight: bold; color: #ffd700;">Admin Mode (Backend Deck Lock Control)</span>
-                        <span id="admin-status-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #333; color: #aaa;">User Mode</span>
-                    </div>
-                    <div style="display: flex; gap: 6px; align-items: center;">
-                        <input type="password" id="admin-passcode-input" placeholder="Enter admin passcode..." style="flex-grow: 1; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 12px;">
-                        <button class="btn-green" onclick="verifyAdminPasscode()" style="padding: 6px 14px; font-size: 11px;">Unlock Admin</button>
-                    </div>
-                </div>
-
-                <!-- Deck List Table with Lock Status -->
-                <div style="margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-size: 12px; font-weight: bold; color: #ddd;">Saved Decks Database (<span id="backend-deck-count">0</span>)</span>
-                        <button class="btn-blue" onclick="refreshSavedDecks()" style="padding: 3px 8px; font-size: 10px;">Refresh List</button>
-                    </div>
-                    <div id="backend-deck-table-container" style="max-height: 180px; overflow-y: auto; border: 1px solid #2a2c3d; border-radius: 6px; background: #0e1017;">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <!-- Local File Backup Utilities -->
-                <div style="border-top: 1px solid #2a2c3d; padding-top: 10px;">
-                    <div style="font-size: 11px; font-weight: bold; color: #888; margin-bottom: 6px;">Local File Backup (JSON):</div>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn-blue" onclick="exportDeckJson()" style="font-size: 11px; padding: 5px 10px;">Export Current Deck to JSON</button>
-                        <label class="btn-purple" style="font-size: 11px; padding: 5px 10px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center;">
-                            Import Deck from JSON <input type="file" accept=".json" onchange="importDeckJson(event)" style="display: none;">
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; border-top: 1px solid #2a2c3d; padding-top: 10px; margin-top: 10px; flex-shrink: 0;">
-                <button class="btn-blue" onclick="closeBackendModal()" style="padding: 6px 16px; font-size: 12px;">Close</button>
-            </div>
-        </div>
-    </div>
-
-            <!-- Unknown / Discard Modal -->
-            <div id="unknown-modal" class="modal-hidden">
-                <div class="modal-content">
-                    <h2 style="margin-top: 0; color: #bbb; display: flex; justify-content: space-between; align-items: center;">
-                        <span>The Unknown (Discard Pile) - <span id="unknown-modal-title-count">0</span> Cards</span>
-                        <span style="font-size: 12px; color: #00b4ff; font-weight: normal;">Click a card to revive to Activation Area</span>
-                    </h2>
-                    <button class="close-btn" onclick="closeUnknownModal()">X</button>
-                    <div id="unknown-modal-grid" class="modal-grid"></div>
-                </div>
-            </div>
-
-            <div id="search-modal" class="modal-hidden">
-                <div class="modal-content">
-                    <h2 style="margin-top: 0; color: #ffd700;">Search Main Universe Deck</h2>
-                    <button class="close-btn" onclick="closeSearchModal()">X</button>
-                    <div id="search-modal-grid" class="modal-grid"></div>
-                </div>
-
-    <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
-    
 </body>
 </html>

@@ -1,0 +1,18 @@
+[build]
+  publish = "."
+  command = "echo 'Static build ready for Universe of Legends TCG'"
+
+[[headers]]
+  for = "/Card_Images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/Assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

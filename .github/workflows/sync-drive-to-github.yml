@@ -1,0 +1,57 @@
+name: Sync Google Drive to GitHub & Netlify
+
+on:
+  # 1. Run manually anytime from the GitHub Actions tab
+  workflow_dispatch:
+  # 2. Run instantly when triggered by Google Apps Script webhook
+  repository_dispatch:
+    types: [google-drive-updated]
+  # 3. Optional scheduled check (every 30 minutes)
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-from-drive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-api-python-client google-auth pillow
+
+      - name: Sync Latest Files & Images from Google Drive
+        env:
+          GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          UOFL_GAME_FOLDER_ID: '1mNcsVt4O5QvL6npRBOEAgoc3jyH2ycm7'
+          ASSETS_FOLDER_ID: '1525qTxC8cIxsNOfzkyEO98oKh3FvUTD2'
+          CARD_IMAGES_FOLDER_ID: '1krDrBK95s6ZdQpiutz7iSw86mJkvOdNG'
+        run: |
+          python3 sync_from_drive.py
+
+      - name: Optimize Any New PNG Images to WebP
+        run: |
+          python3 optimize_images.py
+
+      - name: Commit and Push Changes (Triggers Netlify Auto-Deploy)
+        run: |
+          git config user.name "UofL Drive Sync Bot"
+          git config user.email "actions@github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes detected from Google Drive."
+          else
+            git commit -m "Auto-sync latest files and assets from Google Drive"
+            git push
+            echo "Changes pushed to GitHub! Netlify will now auto-deploy."
+          fi
