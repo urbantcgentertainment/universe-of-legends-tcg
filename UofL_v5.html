@@ -1623,22 +1623,60 @@
         }
 
         
-        /* Interactive On-Playmat Gh0st Practice Coach HUD */
+        /* Interactive On-Playmat Gh0st Practice Coach HUD (Dynamic Pop-up Positioning) */
         #ghost-coach-hud {
             display: none;
-            position: fixed;
-            bottom: 86px;
-            left: 16px;
-            width: 325px;
-            background: linear-gradient(155deg, rgba(10, 16, 32, 0.96) 0%, rgba(18, 14, 36, 0.97) 100%);
+            position: absolute;
+            width: 340px;
+            background: linear-gradient(155deg, rgba(8, 14, 28, 0.97) 0%, rgba(18, 14, 36, 0.98) 100%);
             border: 2px solid var(--tech-cyan);
             border-left: 5px solid var(--fantasy-gold);
             clip-path: var(--clip-panel);
-            padding: 10px 12px;
-            z-index: 800;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.9), 0 0 25px rgba(0, 229, 255, 0.35);
+            padding: 11px 13px;
+            z-index: 850;
+            box-shadow: 0 14px 45px rgba(0,0,0,0.92), 0 0 30px rgba(0, 229, 255, 0.45);
             color: #f0f4f8;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
+            transition: top 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.28s ease;
+        }
+        .ghost-coach-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+            filter: drop-shadow(0 0 8px var(--tech-cyan));
+        }
+        .ghost-coach-arrow-up {
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid var(--tech-cyan);
+        }
+        .ghost-coach-arrow-down {
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--tech-cyan);
+        }
+        .ghost-coach-arrow-right {
+            top: 50%;
+            right: -10px;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid var(--tech-cyan);
+        }
+        .ghost-coach-arrow-left {
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid var(--tech-cyan);
         }
         .ghost-coach-header {
             display: flex;
@@ -1758,12 +1796,11 @@
             z-index: 5;
             flex-grow: 1;
             display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 18px;
-            padding: 14px 22px;
+            grid-template-columns: 360px 1fr;
+            gap: 16px;
+            padding: 12px 20px;
             min-height: 0;
             overflow: hidden;
-            max-width: 1560px;
             width: 100%;
             margin: 0 auto;
         }
@@ -1772,7 +1809,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background: linear-gradient(160deg, rgba(12, 18, 34, 0.92) 0%, rgba(18, 14, 34, 0.94) 100%);
+            background: linear-gradient(160deg, rgba(10, 16, 32, 0.94) 0%, rgba(18, 14, 34, 0.96) 100%);
             border: 1.5px solid var(--tech-cyan-dim);
             border-left: 4px solid var(--tech-cyan);
             clip-path: var(--clip-panel);
@@ -1786,55 +1823,65 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 0 1 210px;
-            min-height: 110px;
+            flex: 0 1 200px;
+            min-height: 130px;
         }
         .htp-ghost-holo-ring {
             position: absolute;
-            width: 175px;
-            height: 175px;
+            width: 170px;
+            height: 170px;
             border-radius: 50%;
-            border: 1.5px dashed rgba(0, 229, 255, 0.45);
-            box-shadow: 0 0 35px rgba(0, 229, 255, 0.25), inset 0 0 25px rgba(255, 215, 0, 0.18);
+            border: 1.5px dashed rgba(0, 229, 255, 0.55);
+            box-shadow: 0 0 35px rgba(0, 229, 255, 0.3), inset 0 0 25px rgba(255, 215, 0, 0.2);
             animation: slowArcaneSpin 20s linear infinite;
             pointer-events: none;
         }
         .htp-ghost-img {
             position: relative;
             z-index: 2;
-            max-height: 195px;
+            max-height: 185px;
             width: auto;
             max-width: 90%;
             object-fit: contain;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 18px rgba(0, 229, 255, 0.5));
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 20px rgba(0, 229, 255, 0.55));
             animation: heroFloat 3.2s ease-in-out infinite alternate;
         }
         .htp-speech-box {
-            background: rgba(7, 10, 20, 0.92);
-            border: 1px solid rgba(0, 229, 255, 0.4);
+            background: rgba(7, 10, 20, 0.94);
+            border: 1px solid rgba(0, 229, 255, 0.45);
             border-left: 3.5px solid var(--fantasy-gold);
             clip-path: var(--clip-btn);
-            padding: 10px 12px;
+            padding: 12px 14px;
             flex: 1 1 auto;
             overflow-y: auto;
             margin: 8px 0;
-            box-shadow: inset 0 2px 12px rgba(0,0,0,0.7);
+            box-shadow: inset 0 2px 14px rgba(0,0,0,0.8);
         }
         .htp-speaker-tag {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 900;
             color: var(--tech-cyan);
             letter-spacing: 1.2px;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
         .htp-speech-text {
-            font-size: 12.5px;
-            line-height: 1.48;
-            color: #e8eef8;
+            font-size: 13.5px;
+            line-height: 1.55;
+            color: #edf2fb;
+        }
+        .htp-protip-card {
+            background: rgba(16, 22, 42, 0.88);
+            border: 1px dashed rgba(255, 215, 0, 0.4);
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-top: 6px;
+            font-size: 11px;
+            line-height: 1.38;
+            color: #cbd5e1;
         }
         .htp-nav-controls {
             display: flex;
@@ -1867,77 +1914,102 @@
             flex-shrink: 0;
         }
         .htp-board-title {
-            font-size: 1.2rem;
+            font-size: 1.35rem;
             font-weight: 900;
             color: var(--fantasy-gold);
             letter-spacing: 0.8px;
             text-transform: uppercase;
         }
         .htp-board-subtitle {
-            font-size: 11px;
+            font-size: 11.5px;
             color: var(--tech-cyan);
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
         }
         .htp-cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 10px;
-            margin-bottom: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
         }
         .htp-info-card {
-            background: rgba(16, 21, 38, 0.9);
-            border: 1px solid rgba(0, 229, 255, 0.25);
-            border-left: 3px solid var(--fantasy-gold);
+            background: rgba(14, 19, 36, 0.94);
+            border: 1px solid rgba(0, 229, 255, 0.32);
+            border-left: 3.5px solid var(--fantasy-gold);
             clip-path: var(--clip-btn);
-            padding: 10px 12px;
+            padding: 13px 15px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 7px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.6);
         }
         .htp-info-card-title {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12.5px;
-            font-weight: 800;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 900;
             color: var(--fantasy-gold);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
         }
         .htp-info-card-title img {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             object-fit: contain;
+            filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.45));
         }
         .htp-info-card-body {
-            font-size: 11.8px;
-            line-height: 1.42;
-            color: #d0d8e8;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #d6e0f0;
         }
         .htp-token-showcase {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 6px;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
         }
         .htp-token-card {
-            background: rgba(12, 15, 28, 0.95);
-            border: 1px solid rgba(255, 215, 0, 0.35);
-            border-radius: 6px;
-            padding: 8px;
+            background: rgba(10, 14, 26, 0.96);
+            border: 1.5px solid rgba(255, 215, 0, 0.4);
+            border-radius: 8px;
+            padding: 12px;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
         }
         .htp-token-card img {
-            width: 58px;
+            width: 95px;
             aspect-ratio: 2.5 / 3.5;
             object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid var(--fantasy-gold);
+            border-radius: 6px;
+            border: 1.5px solid var(--fantasy-gold);
             flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.85);
+        }
+        /* Stylized Mini Battlefield Diagram */
+        .htp-mini-battlefield {
+            background: radial-gradient(circle at 50% 50%, rgba(20, 26, 48, 0.85) 0%, rgba(8, 10, 20, 0.98) 100%);
+            border: 1.5px solid rgba(0, 229, 255, 0.35);
+            border-radius: 8px;
+            padding: 14px;
+            margin: 10px 0;
+            display: grid;
+            grid-template-columns: 140px 1fr 140px;
+            gap: 12px;
+            align-items: center;
+        }
+        .htp-mini-zone {
+            background: rgba(12, 16, 32, 0.9);
+            border: 1px dashed rgba(0, 229, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 800;
         }
 
         /* =====================================================================
@@ -2428,6 +2500,31 @@
 
     
 
+    <script>
+        function getDefaultCardBackSvg() {
+            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350" viewBox="0 0 250 350"><rect width="250" height="350" rx="12" fill="%230e1017" stroke="%23ffd700" stroke-width="4"/><rect x="15" y="15" width="220" height="320" rx="8" fill="%23171a24" stroke="%233a3b4f" stroke-width="2"/><circle cx="125" cy="175" r="55" fill="none" stroke="%23ffd700" stroke-width="3"/><text x="125" y="170" fill="%23ffd700" font-size="16" font-weight="bold" text-anchor="middle" font-family="sans-serif">UNIVERSE</text><text x="125" y="190" fill="%2300e5ff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">OF LEGENDS</text></svg>`;
+        }
+        function handleCardBackImgError(img) {
+            if (!img) return;
+            if (!img.dataset.triedWebp) {
+                img.dataset.triedWebp = 'true';
+                img.src = 'Assets/Regular_Card_Back.webp';
+                return;
+            }
+            if (!img.dataset.triedPng) {
+                img.dataset.triedPng = 'true';
+                img.src = 'Assets/Regular_Card_Back.png';
+                return;
+            }
+            if (!img.dataset.triedRoot) {
+                img.dataset.triedRoot = 'true';
+                img.src = 'Regular_Card_Back.png';
+                return;
+            }
+            img.onerror = null;
+            img.src = getDefaultCardBackSvg();
+        }
+    </script>
 </head>
 <body>
         <!-- Portrait Mode Mobile Advisory Overlay (Dismissible) -->
@@ -2755,7 +2852,7 @@
 
                 <!-- Interactive Universe Draw Deck with Regular Card Back -->
                 <div id="draw-deck-btn" class="deck-btn" onclick="drawCard()" oncontextmenu="searchDeckModal(event)" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border: 2px solid #ffd700; border-radius: 8px; position: absolute; z-index: 15; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8); background: #1a1c26;">
-                    <img id="draw-deck-img" src="Assets/Regular_Card_Back.png" alt="" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; pointer-events: none;" onerror="handleCardBackImgError(this);">
+                    <img id="draw-deck-img" src="Assets/Regular_Card_Back.webp" alt="Draw Deck" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; pointer-events: none;" onerror="handleCardBackImgError(this);">
                     <div class="btn-label" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 4px 10px; width: 85%; text-align: center; pointer-events: none; z-index: 2;">Draw<br><span id="deck-counter-card" style="font-size: 11px; color: #ffd700; font-weight: bold;">Main: 0</span></div>
                 </div>
             </div> <!-- End #playmat-surface -->
@@ -2778,6 +2875,7 @@
 
         <!-- Interactive Gh0st Coach HUD (Shown during Guided Practice Mode) -->
         <div id="ghost-coach-hud">
+            <div id="ghost-coach-arrow" class="ghost-coach-arrow ghost-coach-arrow-up"></div>
             <div class="ghost-coach-header">
                 <div style="display:flex;align-items:center;gap:6px;">
                     <img src="Assets/Support_Assets/Tech.webp" class="realm-emblem-glow" style="width:13px;height:13px;object-fit:contain;" onerror="handleSupportAssetError(this,'Tech.png')">
@@ -7314,6 +7412,14 @@
             updateUnknownCount();
             resetActionLog();
             logAction(`Started playtest with ${playtestDeck.length} cards in Main Deck and ${playtestBarrierDeck.length} Barriers.`);
+            const drawDeckImg = document.getElementById('draw-deck-img');
+            if (drawDeckImg) {
+                drawDeckImg.dataset.triedWebp = '';
+                drawDeckImg.dataset.triedPng = '';
+                drawDeckImg.dataset.triedRoot = '';
+                drawDeckImg.src = 'Assets/Regular_Card_Back.webp';
+                drawDeckImg.onerror = () => handleCardBackImgError(drawDeckImg);
+            }
 
             const playmat = document.getElementById('playmat');
             if (playmat) {
@@ -7762,6 +7868,7 @@ function renderPlaytestBarrier() {
             const counterCard = document.getElementById('deck-counter-card');
             if (counterCard) counterCard.innerText = `Main: ${playtestDeck.length}`;
 
+            if (typeof notifyGhostPracticeEvent === "function") notifyGhostPracticeEvent("starting_hand");
             logAction("Drew 7 cards for Starting Hand", () => {
                 drawn.forEach(card => {
                     playtestDeck.push(card);
@@ -8207,6 +8314,9 @@ function renderPlaytestBarrier() {
             cardEl.classList.toggle('rotated');
             const cName = cardEl.cardData ? cardEl.cardData.name : 'Card';
             const isEnergyZone = Boolean(cardEl.dataset && cardEl.dataset.zone === 'bottom-fan-zone');
+            if (typeof notifyGhostPracticeEvent === "function" && isNowRested) {
+                notifyGhostPracticeEvent("card_rotated", cardEl.dataset ? cardEl.dataset.zone : "");
+            }
             const actionText = isNowRested
                 ? (isEnergyZone ? `Rested "${cName}" for energy` : `Rested "${cName}"`)
                 : `Readied "${cName}"`;
@@ -8436,6 +8546,9 @@ function renderPlaytestBarrier() {
             }
 
             zonesToUpdate.forEach(zId => repositionCardsInZone(zId));
+            if (typeof notifyGhostPracticeEvent === "function" && targetZone) {
+                notifyGhostPracticeEvent("card_dropped", targetZone.id);
+            }
             selectedElements.clear();
             updateSelectionVisuals();
             ['mid-zone-1', 'mid-zone-2', 'mid-zone-3', 'mid-zone-4'].forEach(z => updateZoneCombatStats(z));
@@ -8615,164 +8728,237 @@ function renderPlaytestBarrier() {
         const HOW_TO_PLAY_STEPS = [
             {
                 tabLabel: "1. Objective",
-                subtitle: "MODULE 01 // CORE OBJECTIVE & VICTORY",
+                subtitle: "MODULE 01 // CORE OBJECTIVE & BATTLEFIELD OVERVIEW",
                 title: "Welcome to Universe of Legends TCG",
                 avatar: "Assets/Support_Assets/Gh0st_Full.webp",
                 avatarPng: "Gh0st_Full.png",
-                speech: "Greetings, Traveler! I am <b>Gh0st, your Simulated Tech Partner</b>. In <i>Universe of Legends TCG</i>, two players clash across the realms of <b>Magic</b>, <b>Fantasy</b>, and <b>Technology</b>. Your mission is simple: <b>break all 5 of your opponent's Barriers, then land one final unblocked attack to destroy their Universe and win!</b>",
+                speech: "Greetings, Traveler! I am <b>Gh0st, your Simulated Tech Partner</b>. In <i>Universe of Legends TCG</i>, you duel across the realms of <b>Magic</b>, <b>Fantasy</b>, and <b>Technology</b>. Your core objective is straightforward: <b>break all 5 of your opponent's Barriers, then land one final direct attack to destroy their Universe and claim victory!</b>",
+                proTip: "<b>Tactical Pro-Tip:</b> Units have <i>no summoning sickness</i>! Any Unit you summon during your Main Phase can immediately attack the very turn it is played.",
                 renderBoard: () => `
                     <div class="htp-cards-grid">
-                        <div class="htp-info-card">
+                        <div class="htp-info-card" style="border-left-color: var(--crystal-blue);">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Barrier_Card_Back.webp" onerror="this.src='Assets/Barrier_Card_Back.png'">
-                                <span>Step 1: Break 5 Barriers</span>
+                                <span>Phase 1: Break 5 Barriers</span>
                             </div>
                             <div class="htp-info-card-body">
-                                Every player starts with <b>5 unique Barrier cards</b> stacked in their Barrier Zone, with the top Barrier flipped face-up. Each time you land an unblocked attack against your opponent's Barrier Zone, their active Barrier is destroyed and the next one reveals!
+                                Both players start with <b>5 unique Barrier cards</b> in their Barrier Zone, with the top Barrier turned face-up. Each unblocked attack against your opponent's Barrier Zone destroys their active Barrier and flips the next one into play.
                             </div>
                         </div>
-                        <div class="htp-info-card">
+                        <div class="htp-info-card" style="border-left-color: var(--crystal-red);">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Support_Assets/ic_attack.webp" onerror="handleSupportAssetError(this,'ic_attack.png')">
-                                <span>Step 2: Strike the Final Blow</span>
+                                <span>Phase 2: Strike the Final Blow</span>
                             </div>
                             <div class="htp-info-card-body">
-                                Once your opponent has <b>0 Barriers remaining</b>, their Universe is exposed. Land one more unblocked attack with any active Unit to shatter their Universe and claim victory!
+                                Once your opponent has <b>0 Barriers remaining</b>, their Universe is exposed to direct damage. Land one more unblocked attack with any active Field Unit to shatter their Universe and win the game!
                             </div>
                         </div>
                     </div>
-                    <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
-                        <div class="htp-info-card-title" style="color: var(--tech-cyan);">
-                            <img src="Assets/Support_Assets/Mini_Logo.webp" onerror="handleSupportAssetError(this,'Mini_Logo.png')">
-                            <span>Battlefield Zones at a Glance</span>
+
+                    <!-- Visual Mini Battlefield Map -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--tech-cyan); letter-spacing: 1px; text-transform: uppercase; margin: 8px 0 4px;">
+                        Interactive Battlefield Zone Map
+                    </div>
+                    <div class="htp-mini-battlefield">
+                        <!-- Left: Barrier Zone -->
+                        <div class="htp-mini-zone" style="border-color: var(--fantasy-gold); color: var(--fantasy-gold);">
+                            <img src="Assets/Barrier_Card_Back.webp" style="height: 38px; width: auto; margin-bottom: 3px;" onerror="this.src='Assets/Barrier_Card_Back.png'"><br>
+                            <b>BARRIER ZONE</b><br>
+                            <span style="font-size: 9.5px; color: #bbb; font-weight: normal;">5 Barrier Cards Stacked (Life Points)</span>
                         </div>
-                        <div class="htp-info-card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 4px;">
-                            <div><b style="color:var(--fantasy-gold);">• 4 Main Field Zones:</b> Where you summon Units (Minions, Legends, Celestials) and deploy Anchors.</div>
-                            <div><b style="color:var(--crystal-green);">• Energy Zone (Max 10):</b> Where you charge cards once per turn to pay Energy Costs and trigger <b>SPARK</b> abilities.</div>
-                            <div><b style="color:var(--crystal-blue);">• Activation Area (The Flow):</b> Where played Actions, Re-Actions, and spawned Tokens resolve.</div>
-                            <div><b style="color:var(--crystal-purple);">• The Unknown:</b> Your discard and destroyed pile—cards here can only return via specific abilities.</div>
+
+                        <!-- Center: 4 Main Field Zones + Energy Zone -->
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                                <div class="htp-mini-zone" style="color: #69f0ae;">
+                                    <b>UNIT 1</b><br><span style="font-size: 9px; color: #888; font-weight: normal;">Combat</span>
+                                </div>
+                                <div class="htp-mini-zone" style="color: #69f0ae;">
+                                    <b>UNIT 2</b><br><span style="font-size: 9px; color: #888; font-weight: normal;">Combat</span>
+                                </div>
+                                <div class="htp-mini-zone" style="color: #69f0ae;">
+                                    <b>UNIT 3</b><br><span style="font-size: 9px; color: #888; font-weight: normal;">Combat</span>
+                                </div>
+                                <div class="htp-mini-zone" style="color: #69f0ae;">
+                                    <b>UNIT 4</b><br><span style="font-size: 9px; color: #888; font-weight: normal;">Combat</span>
+                                </div>
+                            </div>
+                            <div class="htp-mini-zone" style="border-color: var(--crystal-green); color: var(--crystal-green);">
+                                <b>ENERGY ZONE (MAX 10 CARDS)</b><br>
+                                <span style="font-size: 9.5px; color: #bbb; font-weight: normal;">Charge cards to pay Energy Costs • Cards with SPARK activate abilities here</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: The Flow & Draw Piles -->
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <div class="htp-mini-zone" style="border-radius: 50%; aspect-ratio: 1; border-color: #00b4ff; color: #00b4ff; display: flex; flex-direction: column; justify-content: center;">
+                                <b>THE FLOW</b><br><span style="font-size: 9px; color: #888; font-weight: normal;">Action Area</span>
+                            </div>
+                            <div class="htp-mini-zone" style="border-color: var(--crystal-purple); color: var(--crystal-purple);">
+                                <b>THE UNKNOWN</b><br><span style="font-size: 9px; color: #888; font-weight: normal;">Discard Pile</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Key Principles -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px;">
+                        <div class="htp-info-card" style="padding: 9px 11px;">
+                            <div style="font-size: 11px; font-weight: 800; color: var(--fantasy-gold);">1. FLUID TURNS</div>
+                            <div style="font-size: 10.5px; color: #cbd5e1; line-height: 1.35;">You can play cards, activate abilities, and declare attacks in any order you choose during your Main Phase.</div>
+                        </div>
+                        <div class="htp-info-card" style="padding: 9px 11px;">
+                            <div style="font-size: 11px; font-weight: 800; color: var(--tech-cyan);">2. SIMULTANEOUS DAMAGE</div>
+                            <div style="font-size: 10.5px; color: #cbd5e1; line-height: 1.35;">Battling units deal their ATK to each other's DEF at the exact same time. Surviving units heal at end of turn.</div>
+                        </div>
+                        <div class="htp-info-card" style="padding: 9px 11px;">
+                            <div style="font-size: 11px; font-weight: 800; color: var(--crystal-purple);">3. THE UNKNOWN REVIVAL</div>
+                            <div style="font-size: 10.5px; color: #cbd5e1; line-height: 1.35;">Destroyed cards enter The Unknown. Many Legends and Re-Actions can revive cards back to the field!</div>
                         </div>
                     </div>
                 `
             },
             {
                 tabLabel: "2. Realms & Colors",
-                subtitle: "MODULE 02 // REALMS & BARRIER COLORS",
-                title: "The Three Realms & Six Barrier Colors",
+                subtitle: "MODULE 02 // THE THREE REALMS & SIX BARRIER COLORS",
+                title: "Realms, Color Affinities & Deck Requirements",
                 avatar: "Assets/Support_Assets/Gh0st_Crop.webp",
                 avatarPng: "Gh0st_Crop.png",
-                speech: "Every card belongs to one of <b>Three Realms</b>—<b>Magic</b>, <b>Fantasy</b>, or <b>Technology</b>—and carries a <b>Color Requirement</b>. The <b>5 Barrier cards</b> you choose during deck building define which colors you are allowed to put into your Universe and Re/Action decks!",
+                speech: "Every card in the game belongs to one of <b>Three Realms</b>—<b>Magic</b>, <b>Fantasy</b>, or <b>Technology</b>—and carries a <b>Color Requirement</b>. The 5 Barrier cards you choose during deck building define the colors you can include in your Universe and Re/Action decks!",
+                proTip: "<b>Double Barrier Synergy:</b> Certain premier Legends require <b>2 Barriers of the same color</b> to unlock their most powerful secondary effects!",
                 renderBoard: () => `
-                    <div class="htp-cards-grid">
+                    <!-- The Three Realms -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--tech-cyan); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;">
+                        The Three Core Realms
+                    </div>
+                    <div class="htp-cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 12px;">
                         <div class="htp-info-card" style="border-left-color: var(--magic-purple);">
                             <div class="htp-info-card-title" style="color: var(--crystal-purple);">
                                 <img src="Assets/Support_Assets/Magic.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Magic.png')">
                                 <span>Magic Realm</span>
                             </div>
-                            <div class="htp-info-card-body">Masters of arcane manipulation, spell chains on The Flow, hand control, and Temptation tokens.</div>
+                            <div class="htp-info-card-body">
+                                Masters of arcane spell-weaving, rapid hand cycling, graveyard revival from The Unknown, and negative Temptation tokens.
+                            </div>
                         </div>
                         <div class="htp-info-card" style="border-left-color: var(--fantasy-gold);">
                             <div class="htp-info-card-title" style="color: var(--fantasy-gold);">
                                 <img src="Assets/Support_Assets/Fantasy.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Fantasy.png')">
                                 <span>Fantasy Realm</span>
                             </div>
-                            <div class="htp-info-card-body">Legendary heroes, mythical Familiars, high-seas raiders, and multi-item weapon stacking.</div>
+                            <div class="htp-info-card-body">
+                                Mythical Legends, high-seas pirates, loyal Familiar minion companions, and multi-item weapon stacking.
+                            </div>
                         </div>
                         <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
                             <div class="htp-info-card-title" style="color: var(--tech-cyan);">
                                 <img src="Assets/Support_Assets/Tech.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Tech.png')">
                                 <span>Technology Realm</span>
                             </div>
-                            <div class="htp-info-card-body">Precision D-Rangers, cybernetic armor, Mobilize unit formations, Shield/Sealed tokens, and Energy acceleration.</div>
+                            <div class="htp-info-card-body">
+                                Precision D-Ranger task forces, cybernetic armor, Mobilize unit stacking, protective Shield tokens, and energy acceleration.
+                            </div>
                         </div>
                     </div>
-                    <div class="htp-info-card">
-                        <div class="htp-info-card-title">
-                            <span>The 5 Barrier Colors + White / Neutral Affinity</span>
+
+                    <!-- 6 Official Color Affinities -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase; margin: 10px 0 6px;">
+                        The 5 Barrier Colors &amp; Neutral Affinity
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(0,180,255,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(0,180,255,0.35);">
+                            <img src="Assets/Support_Assets/Blue_Color.webp" style="width:30px;height:30px;object-fit:contain;" onerror="handleSupportAssetError(this,'Blue_Color.png')">
+                            <div><b style="color:var(--crystal-blue);font-size:12px;">Blue (Wisdom / Ocean)</b><br><span style="font-size:11px;color:#c0d0e8;">Card draw, protection, and coastal Anchors like The Sin Parar.</span></div>
                         </div>
-                        <div class="htp-info-card-body">
-                            Your 5 Barriers unlock your deck's colors. Some powerful Legends require <b>2 Barriers of the same color</b> active to unlock their strongest effects!
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 8px; margin-top: 8px;">
-                                <div style="display:flex;align-items:center;gap:6px;background:rgba(0,180,255,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(0,180,255,0.35);">
-                                    <img src="Assets/Support_Assets/Blue_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Blue_Color.png')">
-                                    <b>Blue</b>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:6px;background:rgba(0,230,118,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(0,230,118,0.35);">
-                                    <img src="Assets/Support_Assets/Green_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Green_Color.png')">
-                                    <b>Green</b>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:6px;background:rgba(255,61,87,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(255,61,87,0.35);">
-                                    <img src="Assets/Support_Assets/Red_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Red_Color.png')">
-                                    <b>Red</b>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(255,215,0,0.35);">
-                                    <img src="Assets/Support_Assets/Yellow_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Yellow_Color.png')">
-                                    <b>Yellow</b>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:6px;background:rgba(157,78,221,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(157,78,221,0.35);">
-                                    <img src="Assets/Support_Assets/Purple_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Purple_Color.png')">
-                                    <b>Purple</b>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:6px;background:rgba(226,232,240,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(226,232,240,0.35);">
-                                    <img src="Assets/Support_Assets/Neutral_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Neutral_Color.png')">
-                                    <b>White / Neutral</b>
-                                </div>
-                            </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(0,230,118,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(0,230,118,0.35);">
+                            <img src="Assets/Support_Assets/Green_Color.webp" style="width:30px;height:30px;object-fit:contain;" onerror="handleSupportAssetError(this,'Green_Color.png')">
+                            <div><b style="color:var(--crystal-green);font-size:12px;">Green (Growth / Nature)</b><br><span style="font-size:11px;color:#c0d0e8;">Energy ramp, raw attack power, and Crossroads of Wealth.</span></div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,61,87,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(255,61,87,0.35);">
+                            <img src="Assets/Support_Assets/Red_Color.webp" style="width:30px;height:30px;object-fit:contain;" onerror="handleSupportAssetError(this,'Red_Color.png')">
+                            <div><b style="color:var(--crystal-red);font-size:12px;">Red (Power / Combat)</b><br><span style="font-size:11px;color:#c0d0e8;">Aggressive unit removal, burn damage, and Crossroads of Power.</span></div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,215,0,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(255,215,0,0.35);">
+                            <img src="Assets/Support_Assets/Yellow_Color.webp" style="width:30px;height:30px;object-fit:contain;" onerror="handleSupportAssetError(this,'Yellow_Color.png')">
+                            <div><b style="color:var(--crystal-yellow);font-size:12px;">Yellow (Justice / Order)</b><br><span style="font-size:11px;color:#c0d0e8;">Control, resting enemy units, and Sealed tokens like Crossroads of Justice.</span></div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(157,78,221,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(157,78,221,0.35);">
+                            <img src="Assets/Support_Assets/Purple_Color.webp" style="width:30px;height:30px;object-fit:contain;" onerror="handleSupportAssetError(this,'Purple_Color.png')">
+                            <div><b style="color:var(--crystal-purple);font-size:12px;">Purple (Mystery / Arcane)</b><br><span style="font-size:11px;color:#c0d0e8;">Graveyard recursion, summoning from The Unknown, and Crossroads of Mystery.</span></div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(226,232,240,0.1);padding:8px 12px;border-radius:6px;border:1px solid rgba(226,232,240,0.35);">
+                            <img src="Assets/Support_Assets/Neutral_Color.webp" style="width:30px;height:30px;object-fit:contain;" onerror="handleSupportAssetError(this,'Neutral_Color.png')">
+                            <div><b style="color:#e2e8f0;font-size:12px;">White / Neutral</b><br><span style="font-size:11px;color:#c0d0e8;">Universal cards that can be included in any deck regardless of Barrier colors.</span></div>
                         </div>
                     </div>
                 `
             },
             {
                 tabLabel: "3. Card Types",
-                subtitle: "MODULE 03 // CARD TYPES & STAT ICONS",
-                title: "Card Types & How to Read Stats",
+                subtitle: "MODULE 03 // CARD TYPES & ANATOMY BREAKDOWN",
+                title: "Card Classifications & Official Stat Icons",
                 avatar: "Assets/Support_Assets/Gh0st_Full.webp",
                 avatarPng: "Gh0st_Full.png",
-                speech: "Your arsenal consists of <b>Five Card Types</b>. Pay close attention to a card's <b>Energy Cost</b>, <b>Attack Power (ATK)</b>, <b>Defense Power (DEF)</b>, and <b>Item Slots</b>—I've highlighted the official symbols on the holo-board for you!",
+                speech: 'Your forces consist of <b>Five Distinct Card Types</b>. Always check a card\'s <b>Energy Cost</b>, <b>Attack Power (ATK)</b>, and <b>Defense Power (DEF)</b>. Legends also feature <b>Item Slots</b> allowing them to equip powerful weapons and artifacts!',
+                proTip: "<b>0-Weight Items:</b> Items with a weight of 0 can be equipped under <i>any</i> Unit on your field, not just Legends!",
                 renderBoard: () => `
-                    <div class="htp-cards-grid">
+                    <!-- 5 Card Classifications -->
+                    <div class="htp-cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 12px;">
                         <div class="htp-info-card">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Support_Assets/ic_attack.webp" onerror="handleSupportAssetError(this,'ic_attack.png')">
                                 <span>Units (Minions, Legends, Celestials)</span>
                             </div>
-                            <div class="htp-info-card-body">Your main attackers and defenders deployed into your 4 Field Zones. <b>Legends</b> can equip Items up to their Item Slot capacity.</div>
+                            <div class="htp-info-card-body">
+                                <b>Minions:</b> Frontline combatants (up to 3 copies per deck).<br>
+                                <b>Legends:</b> Powerful named heroes with unique abilities &amp; Item Slots (max 1 copy).<br>
+                                <b>Celestials:</b> Rare cosmic game-changers (max 1 copy).
+                            </div>
                         </div>
                         <div class="htp-info-card">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Support_Assets/Item.webp" onerror="handleSupportAssetError(this,'Item.png')">
                                 <span>Items &amp; Anchors</span>
                             </div>
-                            <div class="htp-info-card-body"><b>Items</b> stack under Legends to grant bonus stats and abilities. <b>Anchors</b> are powerful relics or locations that occupy one of your 4 Field Zones.</div>
+                            <div class="htp-info-card-body">
+                                <b>Items:</b> Weapons, artifacts, and tools stacked under Legends to grant stat buffs and abilities.<br>
+                                <b>Anchors:</b> Powerful permanent relics or locations that occupy one of your 4 field zones.
+                            </div>
                         </div>
                         <div class="htp-info-card">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Reaction.webp" onerror="this.src='Assets/Reaction.png'">
                                 <span>Actions &amp; Re-Actions</span>
                             </div>
-                            <div class="htp-info-card-body">Played directly from your separate <b>Re/Action Deck</b> by resting Energy! <b>Actions</b> play on your turn; <b>Re-Actions</b> can be played on <i>either</i> player's turn!</div>
+                            <div class="htp-info-card-body">
+                                Played from your separate <b>Re/Action Deck</b> by resting Energy.<br>
+                                <b>Actions:</b> Can only be played on your turn.<br>
+                                <b>Re-Actions:</b> Can be played on <i>either</i> player's turn onto The Flow!
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Official Stat Symbols Card -->
                     <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
                         <div class="htp-info-card-title" style="color: var(--tech-cyan);">
-                            <span>Official Card Stat Symbols</span>
+                            <span>Official Card Stat Readout Guide</span>
                         </div>
-                        <div class="htp-info-card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px; margin-top: 4px;">
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <img src="Assets/Support_Assets/Element_board.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'Element_board.png')">
-                                <div><b style="color:var(--fantasy-gold);">Energy Cost</b><br>Number of Energy cards you must rest to play the card.</div>
+                        <div class="htp-info-card-body" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 4px;">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <img src="Assets/Support_Assets/Element_board.webp" style="width:34px;height:34px;object-fit:contain;" onerror="handleSupportAssetError(this,'Element_board.png')">
+                                <div><b style="color:var(--fantasy-gold);font-size:12px;">Energy Cost</b><br><span style="font-size:11px;color:#cbd5e1;">Number of cards in Energy Zone that must be rested to play.</span></div>
                             </div>
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <img src="Assets/Support_Assets/ic_attack.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'ic_attack.png')">
-                                <div><b style="color:#ff8a80;">Attack Power (ATK)</b><br>Damage dealt during combat (<img src="Assets/Support_Assets/Symbols_Atk.webp" style="width:11px;height:11px;vertical-align:-1px;" onerror="handleSupportAssetError(this,'Symbols_Atk.png')">).</div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <img src="Assets/Support_Assets/ic_attack.webp" style="width:34px;height:34px;object-fit:contain;" onerror="handleSupportAssetError(this,'ic_attack.png')">
+                                <div><b style="color:#ff8a80;font-size:12px;">Attack Power (ATK)</b><br><span style="font-size:11px;color:#cbd5e1;">Damage dealt during battle (<img src='Assets/Support_Assets/Symbols_Atk.webp' style='width:10px;height:10px;vertical-align:-1px;' onerror='handleSupportAssetError(this,"Symbols_Atk.png")'>).</span></div>
                             </div>
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <img src="Assets/Support_Assets/ic_shield.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'ic_shield.png')">
-                                <div><b style="color:#69f0ae;">Defense Power (DEF)</b><br>Health before being destroyed (<img src="Assets/Support_Assets/Symbols_Health.webp" style="width:11px;height:11px;vertical-align:-1px;" onerror="handleSupportAssetError(this,'Symbols_Health.png')">). Resets at end of turn.</div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <img src="Assets/Support_Assets/ic_shield.webp" style="width:34px;height:34px;object-fit:contain;" onerror="handleSupportAssetError(this,'ic_shield.png')">
+                                <div><b style="color:#69f0ae;font-size:12px;">Defense Power (DEF)</b><br><span style="font-size:11px;color:#cbd5e1;">Health before destroyed (<img src='Assets/Support_Assets/Symbols_Health.webp' style='width:10px;height:10px;vertical-align:-1px;' onerror='handleSupportAssetError(this,"Symbols_Health.png")'>). Heals at end of turn.</span></div>
                             </div>
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <img src="Assets/Support_Assets/Item_Slots.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'Item_Slots.png')">
-                                <div><b style="color:var(--tech-cyan);">Item Slots / Weight</b><br>Legends hold up to 3 Item Slots; 0-weight Items fit on any unit!</div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <img src="Assets/Support_Assets/Item_Slots.webp" style="width:34px;height:34px;object-fit:contain;" onerror="handleSupportAssetError(this,'Item_Slots.png')">
+                                <div><b style="color:var(--tech-cyan);font-size:12px;">Item Slots &amp; Weight</b><br><span style="font-size:11px;color:#cbd5e1;">Legends hold up to 3 Item Slots; item weight occupies slots.</span></div>
                             </div>
                         </div>
                     </div>
@@ -8780,64 +8966,93 @@ function renderPlaytestBarrier() {
             },
             {
                 tabLabel: "4. Deck & Setup",
-                subtitle: "MODULE 04 // DECK BUILDING & PRE-GAME SETUP",
-                title: "Building Your Deck & Starting a Match",
+                subtitle: "MODULE 04 // DECK BUILDING & 4-STEP MATCH SETUP",
+                title: "Deck Construction & How to Begin a Duel",
                 avatar: "Assets/Support_Assets/Gh0st_Crop.webp",
                 avatarPng: "Gh0st_Crop.png",
-                speech: "Before entering battle, you assemble <b>Three Separate Decks</b>: your 5 Barriers, your 40–50 card Universe Deck, and up to 10 Re/Action cards. Once at the table, follow these 4 setup steps to begin!",
+                speech: "Every competitor prepares <b>Three Separate Decks</b> before a match: their 5 Barriers, their 40–50 card Universe Deck, and up to 10 Re/Action cards. When sitting down to duel, follow these 4 pre-game steps to deploy onto the board!",
+                proTip: "<b>Mulligan Strategy:</b> Because you place 2 cards into your Energy Zone right after your Mulligan, keep at least one card with <b>SPARK</b> in your opening hand!",
                 renderBoard: () => `
-                    <div class="htp-cards-grid">
-                        <div class="htp-info-card">
+                    <!-- 3 Deck Construction Pillars -->
+                    <div class="htp-cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 12px;">
+                        <div class="htp-info-card" style="border-left-color: var(--fantasy-gold);">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Barrier_Card_Back.webp" onerror="this.src='Assets/Barrier_Card_Back.png'">
                                 <span>1. Barrier Deck (Exactly 5)</span>
                             </div>
-                            <div class="htp-info-card-body">Choose <b>5 different Barrier cards</b> (max 1 of each). Their colors unlock the cards you can include in your other decks.</div>
+                            <div class="htp-info-card-body">
+                                • Exactly <b>5 unique Barrier cards</b> (max 1 of each).<br>
+                                • Defines the Color Requirements allowed in your Universe &amp; Re/Action decks.<br>
+                                • Placed in the Barrier Zone; top Barrier is revealed face-up.
+                            </div>
                         </div>
-                        <div class="htp-info-card">
+                        <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Regular_Card_Back.webp" onerror="this.src='Assets/Regular_Card_Back.png'">
                                 <span>2. Universe Deck (40–50 Cards)</span>
                             </div>
-                            <div class="htp-info-card-body">Contains Units, Items, and Anchors. Up to <b>3 copies</b> of any Minion or Item, and <b>1 copy</b> of any Legend, Celestial, or Anchor.</div>
+                            <div class="htp-info-card-body">
+                                • <b>40 to 50 cards</b> total consisting of Units, Items, and Anchors.<br>
+                                • Max <b>3 copies</b> of any unique Minion or Item.<br>
+                                • Max <b>1 copy</b> of any unique Legend, Celestial, or Anchor.
+                            </div>
                         </div>
-                        <div class="htp-info-card">
+                        <div class="htp-info-card" style="border-left-color: var(--magic-purple);">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Reaction.webp" onerror="this.src='Assets/Reaction.png'">
                                 <span>3. Re/Action Deck (Up to 10)</span>
                             </div>
-                            <div class="htp-info-card-body">Up to <b>10 unique Action / Re-Action cards</b> (max 1 of each). At most <b>1 "Alpha"</b> Action or Re-Action is permitted in your deck!</div>
+                            <div class="htp-info-card-body">
+                                • Up to <b>10 unique cards</b> (max 1 of each).<br>
+                                • At most <b>1 'Alpha' Action or Re-Action</b> allowed in your entire deck!<br>
+                                • Kept face-down in your Re/Action Deck zone.
+                            </div>
                         </div>
                     </div>
-                    <div class="htp-info-card" style="border-left-color: var(--crystal-green);">
-                        <div class="htp-info-card-title" style="color: var(--crystal-green);">
-                            <span>Match Setup Sequence (Step-by-Step)</span>
+
+                    <!-- 4-Step Match Setup Timeline -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--crystal-green); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;">
+                        The 4-Step Match Setup Timeline
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        <div class="htp-info-card" style="padding: 10px 12px; border-left-color: var(--tech-cyan);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--tech-cyan);">STEP 1: SHUFFLE &amp; DRAW 7</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Shuffle Universe &amp; Barrier decks into zones. Draw your initial <b>7-card hand</b>.</div>
                         </div>
-                        <div class="htp-info-card-body">
-                            <b>1. Shuffle &amp; Draw 7:</b> Shuffle your Universe and Barrier decks into their zones, then draw a <b>7-card starting hand</b>.<br>
-                            <b>2. Mulligan (Optional):</b> Place any number of cards from your hand on the <i>bottom</i> of your Universe Deck, then draw back up to 7 cards.<br>
-                            <b>3. Starting Resources (Charge 2):</b> Choose <b>2 cards from your hand</b> and place them face-up into your <b>Energy Zone</b> as starting resources. <i>Tip: Prioritize cards with the <b>SPARK</b> keyword so you can activate their Energy Zone abilities!</i><br>
-                            <b>4. First Turn &amp; Barrier Reveal:</b> Roll a die (high roll goes first). Both players flip their top Barrier card face-up and resolve any <i>On Reveal</i> abilities!
+                        <div class="htp-info-card" style="padding: 10px 12px; border-left-color: var(--fantasy-gold);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--fantasy-gold);">STEP 2: MULLIGAN DECISION</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Optionally place any number of cards on the bottom of your deck, then redraw to 7.</div>
+                        </div>
+                        <div class="htp-info-card" style="padding: 10px 12px; border-left-color: var(--crystal-green);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--crystal-green);">STEP 3: CHARGE 2 ENERGY</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Choose <b>2 cards from your hand</b> and place them into the Energy Zone as starting resources.</div>
+                        </div>
+                        <div class="htp-info-card" style="padding: 10px 12px; border-left-color: var(--crystal-purple);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--crystal-purple);">STEP 4: BARRIER REVEAL</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Roll a die (high roll goes first). Both players flip top Barrier face-up &amp; resolve <i>On-Reveal</i>!</div>
                         </div>
                     </div>
                 `
             },
             {
                 tabLabel: "5. Turn Phases",
-                subtitle: "MODULE 05 // FLUID TURN STRUCTURE",
-                title: "The Three Phases of Every Turn",
+                subtitle: "MODULE 05 // FLUID TURN STRUCTURE & ENERGY ECONOMY",
+                title: "Draw Phase, Charge Phase & Fluid Main Phase",
                 avatar: "Assets/Support_Assets/Gh0st_Full.webp",
                 avatarPng: "Gh0st_Full.png",
-                speech: "Turns in <i>Universe of Legends</i> are fluid and tactical! After your <b>Draw Phase</b> and <b>Charge Phase</b>, your <b>Main Phase</b> lets you play cards, activate abilities, and attack in any order you choose!",
+                speech: "Unlike rigid turn games, <i>Universe of Legends</i> gives you complete tactical freedom during your <b>Main Phase</b>! After drawing and charging energy, you can summon units, attack, equip items, and activate abilities in any sequence you desire!",
+                proTip: "<b>Resting &amp; Standing:</b> In the Testing Arena, <b>double-click</b> (or double-tap on mobile) any card on the field or in the Energy Zone to rotate/rest it! Resting in the Energy Zone generates energy.",
                 renderBoard: () => `
-                    <div class="htp-cards-grid">
+                    <!-- The 3 Phases of Every Turn -->
+                    <div class="htp-cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 12px;">
                         <div class="htp-info-card" style="border-left-color: var(--crystal-blue);">
                             <div class="htp-info-card-title" style="color: var(--crystal-blue);">
                                 <span>Phase 1: Draw Phase</span>
                             </div>
                             <div class="htp-info-card-body">
-                                Draw <b>2 cards</b> from your Universe Deck at the start of your turn.<br><br>
-                                <i>First-Turn Rule:</i> The player who goes first draws only <b>1 card</b> on their very first turn.
+                                • Draw <b>2 cards</b> from your Universe Deck.<br>
+                                • <i>First-Turn Rule:</i> The player going first draws only <b>1 card</b> on their very first turn.<br>
+                                • Re-Actions may be played onto The Flow during this phase.
                             </div>
                         </div>
                         <div class="htp-info-card" style="border-left-color: var(--crystal-green);">
@@ -8845,8 +9060,8 @@ function renderPlaytestBarrier() {
                                 <span>Phase 2: Charge Phase</span>
                             </div>
                             <div class="htp-info-card-body">
-                                <b>1. Ready All Cards:</b> Stand all of your rested Units and rested Energy cards (rotate from horizontal back to vertical).<br>
-                                <b>2. Charge 1 Energy:</b> You may place <b>1 card from your hand</b> into your Energy Zone (up to 10 max).
+                                • <b>Ready All Cards:</b> Stand all rested Units and rested Energy cards back to vertical (0°).<br>
+                                • <b>Charge 1 Energy:</b> Place <b>1 card from hand</b> into the Energy Zone (up to 10 max).
                             </div>
                         </div>
                         <div class="htp-info-card" style="border-left-color: var(--fantasy-gold);">
@@ -8854,112 +9069,151 @@ function renderPlaytestBarrier() {
                                 <span>Phase 3: Main Phase (Fluid)</span>
                             </div>
                             <div class="htp-info-card-body">
-                                Perform any of these actions in any order:<br>
-                                • <b>Play Cards</b> from hand or Re/Action Deck by resting Energy equal to Cost.<br>
-                                • <b>Activate Abilities</b> on Field Units, Legends, or <b>SPARK</b> cards.<br>
+                                Perform any combination of these actions in any order:<br>
+                                • <b>Play Cards</b> from hand or Re/Action deck by resting Energy.<br>
+                                • <b>Activate Abilities</b> on Field Units or <b>SPARK</b> cards.<br>
                                 • <b>Declare Attacks</b> with active Units!
                             </div>
                         </div>
                     </div>
-                    <div class="htp-info-card">
-                        <div class="htp-info-card-title">
-                            <span>Pro Tip: Resting Cards in the Testing Arena</span>
+
+                    <!-- Standing vs Rested Orientation Guide -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--tech-cyan); letter-spacing: 1px; text-transform: uppercase; margin: 8px 0 6px;">
+                        Card States: Standing (Active) vs. Rested (Exhausted)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <div class="htp-info-card" style="border-left-color: #69f0ae;">
+                            <div style="font-size: 12px; font-weight: 800; color: #69f0ae;">STANDING (VERTICAL - 0°)</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45;">
+                                An active unit that is ready to declare an attack, ready to block an incoming enemy strike, or active energy available to pay for card costs.
+                            </div>
                         </div>
-                        <div class="htp-info-card-body">
-                            In the Testing Arena, <b>double-click</b> (or <b>double-tap</b> on mobile) any card on the field or in your Energy Zone to rotate/rest it! Resting a card inside the Energy Zone automatically logs <code>Rested "[Card Name]" for energy</code> in the Action Log.
+                        <div class="htp-info-card" style="border-left-color: #ff8a80;">
+                            <div style="font-size: 12px; font-weight: 800; color: #ff8a80;">RESTED (HORIZONTAL - 90°)</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45;">
+                                A unit that has already attacked or blocked this turn, or an energy card that was exhausted to pay a cost. Rested units <i>can be targeted for attacks</i> by opposing units!
+                            </div>
                         </div>
                     </div>
                 `
             },
             {
                 tabLabel: "6. Combat & The Flow",
-                subtitle: "MODULE 06 // COMBAT, BARRIERS & THE FLOW",
-                title: "Attacking, Blocking & The Flow Chain",
+                subtitle: "MODULE 06 // COMBAT RESOLUTION & THE FLOW CHAIN",
+                title: "Attacking, Blocking & Priority on The Flow",
                 avatar: "Assets/Support_Assets/Gh0st_Crop.webp",
                 avatarPng: "Gh0st_Crop.png",
-                speech: "Units can attack on the very turn they are played—there is no summoning sickness! And whenever an attack, card play, or ability happens, it goes onto a priority chain called <b>The Flow</b>, where players can respond with <b>Re-Actions</b>!",
+                speech: "Combat in <i>Universe of Legends</i> is direct and decisive! Rest an active unit to declare an attack against an opponent's Barrier or rested unit. And whenever any action or ability triggers, both players enter <b>The Flow</b> priority chain to respond with Re-Actions!",
+                proTip: "<b>The Flow (LIFO):</b> The Flow resolves in <b>Last-In, First-Out</b> order! The last Re-Action played resolves first, allowing players to counter and negate opposing plays.",
                 renderBoard: () => `
-                    <div class="htp-cards-grid">
-                        <div class="htp-info-card">
-                            <div class="htp-info-card-title">
-                                <img src="Assets/Support_Assets/Symbols_Atk.webp" onerror="handleSupportAssetError(this,'Symbols_Atk.png')">
-                                <span>1. Declaring an Attack &amp; Blocking</span>
-                            </div>
-                            <div class="htp-info-card-body">
-                                • <b>Attack:</b> Rest an active Unit to target either your opponent's <b>face-up Barrier</b> or one of their <b>rested Units</b>.<br>
-                                • <b>Block:</b> The defending player may rest one of their active Units to intercept and redirect the attack to that blocker.
-                            </div>
+                    <!-- 4-Step Combat Sequence -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--crystal-red); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;">
+                        The 4-Step Combat Sequence
+                    </div>
+                    <div class="htp-cards-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 12px;">
+                        <div class="htp-info-card" style="border-left-color: var(--crystal-red);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--crystal-red);">1. DECLARE ATTACK</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Rest an active unit and declare target: either opponent's <b>face-up Barrier</b> or a <b>rested unit</b>.</div>
                         </div>
-                        <div class="htp-info-card">
-                            <div class="htp-info-card-title">
-                                <img src="Assets/Support_Assets/Symbols_Health.webp" onerror="handleSupportAssetError(this,'Symbols_Health.png')">
-                                <span>2. Combat Damage &amp; Barrier Break</span>
-                            </div>
-                            <div class="htp-info-card-body">
-                                • Battling Units deal their <b>ATK</b> to each other's <b>DEF</b> simultaneously. Units reduced to <b>0 DEF</b> are destroyed and sent to <b>The Unknown</b>.<br>
-                                • An unblocked Barrier attack destroys the active Barrier (triggering <b>VAPORIZE</b>) and flips the next Barrier face-up!
-                            </div>
+                        <div class="htp-info-card" style="border-left-color: var(--crystal-blue);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--crystal-blue);">2. DEFENDER BLOCKS</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Defending player may rest an active unit to block and redirect the attack to the blocker.</div>
+                        </div>
+                        <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--tech-cyan);">3. SIMULTANEOUS DAMAGE</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Units deal ATK to each other's DEF at the same time. Units at 0 DEF enter <b>The Unknown</b>.</div>
+                        </div>
+                        <div class="htp-info-card" style="border-left-color: var(--fantasy-gold);">
+                            <div style="font-size: 12px; font-weight: 800; color: var(--fantasy-gold);">4. BARRIER BREAK</div>
+                            <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.4;">Unblocked Barrier attack destroys the Barrier (triggers <b>VAPORIZE</b>) and flips next Barrier!</div>
                         </div>
                     </div>
-                    <div class="htp-info-card" style="border-left-color: var(--crystal-purple);">
+
+                    <!-- The Flow Priority Chain -->
+                    <div class="htp-info-card" style="border-left-color: var(--magic-purple);">
                         <div class="htp-info-card-title" style="color: var(--crystal-purple);">
                             <img src="Assets/Reaction.webp" onerror="this.src='Assets/Reaction.png'">
                             <span>The Flow: How Re-Actions Resolve (Last-In, First-Out)</span>
                         </div>
-                        <div class="htp-info-card-body">
-                            Whenever an event occurs—playing a card, declaring an attack, or activating a Legend/SPARK ability—it is placed onto <b>The Flow</b> (Activation Area). Priority passes to your opponent, who may rest Energy to play a <b>Re-Action</b> from their Re/Action Deck onto The Flow. Players alternate adding Re-Actions until both pass in succession; the chain then resolves <b>from the most recent card back to the oldest!</b>
+                        <div class="htp-info-card-body" style="font-size: 12.5px; line-height: 1.55;">
+                            Whenever an event occurs—playing a card, declaring an attack, activating a Legend ability, or triggering a <b>SPARK</b> effect—it enters <b>The Flow</b> (Activation Area). Opponent gains priority to play a <b>Re-Action</b> from their Re/Action Deck. Priority alternates until both players pass in succession; all events then resolve in <b>reverse order (from the most recent card back to the oldest)</b>!
                         </div>
                     </div>
                 `
             },
             {
                 tabLabel: "7. Stacking & Tokens",
-                subtitle: "MODULE 07 // STACKING, KEYWORDS & TOKENS",
+                subtitle: "MODULE 07 // STACKING MECHANICS & OFFICIAL TOKENS",
                 title: "Stacking Rules, Keywords & Official Tokens",
                 avatar: "Assets/Support_Assets/Gh0st_Full.webp",
                 avatarPng: "Gh0st_Full.png",
-                speech: "To master <i>Universe of Legends</i>, combine your cards through <b>Stacking</b> and deploy tactical <b>Tokens</b>! Remember: a Stack counts as a <b>single Unit</b> with combined ATK and DEF—if a Stack's DEF reaches 0, the entire Stack is sent to The Unknown!",
+                speech: "To master <i>Universe of Legends</i>, combine your forces through <b>Stacking</b> and deploy tactical <b>Tokens</b>! A Stack counts as a <b>single Unit</b> with combined ATK and DEF. And when using tokens, you have 3 official types at your disposal in the Testing Arena!",
+                proTip: "<b>Stack Destruction:</b> If a Stack's total DEF reaches 0 in combat, the entire stack (including all attached items and minions) is sent to The Unknown together!",
                 renderBoard: () => `
-                    <div class="htp-cards-grid">
+                    <!-- The 3 Stacking Methods -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--tech-cyan); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;">
+                        The Three Stacking Methods
+                    </div>
+                    <div class="htp-cards-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 12px;">
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/ic_attack.webp" onerror="handleSupportAssetError(this,'ic_attack.png')">
+                                <span>1. MOBILIZE Stacking</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                Minions with the keyword <b>MOBILIZE</b> can stack on top of or under other <b>MOBILIZE</b> units, combining their stats into a massive strike team!
+                            </div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/Fantasy.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Fantasy.png')">
+                                <span>2. FAMILIAR Stacking</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                Minions with the keyword <b>FAMILIAR</b> can stack under any <b>Legend</b>, providing bonus abilities and extra defense to protect your champion.
+                            </div>
+                        </div>
                         <div class="htp-info-card">
                             <div class="htp-info-card-title">
                                 <img src="Assets/Support_Assets/Item_Slots.webp" onerror="handleSupportAssetError(this,'Item_Slots.png')">
-                                <span>Stacking &amp; Key Mechanics</span>
+                                <span>3. Item Stacking &amp; Weight</span>
                             </div>
                             <div class="htp-info-card-body">
-                                • <b>MOBILIZE:</b> Minions with <i>MOBILIZE</i> can stack on top of or under other <i>MOBILIZE</i> units.<br>
-                                • <b>FAMILIAR:</b> Minions with <i>FAMILIAR</i> can stack under any <b>Legend</b>.<br>
-                                • <b>ITEMS:</b> Stack under Legends (up to <b>3 Item Slots</b> by weight; <b>0-weight Items</b> can stack under <i>any</i> Unit!).<br>
-                                • <b>SPARK:</b> Cards with a yellow Spark symbol can activate their special ability while in your <b>Energy Zone</b>!
+                                Legends hold up to <b>3 Item Slots</b>. Items occupy slots based on weight (0, 1, 2, or 3). <b>0-weight Items</b> can stack under <i>any</i> Unit!
                             </div>
                         </div>
                     </div>
-                    <div style="font-size: 11.5px; font-weight: 800; color: var(--fantasy-gold); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;">
-                        Official Playable Tokens (Available in Testing Arena Top Bar)
+
+                    <!-- 3 Official Playable Tokens Showcase -->
+                    <div style="font-size: 12px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase; margin: 10px 0 6px;">
+                        Official Playable Tokens (One-Click Spawner in Testing Arena)
                     </div>
                     <div class="htp-token-showcase">
                         <div class="htp-token-card">
                             <img src="Assets/Tokens/Shield.webp" alt="Shield Token" onerror="this.src='Assets/Tokens/Shield.png'">
                             <div>
-                                <div style="font-size:11.5px;font-weight:800;color:var(--fantasy-gold);">Shield Token</div>
-                                <div style="font-size:9.5px;color:var(--tech-cyan);margin-bottom:2px;">Token • Tech</div>
-                                <div style="font-size:10px;color:#d0d8e8;line-height:1.3;">If this unit would be destroyed, remove this card instead.</div>
+                                <div style="font-size:13.5px;font-weight:900;color:var(--fantasy-gold);">Shield Token</div>
+                                <div style="font-size:10px;color:var(--tech-cyan);font-weight:800;letter-spacing:0.8px;margin-bottom:4px;">TOKEN • TECH</div>
+                                <div style="font-size:11.5px;color:#d6e0f0;line-height:1.45;margin-bottom:4px;"><b>Rules Text:</b> If this unit would be destroyed, remove this card instead.</div>
+                                <div style="font-size:10px;color:#9aa8c2;"><i>Stack under any unit to grant absolute destruction immunity once!</i></div>
                             </div>
                         </div>
                         <div class="htp-token-card">
                             <img src="Assets/Tokens/Sealed.webp" alt="Sealed Token" onerror="this.src='Assets/Tokens/Sealed.png'">
                             <div>
-                                <div style="font-size:11.5px;font-weight:800;color:var(--fantasy-gold);">Sealed Token</div>
-                                <div style="font-size:9.5px;color:var(--tech-cyan);margin-bottom:2px;">Token • Tech</div>
-                                <div style="font-size:10px;color:#d0d8e8;line-height:1.3;">This unit cannot attack, block, activate abilities, or stand during Charge phase.</div>
+                                <div style="font-size:13.5px;font-weight:900;color:var(--fantasy-gold);">Sealed Token</div>
+                                <div style="font-size:10px;color:var(--tech-cyan);font-weight:800;letter-spacing:0.8px;margin-bottom:4px;">TOKEN • TECH</div>
+                                <div style="font-size:11.5px;color:#d6e0f0;line-height:1.45;margin-bottom:4px;"><b>Rules Text:</b> This unit cannot attack, block, activate abilities, or stand during the Charge phase.</div>
+                                <div style="font-size:10px;color:#9aa8c2;"><i>Stack on an enemy unit to paralyze and take it completely out of battle!</i></div>
                             </div>
                         </div>
                         <div class="htp-token-card">
                             <img src="Assets/Tokens/Temptation.webp" alt="Temptation Token" onerror="this.src='Assets/Tokens/Temptation.png'">
                             <div>
-                                <div style="font-size:11.5px;font-weight:800;color:var(--crystal-purple);">Temptation Token</div>
-                                <div style="font-size:9.5px;color:var(--crystal-blue);margin-bottom:2px;">Token • Magic (-1/-1)</div>
-                                <div style="font-size:10px;color:#d0d8e8;line-height:1.3;">A unit must be played on this card. Grants <b>-1 ATK / -1 DEF</b>.</div>
+                                <div style="font-size:13.5px;font-weight:900;color:var(--crystal-purple);">Temptation Token</div>
+                                <div style="font-size:10px;color:var(--crystal-blue);font-weight:800;letter-spacing:0.8px;margin-bottom:4px;">TOKEN • MAGIC (-1 ATK / -1 DEF)</div>
+                                <div style="font-size:11.5px;color:#d6e0f0;line-height:1.45;margin-bottom:4px;"><b>Rules Text:</b> A unit must be played on this card. Grants <b>-1 ATK / -1 DEF</b>.</div>
+                                <div style="font-size:10px;color:#9aa8c2;"><i>Curses an opposing unit with permanent stat reduction in combat!</i></div>
                             </div>
                         </div>
                     </div>
@@ -9011,8 +9265,10 @@ function renderPlaytestBarrier() {
                 avatar.onerror = () => handleSupportAssetError(avatar, step.avatarPng);
             }
 
-            const speechEl = document.getElementById('htp-speech-text');
-            if (speechEl) speechEl.innerHTML = step.speech;
+                        const speechEl = document.getElementById('htp-speech-text');
+            if (speechEl) {
+                speechEl.innerHTML = step.speech + (step.proTip ? `<div class="htp-protip-card">${step.proTip}</div>` : '');
+            }
 
             const subEl = document.getElementById('htp-board-subtitle');
             if (subEl) subEl.innerText = step.subtitle;
@@ -9065,38 +9321,59 @@ function renderPlaytestBarrier() {
         const GHOST_PRACTICE_STEPS = [
             {
                 title: "1. Draw Starting Hand & Flip Barrier",
-                text: "Click the green <b>Starting Hand (7)</b> button in the top control bar to draw 7 cards and reveal your first Barrier in the Barrier Zone!",
-                highlightSelector: "button[onclick*='drawStartingHand']"
+                text: "Click the green <b>Starting Hand (7)</b> button in the top bar to draw 7 cards from your Universe Deck and reveal your first Barrier!",
+                highlightSelector: "button[onclick*='drawStartingHand']",
+                arrowDir: "up",
+                posDesktop: { top: "46px", left: "calc(50% - 150px)", transform: "none", bottom: "" },
+                posMobile: { top: "34px", left: "calc(50% - 120px)", transform: "none", bottom: "" }
             },
             {
                 title: "2. Charge Your Energy Zone",
-                text: "Drag <b>any card from your Hand</b> at the bottom into the green <b>Energy Zone</b> in the lower middle of the playmat!",
-                highlightSelector: "#bottom-fan-zone"
+                text: "Drag <b>any card from your Hand</b> at the bottom into the green <b>Energy Zone</b> in the lower center of the playmat!",
+                highlightSelector: "#bottom-fan-zone",
+                arrowDir: "down",
+                posDesktop: { top: "calc(8% + 160px)", left: "50%", transform: "translateX(-50%)", bottom: "" },
+                posMobile: { top: "calc(8% + 130px)", left: "50%", transform: "translateX(-50%)", bottom: "" }
             },
             {
                 title: "3. Rest Energy to Pay Cost",
                 text: "<b>Double-click</b> (or <b>double-tap</b> on mobile) the card inside your <b>Energy Zone</b> to rotate/rest it and generate Energy!",
-                highlightSelector: "#bottom-fan-zone"
+                highlightSelector: "#bottom-fan-zone",
+                arrowDir: "down",
+                posDesktop: { top: "calc(8% + 160px)", left: "50%", transform: "translateX(-50%)", bottom: "" },
+                posMobile: { top: "calc(8% + 130px)", left: "50%", transform: "translateX(-50%)", bottom: "" }
             },
             {
                 title: "4. Deploy a Unit or Anchor",
-                text: "Drag a <b>Unit or Anchor card</b> from your Hand into any of the <b>4 Main Field Zones</b> in the center of the playmat!",
-                highlightSelector: "#mid-zone-1, #mid-zone-2, #mid-zone-3, #mid-zone-4"
+                text: "Drag a <b>Unit or Anchor card</b> from your Hand into any of the <b>4 Main Field Zones</b> across the center of the playmat!",
+                highlightSelector: "#mid-zone-1, #mid-zone-2, #mid-zone-3, #mid-zone-4",
+                arrowDir: "down",
+                posDesktop: { top: "calc(8% + 15px)", left: "50%", transform: "translateX(-50%)", bottom: "" },
+                posMobile: { top: "calc(8% + 5px)", left: "50%", transform: "translateX(-50%)", bottom: "" }
             },
             {
                 title: "5. Declare an Attack (Rest Unit)",
                 text: "Units have no summoning sickness! <b>Double-click</b> (or <b>double-tap</b>) your deployed Field Unit to rest it and declare an attack!",
-                highlightSelector: "#mid-zone-1, #mid-zone-2, #mid-zone-3, #mid-zone-4"
+                highlightSelector: "#mid-zone-1, #mid-zone-2, #mid-zone-3, #mid-zone-4",
+                arrowDir: "down",
+                posDesktop: { top: "calc(8% + 15px)", left: "50%", transform: "translateX(-50%)", bottom: "" },
+                posMobile: { top: "calc(8% + 5px)", left: "50%", transform: "translateX(-50%)", bottom: "" }
             },
             {
                 title: "6. Use The Flow & Spawn a Token",
                 text: "Click <b>+ Shield</b>, <b>+ Sealed</b>, or <b>+ Temptation</b> in the top bar (or click your purple <b>Re/Action Deck</b>) to deploy onto <b>The Flow</b>!",
-                highlightSelector: "#zone-activation"
+                highlightSelector: "#zone-activation",
+                arrowDir: "right",
+                posDesktop: { top: "calc(8% + 50px)", left: "calc(50% + 20px)", transform: "none", bottom: "" },
+                posMobile: { top: "calc(8% + 25px)", left: "calc(50% + 10px)", transform: "none", bottom: "" }
             },
             {
-                title: "Training Complete! You're Ready!",
-                text: "Awesome job, Traveler! You've mastered drawing, charging energy, deploying units, attacking, and using The Flow. Keep testing or build your own deck!",
-                highlightSelector: null
+                title: "Drill Complete! You're Battle Ready!",
+                text: "Outstanding work, Traveler! You've mastered drawing, charging energy, deploying units, combat, and using The Flow. Keep practicing or build your own custom deck!",
+                highlightSelector: null,
+                arrowDir: null,
+                posDesktop: { top: "calc(8% + 130px)", left: "50%", transform: "translateX(-50%)", bottom: "" },
+                posMobile: { top: "calc(8% + 95px)", left: "50%", transform: "translateX(-50%)", bottom: "" }
             }
         ];
 
@@ -9126,6 +9403,28 @@ function renderPlaytestBarrier() {
             if (titleEl) titleEl.innerText = step.title;
             const textEl = document.getElementById('ghost-coach-text');
             if (textEl) textEl.innerHTML = step.text;
+
+            // Dynamically position HUD right next to target
+            const isMobile = window.innerWidth <= 980 || window.innerHeight <= 560;
+            const pos = (isMobile && step.posMobile) ? step.posMobile : step.posDesktop;
+            if (pos) {
+                hud.style.top = pos.top || '';
+                hud.style.bottom = pos.bottom || '';
+                hud.style.left = pos.left || '';
+                hud.style.transform = pos.transform || 'none';
+            }
+
+            // Update arrow pointer direction
+            const arrow = document.getElementById('ghost-coach-arrow');
+            if (arrow) {
+                arrow.className = 'ghost-coach-arrow';
+                if (step.arrowDir) {
+                    arrow.classList.add('ghost-coach-arrow-' + step.arrowDir);
+                    arrow.style.display = 'block';
+                } else {
+                    arrow.style.display = 'none';
+                }
+            }
 
             if (step.highlightSelector) {
                 document.querySelectorAll(step.highlightSelector).forEach(el => {
