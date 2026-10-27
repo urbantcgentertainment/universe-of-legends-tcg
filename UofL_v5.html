@@ -1550,6 +1550,396 @@
             z-index: 10;
         }
 
+        
+        /* =====================================================================
+           --- SUPPORT ASSETS, OFFICIAL ICONS & HOW TO PLAY (GH0ST GUIDE) ---
+           ===================================================================== */
+        
+        .realm-emblem-glow {
+            filter: brightness(1.95) drop-shadow(0 0 6px rgba(0, 229, 255, 0.65));
+        }
+        #controls {
+            padding: 5px 8px;
+            gap: 4px;
+        }
+        #controls button {
+            padding: 4px 6px;
+            font-size: 9.5px;
+            letter-spacing: 0.15px;
+        }
+        #controls #bgSelector {
+            padding: 3px 5px;
+            font-size: 9.5px;
+            max-width: 115px !important;
+        }
+
+        .support-icon-inline {
+            width: 15px;
+            height: 15px;
+            object-fit: contain;
+            vertical-align: -2.5px;
+            margin-right: 3px;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.8));
+        }
+        .hud-color-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.45));
+            transition: transform 0.18s ease;
+        }
+        .hud-color-icon:hover {
+            transform: scale(1.22);
+        }
+        .start-expansion-logo {
+            position: relative;
+            z-index: 3;
+            max-width: 240px;
+            width: 65%;
+            height: auto;
+            object-fit: contain;
+            margin-top: 8px;
+            filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 12px rgba(255, 215, 0, 0.3));
+        }
+        #start-view::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('Assets/Support_Assets/Walk_Along_Back.webp');
+            background-size: 380px 380px;
+            background-repeat: repeat;
+            opacity: 0.11;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .start-btn-howto {
+            border-left-color: var(--tech-cyan) !important;
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.3) 0%, rgba(18, 28, 52, 0.94) 80%) !important;
+        }
+        .start-btn-howto:hover {
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.5) 0%, rgba(24, 42, 76, 0.98) 80%) !important;
+            box-shadow: 0 0 28px rgba(0, 229, 255, 0.65) !important;
+            border-left-color: var(--fantasy-gold) !important;
+        }
+
+        
+        /* Interactive On-Playmat Gh0st Practice Coach HUD */
+        #ghost-coach-hud {
+            display: none;
+            position: fixed;
+            bottom: 86px;
+            left: 16px;
+            width: 325px;
+            background: linear-gradient(155deg, rgba(10, 16, 32, 0.96) 0%, rgba(18, 14, 36, 0.97) 100%);
+            border: 2px solid var(--tech-cyan);
+            border-left: 5px solid var(--fantasy-gold);
+            clip-path: var(--clip-panel);
+            padding: 10px 12px;
+            z-index: 800;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.9), 0 0 25px rgba(0, 229, 255, 0.35);
+            color: #f0f4f8;
+            backdrop-filter: blur(8px);
+        }
+        .ghost-coach-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+            padding-bottom: 5px;
+            margin-bottom: 7px;
+        }
+        .ghost-coach-body {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .ghost-coach-avatar {
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.6));
+            animation: heroFloat 2.8s ease-in-out infinite alternate;
+        }
+        .ghost-tutorial-highlight {
+            box-shadow: 0 0 0 3px var(--fantasy-gold), 0 0 25px var(--tech-cyan), inset 0 0 18px rgba(255, 215, 0, 0.45) !important;
+            border-color: var(--fantasy-gold) !important;
+            animation: ghostTargetPulse 1.1s ease-in-out infinite alternate !important;
+        }
+        @keyframes ghostTargetPulse {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.3); }
+        }
+        @media screen and (max-width: 980px), screen and (max-height: 560px) {
+            #ghost-coach-hud {
+                width: 245px !important;
+                bottom: 72px !important;
+                left: 8px !important;
+                padding: 6px 8px !important;
+            }
+            .ghost-coach-avatar { width: 40px !important; height: 40px !important; }
+            #ghost-coach-text { font-size: 9.5px !important; line-height: 1.25 !important; }
+        }
+
+        /* How to Play View Container */
+        #how-to-play-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            height: var(--app-height, 100dvh);
+            max-height: var(--app-height, 100dvh);
+            background-color: #05070e;
+            background-image:
+                radial-gradient(circle at 22% 45%, rgba(0, 229, 255, 0.18) 0%, rgba(157, 78, 221, 0.12) 38%, transparent 70%),
+                radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 55%),
+                linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 78, 221, 0.04) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+            z-index: 960;
+            flex-direction: column;
+            overflow: hidden;
+            color: #f0f4f8;
+            box-sizing: border-box;
+        }
+        #how-to-play-view::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('Assets/Support_Assets/Walk_Along_Back.webp');
+            background-size: 360px 360px;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .htp-top-nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 18px;
+            background: var(--bg-header);
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, var(--tech-cyan), var(--fantasy-gold), var(--magic-purple)) 1;
+            flex-shrink: 0;
+            gap: 10px;
+        }
+        .htp-step-tabs {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            overflow: hidden;
+            flex-wrap: nowrap;
+        }
+        .htp-step-tab {
+            padding: 4px 8px;
+            font-size: 9.5px;
+            font-weight: 800;
+            background: rgba(14, 18, 32, 0.9);
+            border: 1px solid rgba(0, 229, 255, 0.28);
+            border-left: 2.5px solid rgba(255, 215, 0, 0.45);
+            color: #9aa8c2;
+            clip-path: var(--clip-btn);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .htp-step-tab.active {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.36), rgba(157, 78, 221, 0.42));
+            color: #fff;
+            border-color: var(--fantasy-gold);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.45);
+        }
+        .htp-main-stage {
+            position: relative;
+            z-index: 5;
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 18px;
+            padding: 14px 22px;
+            min-height: 0;
+            overflow: hidden;
+            max-width: 1560px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        /* Left Column: Gh0st Character & Tactical Speech Console */
+        .htp-ghost-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(160deg, rgba(12, 18, 34, 0.92) 0%, rgba(18, 14, 34, 0.94) 100%);
+            border: 1.5px solid var(--tech-cyan-dim);
+            border-left: 4px solid var(--tech-cyan);
+            clip-path: var(--clip-panel);
+            padding: 14px 16px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.85), inset 0 0 25px rgba(0, 229, 255, 0.08);
+            min-height: 0;
+            overflow: hidden;
+        }
+        .htp-ghost-avatar-stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 1 210px;
+            min-height: 110px;
+        }
+        .htp-ghost-holo-ring {
+            position: absolute;
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(0, 229, 255, 0.45);
+            box-shadow: 0 0 35px rgba(0, 229, 255, 0.25), inset 0 0 25px rgba(255, 215, 0, 0.18);
+            animation: slowArcaneSpin 20s linear infinite;
+            pointer-events: none;
+        }
+        .htp-ghost-img {
+            position: relative;
+            z-index: 2;
+            max-height: 195px;
+            width: auto;
+            max-width: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 18px rgba(0, 229, 255, 0.5));
+            animation: heroFloat 3.2s ease-in-out infinite alternate;
+        }
+        .htp-speech-box {
+            background: rgba(7, 10, 20, 0.92);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            border-left: 3.5px solid var(--fantasy-gold);
+            clip-path: var(--clip-btn);
+            padding: 10px 12px;
+            flex: 1 1 auto;
+            overflow-y: auto;
+            margin: 8px 0;
+            box-shadow: inset 0 2px 12px rgba(0,0,0,0.7);
+        }
+        .htp-speaker-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 900;
+            color: var(--tech-cyan);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .htp-speech-text {
+            font-size: 12.5px;
+            line-height: 1.48;
+            color: #e8eef8;
+        }
+        .htp-nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            padding-top: 4px;
+        }
+        /* Right Column: Interactive Visual Rulebook Board */
+        .htp-visual-board {
+            background: linear-gradient(145deg, rgba(13, 17, 30, 0.94), rgba(9, 11, 22, 0.96));
+            border: 1.5px solid rgba(255, 215, 0, 0.35);
+            border-top: 3px solid var(--fantasy-gold);
+            clip-path: var(--clip-panel);
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            min-height: 0;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.85);
+        }
+        .htp-board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.28);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+        .htp-board-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--fantasy-gold);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+        .htp-board-subtitle {
+            font-size: 11px;
+            color: var(--tech-cyan);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .htp-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .htp-info-card {
+            background: rgba(16, 21, 38, 0.9);
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-left: 3px solid var(--fantasy-gold);
+            clip-path: var(--clip-btn);
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .htp-info-card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--fantasy-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .htp-info-card-title img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        .htp-info-card-body {
+            font-size: 11.8px;
+            line-height: 1.42;
+            color: #d0d8e8;
+        }
+        .htp-token-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .htp-token-card {
+            background: rgba(12, 15, 28, 0.95);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 6px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .htp-token-card img {
+            width: 58px;
+            aspect-ratio: 2.5 / 3.5;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--fantasy-gold);
+            flex-shrink: 0;
+        }
+
         /* =====================================================================
            --- DESKTOP & MOBILE HORIZONTAL (LANDSCAPE) OPTIMIZATION ---
            ===================================================================== */
@@ -1868,8 +2258,8 @@
                 overflow: hidden !important;
             }
             #controls button {
-                padding: 2px 3px !important;
-                font-size: 6.4px !important;
+                padding: 2px 2.5px !important;
+                font-size: 5.9px !important;
                 letter-spacing: 0px !important;
                 border-left-width: 2px !important;
                 margin-left: 0 !important;
@@ -1883,9 +2273,9 @@
                 flex-shrink: 0 !important;
             }
             #controls #bgSelector {
-                width: 68px !important;
-                max-width: 68px !important;
-                min-width: 56px !important;
+                width: 56px !important;
+                max-width: 56px !important;
+                min-width: 48px !important;
                 padding: 1px 2px !important;
                 font-size: 7px !important;
                 margin-left: 0 !important;
@@ -1971,6 +2361,68 @@
             }
             #pack-detail-name { font-size: 11.5px !important; }
             #pack-detail-type, #pack-detail-stats, #pack-detail-text { font-size: 10px !important; }
+            .start-expansion-logo { max-width: 145px !important; margin-top: 4px !important; }
+            .hud-color-icon { width: 13px !important; height: 13px !important; }
+
+            /* 6. How to Play (Gh0st Guide) on Mobile Landscape */
+            .htp-top-nav {
+                padding: 3px 8px !important;
+                min-height: 32px !important;
+                gap: 4px !important;
+            }
+            .htp-top-nav button {
+                padding: 2px 6px !important;
+                font-size: 9px !important;
+            }
+            .htp-top-nav img[alt="Fractures in Time"], .htp-top-nav img[alt="UL"] { display: none !important; }
+            .htp-top-nav > div:first-child span { font-size: 0.78rem !important; }
+            .htp-step-tab {
+                padding: 2px 4px !important;
+                font-size: 6.5px !important;
+                letter-spacing: 0px !important;
+            }
+            .htp-main-stage {
+                grid-template-columns: 225px 1fr !important;
+                gap: 8px !important;
+                padding: 6px 8px !important;
+            }
+            .htp-ghost-column {
+                padding: 6px 8px !important;
+            }
+            .htp-ghost-avatar-stage {
+                flex: 0 1 95px !important;
+                min-height: 75px !important;
+            }
+            .htp-ghost-holo-ring {
+                width: 86px !important;
+                height: 86px !important;
+            }
+            .htp-ghost-img {
+                max-height: 90px !important;
+            }
+            .htp-speech-box {
+                padding: 5px 7px !important;
+                margin: 4px 0 !important;
+            }
+            .htp-speaker-tag { font-size: 8.5px !important; margin-bottom: 2px !important; }
+            .htp-speech-text { font-size: 9.5px !important; line-height: 1.28 !important; }
+            .htp-nav-controls button { padding: 3px 7px !important; font-size: 8.5px !important; }
+            .htp-visual-board { padding: 8px 10px !important; }
+            .htp-board-header { padding-bottom: 4px !important; margin-bottom: 6px !important; }
+            .htp-board-title { font-size: 0.88rem !important; }
+            .htp-board-subtitle { font-size: 8.5px !important; }
+            .htp-cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+                gap: 6px !important;
+                margin-bottom: 6px !important;
+            }
+            .htp-info-card { padding: 6px 8px !important; gap: 3px !important; }
+            .htp-info-card-title { font-size: 10px !important; gap: 5px !important; }
+            .htp-info-card-title img { width: 16px !important; height: 16px !important; }
+            .htp-info-card-body { font-size: 9.2px !important; line-height: 1.26 !important; }
+            .htp-token-showcase { gap: 6px !important; }
+            .htp-token-card { padding: 4px 6px !important; gap: 6px !important; }
+            .htp-token-card img { width: 38px !important; }
         }
 </style>
 
@@ -2006,14 +2458,16 @@
         <!-- Top HUD Bar -->
         <div class="start-top-hud">
             <div class="hud-profile-box">
+                <img src="Assets/Support_Assets/Mini_Logo.webp" alt="UL" style="height: 18px; width: auto; object-fit: contain;" onerror="handleSupportAssetError(this, 'Mini_Logo.png')">
                 <span style="font-size: 11px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px;">UNIVERSE OF LEGENDS</span>
                 <span style="color: #445;">|</span>
-                <div class="hud-crystal-pips" title="5 Barrier Crystal Colors: Blue, Green, Red, Yellow, Purple">
-                    <span class="crystal-pip" style="background: var(--crystal-blue); color: var(--crystal-blue);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-green); color: var(--crystal-green);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-red); color: var(--crystal-red);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-yellow); color: var(--crystal-yellow);"></span>
-                    <span class="crystal-pip" style="background: var(--crystal-purple); color: var(--crystal-purple);"></span>
+                <div class="hud-crystal-pips" title="Official Universe Colors: Blue, Green, Red, Yellow, Purple, Neutral">
+                    <img src="Assets/Support_Assets/Blue_Color.webp" class="hud-color-icon" alt="Blue" title="Blue Barrier Affinity" onerror="handleSupportAssetError(this, 'Blue_Color.png')">
+                    <img src="Assets/Support_Assets/Green_Color.webp" class="hud-color-icon" alt="Green" title="Green Barrier Affinity" onerror="handleSupportAssetError(this, 'Green_Color.png')">
+                    <img src="Assets/Support_Assets/Red_Color.webp" class="hud-color-icon" alt="Red" title="Red Barrier Affinity" onerror="handleSupportAssetError(this, 'Red_Color.png')">
+                    <img src="Assets/Support_Assets/Yellow_Color.webp" class="hud-color-icon" alt="Yellow" title="Yellow Barrier Affinity" onerror="handleSupportAssetError(this, 'Yellow_Color.png')">
+                    <img src="Assets/Support_Assets/Purple_Color.webp" class="hud-color-icon" alt="Purple" title="Purple Barrier Affinity" onerror="handleSupportAssetError(this, 'Purple_Color.png')">
+                    <img src="Assets/Support_Assets/Neutral_Color.webp" class="hud-color-icon" alt="Neutral" title="White / Neutral Affinity" onerror="handleSupportAssetError(this, 'Neutral_Color.png')">
                 </div>
             </div>
 
@@ -2056,17 +2510,20 @@
                     <button class="start-btn start-btn-pack" onclick="goToPackOpening()">
                         <span>Pack Opening Simulator</span>
                     </button>
+                    <button id="start-howtoplay-btn" class="start-btn start-btn-howto" onclick="goToHowToPlay()">
+                        <span>How to Play (Gh0st Guide)</span>
+                    </button>
                     <button id="start-card-editor-btn" class="start-btn start-btn-admin" onclick="openCardEditorModal()" style="display: none;">
                         <span>Card Database Editor</span>
                     </button>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: Hero Logo Showcase & Realm Emblems -->
+            <!-- RIGHT COLUMN: Hero Logo Showcase & Expansion Emblem -->
             <div class="start-right-showcase">
                 <div class="arcane-tech-circle"></div>
                 <img src="Assets/Color_Logo_Tight.webp" alt="Universe of Legends" class="start-logo" onerror="if(!this.dataset.t1){this.dataset.t1='1';this.src='Assets/Color_Logo.png';}else if(!this.dataset.t2){this.dataset.t2='1';this.src='Assets/logo.png';}else{this.onerror=null;this.src='downloads/logo.png';}">
-
+                <img src="Assets/Support_Assets/Fractures_In_Time.webp" alt="Fractures in Time" class="start-expansion-logo" onerror="handleSupportAssetError(this, 'Fractures_In_Time.png')">
             </div>
         </div>
 
@@ -2081,7 +2538,9 @@
     <!-- ================= TOP NAVIGATION BAR ================= -->
     <div id="top-nav-bar" style="display: none;">
         <div class="nav-brand">
-            <button class="btn-blue" onclick="goToStartPage()" style="padding: 5px 10px; font-size: 12px; margin-right: 8px; background: #232533; border: 1px solid #444;">Home</button>
+            <button class="btn-blue" onclick="goToStartPage()" style="padding: 5px 10px; font-size: 12px; margin-right: 4px; background: #232533; border: 1px solid #444;">Home</button>
+            <button class="btn-purple" onclick="goToHowToPlay()" title="Open Gh0st How to Play Guide" style="padding: 5px 8px; font-size: 11px; margin-right: 6px;">Guide</button>
+            <img src="Assets/Support_Assets/Mini_Logo.webp" alt="UL" style="height: 18px; width: auto; object-fit: contain;" onerror="handleSupportAssetError(this, 'Mini_Logo.png')">
             <span class="game-title">Universe of Legends</span>
             <span class="deck-mode-badge">Deck Builder</span>
         </div>
@@ -2202,30 +2661,34 @@
 
         <div id="playtest-main">
             <div id="controls">
-                <button class="btn-blue" onclick="goToStartPage()" style="background: #232533; border: 1px solid #555; padding: 6px 12px;">Main Menu</button>
+                <button class="btn-blue" onclick="goToStartPage()" style="background: #232533; border: 1px solid #555;">Main Menu</button>
                 <button class="btn-red" onclick="returnToBuilder()">◀ Back to Builder</button>
                 <button class="btn-blue" onclick="drawCard()">Draw Card</button>
-                <button class="btn-green" onclick="drawStartingHand()" style="margin-left: 6px;">Starting Hand (7)</button>
-                <button class="btn-blue" onclick="openMulliganModal()" style="margin-left: 6px;">Mulligan</button>
-                <span id="deck-counter" style="font-weight: bold; color: #ffd700; margin-left: 10px;">Main: 0</span>
-                <button class="btn-blue" onclick="readyAllCards()" style="margin-left: 15px;">Ready Cards</button>
-                <button class="btn-blue" onclick="spawnShield()">+ Shield Token</button>
+                <button class="btn-green" onclick="drawStartingHand()">Starting Hand (7)</button>
+                <button class="btn-blue" onclick="openMulliganModal()">Mulligan</button>
+                <span id="deck-counter" style="font-weight: bold; color: #ffd700; font-size: 11px; white-space: nowrap;">Main: 0</span>
+                <button class="btn-blue" onclick="readyAllCards()">Ready Cards</button>
+                <button class="btn-blue" onclick="spawnToken('shield')" title="Spawn Shield Token (If unit would be destroyed, remove this card instead)">+ Shield</button>
+                <button class="btn-purple" onclick="spawnToken('sealed')" title="Spawn Sealed Token (Unit cannot attack, block, activate abilities, or stand during Charge phase)">+ Sealed</button>
+                <button class="btn-red" onclick="spawnToken('temptation')" title="Spawn Temptation Token (A unit must be played on this card; -1 ATK / -1 DEF)">+ Temptation</button>
                 
                 <input type="file" id="customPlaymatInput" accept="image/*" style="display: none;" onchange="handleCustomPlaymatUploaded(event)">
-                <select id="bgSelector" onchange="changeBackground()" style="margin-left: auto; max-width: 180px;">
+                <select id="bgSelector" onchange="changeBackground()" style="margin-left: auto; max-width: 175px;">
                     <option value="default">Playmat: Default Grid</option>
                     <option value="__custom_file__">+ Load Custom Playmat Image...</option>
                     <option value="Assets/Playmats/Raya.png">Playmat: Raya</option>
                     <option value="Assets/Playmats/Mervant.png">Playmat: Mervant</option>
-                    <option value="Assets/Playmats/Copy_of_Radiating_Lotus.png">Playmat: Radiating Lotus</option>
-                    <option value="Assets/Playmats/Copy_of_Stone_of_life_and_Riches.png">Playmat: Stone of Life</option>
-                    <option value="Assets/Playmats/Copy_of_Pearl_of_Burning_Passion_and_Desire.png">Playmat: Burning Passion</option>
-                    <option value="Assets/Playmats/Copy_of_Isis,_The_Diamond_of_Hope.png">Playmat: Diamond of Hope</option>
+                    <option value="Assets/Playmats/Marie.png">Playmat: Marie</option>
+                    <option value="Assets/Playmats/Masa.png">Playmat: Masa</option>
+                    <option value="Assets/Playmats/Ramses.png">Playmat: Ramses</option>
+                    <option value="Assets/Playmats/Spark.png">Playmat: Spark</option>
+                    <option value="Assets/Playmats/Radiating_Lotus.png">Playmat: Radiating Lotus</option>
+                    <option value="Assets/Playmats/Stone_of_life_and_Riches.png">Playmat: Stone of Life &amp; Riches</option>
+                    <option value="Assets/Playmats/Pearl_of_Burning_Passion_and_Desire.png">Playmat: Pearl of Burning Desire</option>
+                    <option value="Assets/Playmats/Isis,_The_Diamond_of_Hope.png">Playmat: Isis, Diamond of Hope</option>
+                    <option value="Assets/Playmats/Meteor,_Tip_of_the_Great_Pyramid.png">Playmat: Meteor, Great Pyramid</option>
                     <option value="Assets/Playmats/Rise_Up_King_final.png">Playmat: Rise Up King</option>
                     <option value="Assets/Playmats/rabbit.png">Playmat: Black Rabbit</option>
-                    <option value="Assets/Playmats/Copy_of_Meteor,_Tip_of_the_Great_Pyramid.png">Playmat: Great Pyramid</option>
-                    <option value="Assets/Playmats/PSD.png">Playmat: Cosmic Arena</option>
-                    <option value="Assets/Playmats/final_artwork_fix.png">Playmat: Universe Showcase</option>
                 </select>
             </div>
 
@@ -2257,6 +2720,11 @@
 
                     <!-- Activation Area / The Flow Zone (Upper Right Space) -->
                     <div id="zone-activation" class="play-zone snap-center" style="top: 8%; left: calc(50% + 380px); width: 280px; height: 280px; border-radius: 50%; border: 2.5px dashed #00b4ff; box-shadow: 0 0 0 1.5px #000, inset 0 0 20px rgba(0,0,0,0.6); background: radial-gradient(circle, rgba(0, 180, 255, 0.12) 0%, rgba(26, 27, 40, 0.4) 65%, transparent 100%); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px; opacity: 0.55; pointer-events: none;">
+                            <img src="Assets/Support_Assets/Magic.webp" class="realm-emblem-glow" alt="" style="width: 22px; height: 22px; object-fit: contain;" onerror="handleSupportAssetError(this, 'Magic.png')">
+                            <img src="Assets/Support_Assets/Fantasy.webp" class="realm-emblem-glow" alt="" style="width: 22px; height: 22px; object-fit: contain;" onerror="handleSupportAssetError(this, 'Fantasy.png')">
+                            <img src="Assets/Support_Assets/Tech.webp" class="realm-emblem-glow" alt="" style="width: 22px; height: 22px; object-fit: contain;" onerror="handleSupportAssetError(this, 'Tech.png')">
+                        </div>
                         <div style="font-size: 13px; font-weight: bold; color: #00b4ff; letter-spacing: 1px; text-transform: uppercase;">Activation Area</div>
                         <div style="font-size: 10px; color: #aaa; margin-top: 3px; text-align: center; max-width: 170px;">Tokens &amp; Re/Actions activate here</div>
                     </div>
@@ -2307,6 +2775,29 @@
                 <div style="color: #666; font-size: 11px; text-align: center; margin-top: 20px;">No actions recorded yet.</div>
             </div>
         </div> <!-- End #action-log-sidebar -->
+
+        <!-- Interactive Gh0st Coach HUD (Shown during Guided Practice Mode) -->
+        <div id="ghost-coach-hud">
+            <div class="ghost-coach-header">
+                <div style="display:flex;align-items:center;gap:6px;">
+                    <img src="Assets/Support_Assets/Tech.webp" class="realm-emblem-glow" style="width:13px;height:13px;object-fit:contain;" onerror="handleSupportAssetError(this,'Tech.png')">
+                    <span id="ghost-coach-step-badge" style="font-size:10px;font-weight:900;color:var(--fantasy-gold);letter-spacing:0.8px;">GH0ST DRILL // STEP 1 OF 6</span>
+                </div>
+                <button class="btn-red" onclick="stopInteractiveGhostPractice()" style="padding:1px 6px;font-size:9px;">Exit Drill ✕</button>
+            </div>
+            <div class="ghost-coach-body">
+                <img src="Assets/Support_Assets/Gh0st_Full.webp" alt="Gh0st" class="ghost-coach-avatar" onerror="handleSupportAssetError(this,'Gh0st_Full.png')">
+                <div style="flex:1;min-width:0;">
+                    <div id="ghost-coach-title" style="font-size:11.5px;font-weight:800;color:var(--tech-cyan);margin-bottom:2px;">1. Draw Your Starting Hand</div>
+                    <div id="ghost-coach-text" style="font-size:11px;line-height:1.35;color:#e8eef8;">Click the green <b>Starting Hand (7)</b> button in the top bar to draw 7 cards and flip your top Barrier!</div>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:7px;padding-top:5px;border-top:1px solid rgba(255,255,255,0.1);">
+                <button class="btn-blue" onclick="prevGhostPracticeStep()" style="padding:2px 8px;font-size:9.5px;">◀ Prev</button>
+                <span id="ghost-coach-progress" style="font-size:9.5px;color:#9aa8c2;font-weight:700;">Interactive Training Active</span>
+                <button class="btn-green" onclick="nextGhostPracticeStep()" style="padding:2px 8px;font-size:9.5px;">Skip / Next ▶</button>
+            </div>
+        </div>
     </div> <!-- End #playtest-view -->
 
     
@@ -2383,6 +2874,68 @@
 
             </div>
 
+        </div>
+    </div>
+
+
+    <!-- ================= VIEW 5: HOW TO PLAY (GH0ST INTERACTIVE GUIDE) ================= -->
+    <div id="how-to-play-view" style="display: none;">
+        <!-- Top Navigation Bar -->
+        <div class="htp-top-nav">
+            <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                <button class="btn-blue" onclick="goToStartPage()" style="padding: 5px 12px; font-size: 12px;">Home</button>
+                <img src="Assets/Support_Assets/Mini_Logo.webp" alt="UL" style="height: 20px; width: auto; object-fit: contain;" onerror="handleSupportAssetError(this, 'Mini_Logo.png')">
+                <span style="font-size: 1.05rem; font-weight: 900; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase;">How to Play</span>
+                <img src="Assets/Support_Assets/Fractures_In_Time.webp" alt="Fractures in Time" style="height: 20px; width: auto; object-fit: contain; margin-left: 4px;" onerror="handleSupportAssetError(this, 'Fractures_In_Time.png')">
+            </div>
+            <div id="htp-step-tabs" class="htp-step-tabs">
+                <!-- Populated dynamically by renderHowToPlayStep() -->
+            </div>
+            <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0;">
+                <button class="btn-purple" onclick="startInteractiveGhostPractice()" style="padding: 5px 12px; font-size: 11px;">Practice on Board ▶</button>
+                <button class="btn-green" onclick="goToDeckBuilder()" style="padding: 5px 12px; font-size: 11px;">Deck Builder ▶</button>
+            </div>
+        </div>
+
+        <!-- Main Split Stage: Left Gh0st Hologram Guide + Right Interactive Visual Board -->
+        <div class="htp-main-stage">
+            <!-- Left Column: Gh0st Character & Speech Console -->
+            <div class="htp-ghost-column">
+                <div class="htp-ghost-avatar-stage">
+                    <div class="htp-ghost-holo-ring"></div>
+                    <img id="htp-ghost-avatar" src="Assets/Support_Assets/Gh0st_Full.webp" alt="Gh0st, Simulated Tech Partner" class="htp-ghost-img" onerror="handleSupportAssetError(this, 'Gh0st_Full.png')">
+                </div>
+
+                <div class="htp-speech-box">
+                    <div class="htp-speaker-tag">
+                        <img src="Assets/Support_Assets/Tech.webp" class="realm-emblem-glow" alt="" style="width: 14px; height: 14px; object-fit: contain;" onerror="handleSupportAssetError(this, 'Tech.png')">
+                        <span id="htp-speaker-label">GH0ST // SIMULATED TECH PARTNER</span>
+                    </div>
+                    <div id="htp-speech-text" class="htp-speech-text">
+                        Initializing tactical tutorial...
+                    </div>
+                </div>
+
+                <div class="htp-nav-controls">
+                    <button id="htp-prev-btn" class="btn-blue" onclick="prevHowToPlayStep()" style="padding: 6px 12px; font-size: 11px;">◀ Previous</button>
+                    <span id="htp-step-counter" style="font-size: 11px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 0.8px;">STEP 1 / 7</span>
+                    <button id="htp-next-btn" class="btn-green" onclick="nextHowToPlayStep()" style="padding: 6px 14px; font-size: 11px;">Next Step ▶</button>
+                </div>
+            </div>
+
+            <!-- Right Column: Visual Interactive Guide Board -->
+            <div class="htp-visual-board">
+                <div class="htp-board-header">
+                    <div>
+                        <div id="htp-board-subtitle" class="htp-board-subtitle">MODULE 01 // CORE OBJECTIVE</div>
+                        <div id="htp-board-title" class="htp-board-title">Welcome to Universe of Legends</div>
+                    </div>
+                    <img src="Assets/Support_Assets/White_Logo.webp" alt="Universe of Legends" style="height: 26px; width: auto; opacity: 0.85; object-fit: contain;" onerror="handleSupportAssetError(this, 'White_Logo.png')">
+                </div>
+                <div id="htp-board-content" style="flex-grow: 1; overflow-y: auto; padding-right: 4px;">
+                    <!-- Populated dynamically by renderHowToPlayStep() -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -4713,6 +5266,8 @@
             document.getElementById('builder-view').style.display = 'none';
             document.getElementById('playtest-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'none';
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'none';
             document.getElementById('pack-opening-view').style.display = 'flex';
 
             resetPackOpening();
@@ -5357,6 +5912,8 @@
         function goToStartPage() {
             const packView = document.getElementById('pack-opening-view');
             if (packView) packView.style.display = 'none';
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'none';
             document.getElementById('start-view').style.display = 'flex';
             document.getElementById('top-nav-bar').style.display = 'none';
             document.getElementById('builder-view').style.display = 'none';
@@ -5374,6 +5931,8 @@
             closeCardEditorModal();
             const packView = document.getElementById('pack-opening-view');
             if (packView) packView.style.display = 'none';
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'none';
             document.getElementById('playtest-view').style.display = 'none';
             document.getElementById('start-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'flex';
@@ -5573,8 +6132,8 @@
 
         async function refreshSavedDecks() {
             const dropdown = document.getElementById('saved-decks-dropdown');
-            if (dropdown) {
-                dropdown.innerHTML = '<option value="">Syncing Google Sheet...</option>';
+            if (dropdown && dropdown.options && dropdown.options.length > 0) {
+                dropdown.options[0].text = 'Syncing Google Sheet...';
             }
 
             const webappUrl = getBackendWebappUrl();
@@ -6356,9 +6915,9 @@
             }
             document.getElementById('detail-name').innerText = card.name || 'Select a Card';
             document.getElementById('detail-type').innerText = `Type: ${card.type || '---'}`;
-            document.getElementById('detail-cost').innerText = `Cost: ${card.cost !== undefined ? card.cost : '---'}`;
-            document.getElementById('detail-atk').innerText = `ATK: ${card.atk !== undefined ? card.atk : '---'}`;
-            document.getElementById('detail-hp').innerText = `DEF/HP: ${card.hp !== undefined ? card.hp : '---'}`;
+            document.getElementById('detail-cost').innerHTML = `<img src="Assets/Support_Assets/Element_board.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'Element_board.png')">Cost: <b>${card.cost !== undefined ? card.cost : '---'}</b>`;
+            document.getElementById('detail-atk').innerHTML = `<img src="Assets/Support_Assets/ic_attack.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_attack.png')">ATK: <b>${card.atk !== undefined ? card.atk : '---'}</b>`;
+            document.getElementById('detail-hp').innerHTML = `<img src="Assets/Support_Assets/ic_shield.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_shield.png')">DEF: <b>${card.hp !== undefined ? card.hp : '---'}</b>`;
             document.getElementById('detail-text').innerText = card.text || 'No effect text.';
         }
 
@@ -6769,6 +7328,8 @@
             // Show playtest view FIRST so layout has valid coordinates!
             const packView = document.getElementById('pack-opening-view');
             if (packView) packView.style.display = 'none';
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'none';
             document.getElementById('start-view').style.display = 'none';
             document.getElementById('builder-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'none';
@@ -6860,6 +7421,8 @@ function renderPlaytestBarrier() {
         function returnToBuilder() {
             const packView = document.getElementById('pack-opening-view');
             if (packView) packView.style.display = 'none';
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'none';
             document.getElementById('start-view').style.display = 'none';
             document.getElementById('playtest-view').style.display = 'none';
             document.getElementById('top-nav-bar').style.display = 'flex';
@@ -6919,8 +7482,16 @@ function renderPlaytestBarrier() {
                 playmat.style.backgroundBlendMode = 'normal';
             } else {
                 playmat.style.backgroundColor = '#111';
-                const bgUrl = customPlaymatDataUrl || selectedBg;
-        playmat.style.backgroundImage = `${activeTint.overlay}, url('${bgUrl}')`;
+                if (customPlaymatDataUrl) {
+                    playmat.style.backgroundImage = `${activeTint.overlay}, url('${customPlaymatDataUrl}')`;
+                } else {
+                    const baseName = selectedBg.replace(/^Assets\/Playmats\//, '').replace(/\.png$/i, '');
+                    const webpUrl = `Assets/Playmats/${baseName}.webp`;
+                    const pngUrl = `Assets/Playmats/${baseName}.png`;
+                    const copyUrl = `Assets/Playmats/Copy_of_${baseName}.png`;
+                    const rawUrl = `Assets/Playmats/${baseName}`;
+                    playmat.style.backgroundImage = `${activeTint.overlay}, url('${webpUrl}'), url('${pngUrl}'), url('${copyUrl}'), url('${rawUrl}')`;
+                }
                 playmat.style.backgroundSize = '100% 100%, contain';
                 playmat.style.backgroundBlendMode = 'screen';
             }
@@ -6972,9 +7543,9 @@ function renderPlaytestBarrier() {
             }
             document.getElementById('playtest-detail-name').innerText = card.name || 'Hover a Card';
             document.getElementById('playtest-detail-type').innerText = `Type: ${card.type || '---'}`;
-            document.getElementById('playtest-detail-cost').innerText = `Cost: ${card.cost !== undefined ? card.cost : '---'}`;
-            document.getElementById('playtest-detail-atk').innerText = `ATK: ${card.atk !== undefined ? card.atk : '---'}`;
-            document.getElementById('playtest-detail-hp').innerText = `DEF/HP: ${card.hp !== undefined ? card.hp : '---'}`;
+            document.getElementById('playtest-detail-cost').innerHTML = `<img src="Assets/Support_Assets/Element_board.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'Element_board.png')">Cost: <b>${card.cost !== undefined ? card.cost : '---'}</b>`;
+            document.getElementById('playtest-detail-atk').innerHTML = `<img src="Assets/Support_Assets/ic_attack.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_attack.png')">ATK: <b>${card.atk !== undefined ? card.atk : '---'}</b>`;
+            document.getElementById('playtest-detail-hp').innerHTML = `<img src="Assets/Support_Assets/ic_shield.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_shield.png')">DEF: <b>${card.hp !== undefined ? card.hp : '---'}</b>`;
             document.getElementById('playtest-detail-text').innerText = card.text || 'Card details appear here.';
         }
 
@@ -7513,7 +8084,73 @@ function renderPlaytestBarrier() {
         }
 
         // --- SHIELD TOKEN SPAWNING: Card-Sized (105px x 147px), Spawns Directly on Playmat ---
-        function spawnShield() {
+        const TOKEN_DEFINITIONS = {
+            shield: {
+                name: "Shield Token",
+                type: "Token - Tech",
+                cost: "-",
+                atk: "-",
+                hp: "-",
+                color: "Yellow",
+                url: "Assets/Tokens/Shield.webp",
+                webp: "Assets/Tokens/Shield.webp",
+                png: "Assets/Tokens/Shield.png",
+                text: "If this unit would be destroyed, remove this card instead."
+            },
+            sealed: {
+                name: "Sealed Token",
+                type: "Token - Tech",
+                cost: "-",
+                atk: "-",
+                hp: "-",
+                color: "Yellow",
+                url: "Assets/Tokens/Sealed.webp",
+                webp: "Assets/Tokens/Sealed.webp",
+                png: "Assets/Tokens/Sealed.png",
+                text: "This unit can not attack, block, activate abilities or stand during the Charge phase."
+            },
+            temptation: {
+                name: "Temptation Token",
+                type: "Token - Magic",
+                cost: "-",
+                atk: "-1",
+                hp: "-1",
+                color: "Blue",
+                url: "Assets/Tokens/Temptation.webp",
+                webp: "Assets/Tokens/Temptation.webp",
+                png: "Assets/Tokens/Temptation.png",
+                text: "A unit must be played on this card. (-1 ATK / -1 DEF)"
+            }
+        };
+
+        function handleSupportAssetError(img, pngFilename) {
+            if (!img) return;
+            if (!img.dataset.triedPng) {
+                img.dataset.triedPng = 'true';
+                img.src = 'Assets/Support_Assets/' + pngFilename;
+                return;
+            }
+            if (!img.dataset.triedSpaceDir) {
+                img.dataset.triedSpaceDir = 'true';
+                img.src = 'Assets/Support Assets/' + pngFilename;
+                return;
+            }
+            img.style.display = 'none';
+        }
+
+        function handleTokenImgError(img, def) {
+            if (!img || !def) return;
+            if (!img.dataset.triedPng) {
+                img.dataset.triedPng = 'true';
+                img.src = def.png;
+                return;
+            }
+            img.onerror = null;
+            img.src = getCardSvg(def);
+        }
+
+        function spawnToken(tokenKey = 'shield') {
+            const def = TOKEN_DEFINITIONS[tokenKey.toLowerCase()] || TOKEN_DEFINITIONS.shield;
             const surface = document.getElementById('playmat-surface') || document.getElementById('playmat');
             const token = document.createElement('img');
             token.className = 'play-card token';
@@ -7522,15 +8159,17 @@ function renderPlaytestBarrier() {
             token.dataset.zone = 'zone-activation';
             token.cardData = {
                 id: token.id,
-                name: "Shield Token",
-                type: "Token - Shield",
-                cost: "-",
-                atk: "-",
-                hp: "+1",
-                color: "Blue",
-                text: "Stack under a unit. Absorbs the next incoming damage or triggers shield stacking effects."
+                name: def.name,
+                type: def.type,
+                cost: def.cost,
+                atk: def.atk,
+                hp: def.hp,
+                color: def.color,
+                url: def.webp,
+                text: def.text
             };
-            token.src = getCardSvg(token.cardData);
+            token.src = def.webp;
+            token.onerror = () => handleTokenImgError(token, def);
             token.style.position = 'absolute';
             token.style.width = '120px';
             token.style.aspectRatio = '2.5 / 3.5';
@@ -7548,12 +8187,19 @@ function renderPlaytestBarrier() {
             token.onmouseover = () => updatePlaytestDetailView(token.cardData);
             token.onmouseleave = () => resetPlaytestDetailToActiveBarrier();
 
-            attachTouchCardListeners(token);
+            if (typeof attachTouchCardListeners === 'function') {
+                attachTouchCardListeners(token);
+            }
             surface.appendChild(token);
 
-            logAction(`Spawned Shield Token in Activation Area`, () => {
+            if (typeof notifyGhostPracticeEvent === 'function') notifyGhostPracticeEvent('token_spawned', 'zone-activation');
+            logAction(`Spawned ${def.name} in Activation Area`, () => {
                 if (token.parentNode) token.parentNode.removeChild(token);
             });
+        }
+
+        function spawnShield() {
+            spawnToken('shield');
         }
 
         function toggleRotation(cardEl) {
@@ -7862,7 +8508,7 @@ function renderPlaytestBarrier() {
             });
 
             badge.style.display = 'flex';
-            badge.innerHTML = `<span style="color: #ff9800; font-size: 11px; margin-right: 2px;">ATK</span><b style="color: #ff9800; font-size: 14px;">${totalAtk}</b><span style="color: #666; margin: 0 4px;">/</span><span style="color: #00b4ff; font-size: 11px; margin-right: 2px;">DEF</span><b style="color: #00b4ff; font-size: 14px;">${totalDef}</b>`;
+            badge.innerHTML = `<img src="Assets/Support_Assets/Symbols_Atk.webp" alt="" style="width:12px;height:12px;margin-right:3px;object-fit:contain;" onerror="handleSupportAssetError(this,'Symbols_Atk.png')"><span style="color: #ff9800; font-size: 11px; margin-right: 2px;">ATK</span><b style="color: #ff9800; font-size: 14px;">${totalAtk}</b><span style="color: #666; margin: 0 4px;">/</span><img src="Assets/Support_Assets/Symbols_Health.webp" alt="" style="width:12px;height:12px;margin-right:3px;object-fit:contain;" onerror="handleSupportAssetError(this,'Symbols_Health.png')"><span style="color: #00b4ff; font-size: 11px; margin-right: 2px;">DEF</span><b style="color: #00b4ff; font-size: 14px;">${totalDef}</b>`;
         }
 
         function repositionCardsInZone(zoneId) {
@@ -7959,6 +8605,610 @@ function renderPlaytestBarrier() {
             });
             activeZones.forEach(zId => repositionCardsInZone(zId));
         });
+
+
+        // =====================================================================
+        // --- INTERACTIVE HOW TO PLAY GUIDE WITH GH0ST (7 LESSONS) ---
+        // =====================================================================
+        let currentHowToPlayStep = 0;
+
+        const HOW_TO_PLAY_STEPS = [
+            {
+                tabLabel: "1. Objective",
+                subtitle: "MODULE 01 // CORE OBJECTIVE & VICTORY",
+                title: "Welcome to Universe of Legends TCG",
+                avatar: "Assets/Support_Assets/Gh0st_Full.webp",
+                avatarPng: "Gh0st_Full.png",
+                speech: "Greetings, Traveler! I am <b>Gh0st, your Simulated Tech Partner</b>. In <i>Universe of Legends TCG</i>, two players clash across the realms of <b>Magic</b>, <b>Fantasy</b>, and <b>Technology</b>. Your mission is simple: <b>break all 5 of your opponent's Barriers, then land one final unblocked attack to destroy their Universe and win!</b>",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Barrier_Card_Back.webp" onerror="this.src='Assets/Barrier_Card_Back.png'">
+                                <span>Step 1: Break 5 Barriers</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                Every player starts with <b>5 unique Barrier cards</b> stacked in their Barrier Zone, with the top Barrier flipped face-up. Each time you land an unblocked attack against your opponent's Barrier Zone, their active Barrier is destroyed and the next one reveals!
+                            </div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/ic_attack.webp" onerror="handleSupportAssetError(this,'ic_attack.png')">
+                                <span>Step 2: Strike the Final Blow</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                Once your opponent has <b>0 Barriers remaining</b>, their Universe is exposed. Land one more unblocked attack with any active Unit to shatter their Universe and claim victory!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
+                        <div class="htp-info-card-title" style="color: var(--tech-cyan);">
+                            <img src="Assets/Support_Assets/Mini_Logo.webp" onerror="handleSupportAssetError(this,'Mini_Logo.png')">
+                            <span>Battlefield Zones at a Glance</span>
+                        </div>
+                        <div class="htp-info-card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 4px;">
+                            <div><b style="color:var(--fantasy-gold);">• 4 Main Field Zones:</b> Where you summon Units (Minions, Legends, Celestials) and deploy Anchors.</div>
+                            <div><b style="color:var(--crystal-green);">• Energy Zone (Max 10):</b> Where you charge cards once per turn to pay Energy Costs and trigger <b>SPARK</b> abilities.</div>
+                            <div><b style="color:var(--crystal-blue);">• Activation Area (The Flow):</b> Where played Actions, Re-Actions, and spawned Tokens resolve.</div>
+                            <div><b style="color:var(--crystal-purple);">• The Unknown:</b> Your discard and destroyed pile—cards here can only return via specific abilities.</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                tabLabel: "2. Realms & Colors",
+                subtitle: "MODULE 02 // REALMS & BARRIER COLORS",
+                title: "The Three Realms & Six Barrier Colors",
+                avatar: "Assets/Support_Assets/Gh0st_Crop.webp",
+                avatarPng: "Gh0st_Crop.png",
+                speech: "Every card belongs to one of <b>Three Realms</b>—<b>Magic</b>, <b>Fantasy</b>, or <b>Technology</b>—and carries a <b>Color Requirement</b>. The <b>5 Barrier cards</b> you choose during deck building define which colors you are allowed to put into your Universe and Re/Action decks!",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card" style="border-left-color: var(--magic-purple);">
+                            <div class="htp-info-card-title" style="color: var(--crystal-purple);">
+                                <img src="Assets/Support_Assets/Magic.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Magic.png')">
+                                <span>Magic Realm</span>
+                            </div>
+                            <div class="htp-info-card-body">Masters of arcane manipulation, spell chains on The Flow, hand control, and Temptation tokens.</div>
+                        </div>
+                        <div class="htp-info-card" style="border-left-color: var(--fantasy-gold);">
+                            <div class="htp-info-card-title" style="color: var(--fantasy-gold);">
+                                <img src="Assets/Support_Assets/Fantasy.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Fantasy.png')">
+                                <span>Fantasy Realm</span>
+                            </div>
+                            <div class="htp-info-card-body">Legendary heroes, mythical Familiars, high-seas raiders, and multi-item weapon stacking.</div>
+                        </div>
+                        <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
+                            <div class="htp-info-card-title" style="color: var(--tech-cyan);">
+                                <img src="Assets/Support_Assets/Tech.webp" class="realm-emblem-glow" onerror="handleSupportAssetError(this,'Tech.png')">
+                                <span>Technology Realm</span>
+                            </div>
+                            <div class="htp-info-card-body">Precision D-Rangers, cybernetic armor, Mobilize unit formations, Shield/Sealed tokens, and Energy acceleration.</div>
+                        </div>
+                    </div>
+                    <div class="htp-info-card">
+                        <div class="htp-info-card-title">
+                            <span>The 5 Barrier Colors + White / Neutral Affinity</span>
+                        </div>
+                        <div class="htp-info-card-body">
+                            Your 5 Barriers unlock your deck's colors. Some powerful Legends require <b>2 Barriers of the same color</b> active to unlock their strongest effects!
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 8px; margin-top: 8px;">
+                                <div style="display:flex;align-items:center;gap:6px;background:rgba(0,180,255,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(0,180,255,0.35);">
+                                    <img src="Assets/Support_Assets/Blue_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Blue_Color.png')">
+                                    <b>Blue</b>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;background:rgba(0,230,118,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(0,230,118,0.35);">
+                                    <img src="Assets/Support_Assets/Green_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Green_Color.png')">
+                                    <b>Green</b>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;background:rgba(255,61,87,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(255,61,87,0.35);">
+                                    <img src="Assets/Support_Assets/Red_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Red_Color.png')">
+                                    <b>Red</b>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(255,215,0,0.35);">
+                                    <img src="Assets/Support_Assets/Yellow_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Yellow_Color.png')">
+                                    <b>Yellow</b>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;background:rgba(157,78,221,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(157,78,221,0.35);">
+                                    <img src="Assets/Support_Assets/Purple_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Purple_Color.png')">
+                                    <b>Purple</b>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;background:rgba(226,232,240,0.12);padding:5px 8px;border-radius:4px;border:1px solid rgba(226,232,240,0.35);">
+                                    <img src="Assets/Support_Assets/Neutral_Color.webp" style="width:20px;height:20px;object-fit:contain;" onerror="handleSupportAssetError(this,'Neutral_Color.png')">
+                                    <b>White / Neutral</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                tabLabel: "3. Card Types",
+                subtitle: "MODULE 03 // CARD TYPES & STAT ICONS",
+                title: "Card Types & How to Read Stats",
+                avatar: "Assets/Support_Assets/Gh0st_Full.webp",
+                avatarPng: "Gh0st_Full.png",
+                speech: "Your arsenal consists of <b>Five Card Types</b>. Pay close attention to a card's <b>Energy Cost</b>, <b>Attack Power (ATK)</b>, <b>Defense Power (DEF)</b>, and <b>Item Slots</b>—I've highlighted the official symbols on the holo-board for you!",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/ic_attack.webp" onerror="handleSupportAssetError(this,'ic_attack.png')">
+                                <span>Units (Minions, Legends, Celestials)</span>
+                            </div>
+                            <div class="htp-info-card-body">Your main attackers and defenders deployed into your 4 Field Zones. <b>Legends</b> can equip Items up to their Item Slot capacity.</div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/Item.webp" onerror="handleSupportAssetError(this,'Item.png')">
+                                <span>Items &amp; Anchors</span>
+                            </div>
+                            <div class="htp-info-card-body"><b>Items</b> stack under Legends to grant bonus stats and abilities. <b>Anchors</b> are powerful relics or locations that occupy one of your 4 Field Zones.</div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Reaction.webp" onerror="this.src='Assets/Reaction.png'">
+                                <span>Actions &amp; Re-Actions</span>
+                            </div>
+                            <div class="htp-info-card-body">Played directly from your separate <b>Re/Action Deck</b> by resting Energy! <b>Actions</b> play on your turn; <b>Re-Actions</b> can be played on <i>either</i> player's turn!</div>
+                        </div>
+                    </div>
+                    <div class="htp-info-card" style="border-left-color: var(--tech-cyan);">
+                        <div class="htp-info-card-title" style="color: var(--tech-cyan);">
+                            <span>Official Card Stat Symbols</span>
+                        </div>
+                        <div class="htp-info-card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px; margin-top: 4px;">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <img src="Assets/Support_Assets/Element_board.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'Element_board.png')">
+                                <div><b style="color:var(--fantasy-gold);">Energy Cost</b><br>Number of Energy cards you must rest to play the card.</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <img src="Assets/Support_Assets/ic_attack.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'ic_attack.png')">
+                                <div><b style="color:#ff8a80;">Attack Power (ATK)</b><br>Damage dealt during combat (<img src="Assets/Support_Assets/Symbols_Atk.webp" style="width:11px;height:11px;vertical-align:-1px;" onerror="handleSupportAssetError(this,'Symbols_Atk.png')">).</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <img src="Assets/Support_Assets/ic_shield.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'ic_shield.png')">
+                                <div><b style="color:#69f0ae;">Defense Power (DEF)</b><br>Health before being destroyed (<img src="Assets/Support_Assets/Symbols_Health.webp" style="width:11px;height:11px;vertical-align:-1px;" onerror="handleSupportAssetError(this,'Symbols_Health.png')">). Resets at end of turn.</div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <img src="Assets/Support_Assets/Item_Slots.webp" style="width:28px;height:28px;object-fit:contain;" onerror="handleSupportAssetError(this,'Item_Slots.png')">
+                                <div><b style="color:var(--tech-cyan);">Item Slots / Weight</b><br>Legends hold up to 3 Item Slots; 0-weight Items fit on any unit!</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                tabLabel: "4. Deck & Setup",
+                subtitle: "MODULE 04 // DECK BUILDING & PRE-GAME SETUP",
+                title: "Building Your Deck & Starting a Match",
+                avatar: "Assets/Support_Assets/Gh0st_Crop.webp",
+                avatarPng: "Gh0st_Crop.png",
+                speech: "Before entering battle, you assemble <b>Three Separate Decks</b>: your 5 Barriers, your 40–50 card Universe Deck, and up to 10 Re/Action cards. Once at the table, follow these 4 setup steps to begin!",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Barrier_Card_Back.webp" onerror="this.src='Assets/Barrier_Card_Back.png'">
+                                <span>1. Barrier Deck (Exactly 5)</span>
+                            </div>
+                            <div class="htp-info-card-body">Choose <b>5 different Barrier cards</b> (max 1 of each). Their colors unlock the cards you can include in your other decks.</div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Regular_Card_Back.webp" onerror="this.src='Assets/Regular_Card_Back.png'">
+                                <span>2. Universe Deck (40–50 Cards)</span>
+                            </div>
+                            <div class="htp-info-card-body">Contains Units, Items, and Anchors. Up to <b>3 copies</b> of any Minion or Item, and <b>1 copy</b> of any Legend, Celestial, or Anchor.</div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Reaction.webp" onerror="this.src='Assets/Reaction.png'">
+                                <span>3. Re/Action Deck (Up to 10)</span>
+                            </div>
+                            <div class="htp-info-card-body">Up to <b>10 unique Action / Re-Action cards</b> (max 1 of each). At most <b>1 "Alpha"</b> Action or Re-Action is permitted in your deck!</div>
+                        </div>
+                    </div>
+                    <div class="htp-info-card" style="border-left-color: var(--crystal-green);">
+                        <div class="htp-info-card-title" style="color: var(--crystal-green);">
+                            <span>Match Setup Sequence (Step-by-Step)</span>
+                        </div>
+                        <div class="htp-info-card-body">
+                            <b>1. Shuffle &amp; Draw 7:</b> Shuffle your Universe and Barrier decks into their zones, then draw a <b>7-card starting hand</b>.<br>
+                            <b>2. Mulligan (Optional):</b> Place any number of cards from your hand on the <i>bottom</i> of your Universe Deck, then draw back up to 7 cards.<br>
+                            <b>3. Starting Resources (Charge 2):</b> Choose <b>2 cards from your hand</b> and place them face-up into your <b>Energy Zone</b> as starting resources. <i>Tip: Prioritize cards with the <b>SPARK</b> keyword so you can activate their Energy Zone abilities!</i><br>
+                            <b>4. First Turn &amp; Barrier Reveal:</b> Roll a die (high roll goes first). Both players flip their top Barrier card face-up and resolve any <i>On Reveal</i> abilities!
+                        </div>
+                    </div>
+                `
+            },
+            {
+                tabLabel: "5. Turn Phases",
+                subtitle: "MODULE 05 // FLUID TURN STRUCTURE",
+                title: "The Three Phases of Every Turn",
+                avatar: "Assets/Support_Assets/Gh0st_Full.webp",
+                avatarPng: "Gh0st_Full.png",
+                speech: "Turns in <i>Universe of Legends</i> are fluid and tactical! After your <b>Draw Phase</b> and <b>Charge Phase</b>, your <b>Main Phase</b> lets you play cards, activate abilities, and attack in any order you choose!",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card" style="border-left-color: var(--crystal-blue);">
+                            <div class="htp-info-card-title" style="color: var(--crystal-blue);">
+                                <span>Phase 1: Draw Phase</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                Draw <b>2 cards</b> from your Universe Deck at the start of your turn.<br><br>
+                                <i>First-Turn Rule:</i> The player who goes first draws only <b>1 card</b> on their very first turn.
+                            </div>
+                        </div>
+                        <div class="htp-info-card" style="border-left-color: var(--crystal-green);">
+                            <div class="htp-info-card-title" style="color: var(--crystal-green);">
+                                <span>Phase 2: Charge Phase</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                <b>1. Ready All Cards:</b> Stand all of your rested Units and rested Energy cards (rotate from horizontal back to vertical).<br>
+                                <b>2. Charge 1 Energy:</b> You may place <b>1 card from your hand</b> into your Energy Zone (up to 10 max).
+                            </div>
+                        </div>
+                        <div class="htp-info-card" style="border-left-color: var(--fantasy-gold);">
+                            <div class="htp-info-card-title" style="color: var(--fantasy-gold);">
+                                <span>Phase 3: Main Phase (Fluid)</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                Perform any of these actions in any order:<br>
+                                • <b>Play Cards</b> from hand or Re/Action Deck by resting Energy equal to Cost.<br>
+                                • <b>Activate Abilities</b> on Field Units, Legends, or <b>SPARK</b> cards.<br>
+                                • <b>Declare Attacks</b> with active Units!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="htp-info-card">
+                        <div class="htp-info-card-title">
+                            <span>Pro Tip: Resting Cards in the Testing Arena</span>
+                        </div>
+                        <div class="htp-info-card-body">
+                            In the Testing Arena, <b>double-click</b> (or <b>double-tap</b> on mobile) any card on the field or in your Energy Zone to rotate/rest it! Resting a card inside the Energy Zone automatically logs <code>Rested "[Card Name]" for energy</code> in the Action Log.
+                        </div>
+                    </div>
+                `
+            },
+            {
+                tabLabel: "6. Combat & The Flow",
+                subtitle: "MODULE 06 // COMBAT, BARRIERS & THE FLOW",
+                title: "Attacking, Blocking & The Flow Chain",
+                avatar: "Assets/Support_Assets/Gh0st_Crop.webp",
+                avatarPng: "Gh0st_Crop.png",
+                speech: "Units can attack on the very turn they are played—there is no summoning sickness! And whenever an attack, card play, or ability happens, it goes onto a priority chain called <b>The Flow</b>, where players can respond with <b>Re-Actions</b>!",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/Symbols_Atk.webp" onerror="handleSupportAssetError(this,'Symbols_Atk.png')">
+                                <span>1. Declaring an Attack &amp; Blocking</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                • <b>Attack:</b> Rest an active Unit to target either your opponent's <b>face-up Barrier</b> or one of their <b>rested Units</b>.<br>
+                                • <b>Block:</b> The defending player may rest one of their active Units to intercept and redirect the attack to that blocker.
+                            </div>
+                        </div>
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/Symbols_Health.webp" onerror="handleSupportAssetError(this,'Symbols_Health.png')">
+                                <span>2. Combat Damage &amp; Barrier Break</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                • Battling Units deal their <b>ATK</b> to each other's <b>DEF</b> simultaneously. Units reduced to <b>0 DEF</b> are destroyed and sent to <b>The Unknown</b>.<br>
+                                • An unblocked Barrier attack destroys the active Barrier (triggering <b>VAPORIZE</b>) and flips the next Barrier face-up!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="htp-info-card" style="border-left-color: var(--crystal-purple);">
+                        <div class="htp-info-card-title" style="color: var(--crystal-purple);">
+                            <img src="Assets/Reaction.webp" onerror="this.src='Assets/Reaction.png'">
+                            <span>The Flow: How Re-Actions Resolve (Last-In, First-Out)</span>
+                        </div>
+                        <div class="htp-info-card-body">
+                            Whenever an event occurs—playing a card, declaring an attack, or activating a Legend/SPARK ability—it is placed onto <b>The Flow</b> (Activation Area). Priority passes to your opponent, who may rest Energy to play a <b>Re-Action</b> from their Re/Action Deck onto The Flow. Players alternate adding Re-Actions until both pass in succession; the chain then resolves <b>from the most recent card back to the oldest!</b>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                tabLabel: "7. Stacking & Tokens",
+                subtitle: "MODULE 07 // STACKING, KEYWORDS & TOKENS",
+                title: "Stacking Rules, Keywords & Official Tokens",
+                avatar: "Assets/Support_Assets/Gh0st_Full.webp",
+                avatarPng: "Gh0st_Full.png",
+                speech: "To master <i>Universe of Legends</i>, combine your cards through <b>Stacking</b> and deploy tactical <b>Tokens</b>! Remember: a Stack counts as a <b>single Unit</b> with combined ATK and DEF—if a Stack's DEF reaches 0, the entire Stack is sent to The Unknown!",
+                renderBoard: () => `
+                    <div class="htp-cards-grid">
+                        <div class="htp-info-card">
+                            <div class="htp-info-card-title">
+                                <img src="Assets/Support_Assets/Item_Slots.webp" onerror="handleSupportAssetError(this,'Item_Slots.png')">
+                                <span>Stacking &amp; Key Mechanics</span>
+                            </div>
+                            <div class="htp-info-card-body">
+                                • <b>MOBILIZE:</b> Minions with <i>MOBILIZE</i> can stack on top of or under other <i>MOBILIZE</i> units.<br>
+                                • <b>FAMILIAR:</b> Minions with <i>FAMILIAR</i> can stack under any <b>Legend</b>.<br>
+                                • <b>ITEMS:</b> Stack under Legends (up to <b>3 Item Slots</b> by weight; <b>0-weight Items</b> can stack under <i>any</i> Unit!).<br>
+                                • <b>SPARK:</b> Cards with a yellow Spark symbol can activate their special ability while in your <b>Energy Zone</b>!
+                            </div>
+                        </div>
+                    </div>
+                    <div style="font-size: 11.5px; font-weight: 800; color: var(--fantasy-gold); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;">
+                        Official Playable Tokens (Available in Testing Arena Top Bar)
+                    </div>
+                    <div class="htp-token-showcase">
+                        <div class="htp-token-card">
+                            <img src="Assets/Tokens/Shield.webp" alt="Shield Token" onerror="this.src='Assets/Tokens/Shield.png'">
+                            <div>
+                                <div style="font-size:11.5px;font-weight:800;color:var(--fantasy-gold);">Shield Token</div>
+                                <div style="font-size:9.5px;color:var(--tech-cyan);margin-bottom:2px;">Token • Tech</div>
+                                <div style="font-size:10px;color:#d0d8e8;line-height:1.3;">If this unit would be destroyed, remove this card instead.</div>
+                            </div>
+                        </div>
+                        <div class="htp-token-card">
+                            <img src="Assets/Tokens/Sealed.webp" alt="Sealed Token" onerror="this.src='Assets/Tokens/Sealed.png'">
+                            <div>
+                                <div style="font-size:11.5px;font-weight:800;color:var(--fantasy-gold);">Sealed Token</div>
+                                <div style="font-size:9.5px;color:var(--tech-cyan);margin-bottom:2px;">Token • Tech</div>
+                                <div style="font-size:10px;color:#d0d8e8;line-height:1.3;">This unit cannot attack, block, activate abilities, or stand during Charge phase.</div>
+                            </div>
+                        </div>
+                        <div class="htp-token-card">
+                            <img src="Assets/Tokens/Temptation.webp" alt="Temptation Token" onerror="this.src='Assets/Tokens/Temptation.png'">
+                            <div>
+                                <div style="font-size:11.5px;font-weight:800;color:var(--crystal-purple);">Temptation Token</div>
+                                <div style="font-size:9.5px;color:var(--crystal-blue);margin-bottom:2px;">Token • Magic (-1/-1)</div>
+                                <div style="font-size:10px;color:#d0d8e8;line-height:1.3;">A unit must be played on this card. Grants <b>-1 ATK / -1 DEF</b>.</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        function goToHowToPlay(stepIndex = 0) {
+            if (!currentAccessRole) {
+                alert("Please enter a valid access passcode on the start screen to continue.");
+                showPasscodeGate();
+                return;
+            }
+            closeSaveDeckModal();
+            closeBackendModal();
+            closeCardEditorModal();
+
+            document.getElementById('start-view').style.display = 'none';
+            document.getElementById('builder-view').style.display = 'none';
+            document.getElementById('playtest-view').style.display = 'none';
+            document.getElementById('top-nav-bar').style.display = 'none';
+            const packView = document.getElementById('pack-opening-view');
+            if (packView) packView.style.display = 'none';
+
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'flex';
+
+            renderHowToPlayStep(stepIndex);
+        }
+
+        function renderHowToPlayStep(idx) {
+            if (idx < 0) idx = 0;
+            if (idx >= HOW_TO_PLAY_STEPS.length) idx = HOW_TO_PLAY_STEPS.length - 1;
+            currentHowToPlayStep = idx;
+
+            const step = HOW_TO_PLAY_STEPS[idx];
+            const tabsContainer = document.getElementById('htp-step-tabs');
+            if (tabsContainer) {
+                tabsContainer.innerHTML = HOW_TO_PLAY_STEPS.map((s, i) =>
+                    `<button class="htp-step-tab ${i === idx ? 'active' : ''}" onclick="renderHowToPlayStep(${i})">${s.tabLabel}</button>`
+                ).join('');
+            }
+
+            const avatar = document.getElementById('htp-ghost-avatar');
+            if (avatar) {
+                avatar.dataset.triedPng = '';
+                avatar.dataset.triedSpaceDir = '';
+                avatar.src = step.avatar;
+                avatar.onerror = () => handleSupportAssetError(avatar, step.avatarPng);
+            }
+
+            const speechEl = document.getElementById('htp-speech-text');
+            if (speechEl) speechEl.innerHTML = step.speech;
+
+            const subEl = document.getElementById('htp-board-subtitle');
+            if (subEl) subEl.innerText = step.subtitle;
+
+            const titleEl = document.getElementById('htp-board-title');
+            if (titleEl) titleEl.innerText = step.title;
+
+            const contentEl = document.getElementById('htp-board-content');
+            if (contentEl) contentEl.innerHTML = step.renderBoard();
+
+            const counterEl = document.getElementById('htp-step-counter');
+            if (counterEl) counterEl.innerText = `STEP ${idx + 1} / ${HOW_TO_PLAY_STEPS.length}`;
+
+            const prevBtn = document.getElementById('htp-prev-btn');
+            if (prevBtn) prevBtn.disabled = (idx === 0);
+
+            const nextBtn = document.getElementById('htp-next-btn');
+            if (nextBtn) {
+                if (idx === HOW_TO_PLAY_STEPS.length - 1) {
+                    nextBtn.innerText = 'Start Deck Builder ▶';
+                    nextBtn.onclick = () => goToDeckBuilder();
+                } else {
+                    nextBtn.innerText = 'Next Step ▶';
+                    nextBtn.onclick = () => nextHowToPlayStep();
+                }
+            }
+        }
+
+        function nextHowToPlayStep() {
+            if (currentHowToPlayStep < HOW_TO_PLAY_STEPS.length - 1) {
+                renderHowToPlayStep(currentHowToPlayStep + 1);
+            } else {
+                goToDeckBuilder();
+            }
+        }
+
+        function prevHowToPlayStep() {
+            if (currentHowToPlayStep > 0) {
+                renderHowToPlayStep(currentHowToPlayStep - 1);
+            }
+        }
+
+
+        // =====================================================================
+        // --- INTERACTIVE ON-PLAYMAT GH0ST PRACTICE DRILL (6 LIVE STEPS) ---
+        // =====================================================================
+        let isGhostPracticeActive = false;
+        let currentGhostPracticeStep = 0;
+
+        const GHOST_PRACTICE_STEPS = [
+            {
+                title: "1. Draw Starting Hand & Flip Barrier",
+                text: "Click the green <b>Starting Hand (7)</b> button in the top control bar to draw 7 cards and reveal your first Barrier in the Barrier Zone!",
+                highlightSelector: "button[onclick*='drawStartingHand']"
+            },
+            {
+                title: "2. Charge Your Energy Zone",
+                text: "Drag <b>any card from your Hand</b> at the bottom into the green <b>Energy Zone</b> in the lower middle of the playmat!",
+                highlightSelector: "#bottom-fan-zone"
+            },
+            {
+                title: "3. Rest Energy to Pay Cost",
+                text: "<b>Double-click</b> (or <b>double-tap</b> on mobile) the card inside your <b>Energy Zone</b> to rotate/rest it and generate Energy!",
+                highlightSelector: "#bottom-fan-zone"
+            },
+            {
+                title: "4. Deploy a Unit or Anchor",
+                text: "Drag a <b>Unit or Anchor card</b> from your Hand into any of the <b>4 Main Field Zones</b> in the center of the playmat!",
+                highlightSelector: "#mid-zone-1, #mid-zone-2, #mid-zone-3, #mid-zone-4"
+            },
+            {
+                title: "5. Declare an Attack (Rest Unit)",
+                text: "Units have no summoning sickness! <b>Double-click</b> (or <b>double-tap</b>) your deployed Field Unit to rest it and declare an attack!",
+                highlightSelector: "#mid-zone-1, #mid-zone-2, #mid-zone-3, #mid-zone-4"
+            },
+            {
+                title: "6. Use The Flow & Spawn a Token",
+                text: "Click <b>+ Shield</b>, <b>+ Sealed</b>, or <b>+ Temptation</b> in the top bar (or click your purple <b>Re/Action Deck</b>) to deploy onto <b>The Flow</b>!",
+                highlightSelector: "#zone-activation"
+            },
+            {
+                title: "Training Complete! You're Ready!",
+                text: "Awesome job, Traveler! You've mastered drawing, charging energy, deploying units, attacking, and using The Flow. Keep testing or build your own deck!",
+                highlightSelector: null
+            }
+        ];
+
+        function clearGhostHighlights() {
+            document.querySelectorAll('.ghost-tutorial-highlight').forEach(el => {
+                el.classList.remove('ghost-tutorial-highlight');
+            });
+        }
+
+        function renderGhostPracticeStep() {
+            clearGhostHighlights();
+            const hud = document.getElementById('ghost-coach-hud');
+            if (!isGhostPracticeActive || !hud) {
+                if (hud) hud.style.display = 'none';
+                return;
+            }
+            hud.style.display = 'block';
+            const step = GHOST_PRACTICE_STEPS[currentGhostPracticeStep] || GHOST_PRACTICE_STEPS[0];
+            const total = GHOST_PRACTICE_STEPS.length - 1;
+            const badge = document.getElementById('ghost-coach-step-badge');
+            if (badge) {
+                badge.innerText = currentGhostPracticeStep < total
+                    ? `GH0ST DRILL // STEP ${currentGhostPracticeStep + 1} OF ${total}`
+                    : `GH0ST DRILL // COMPLETED!`;
+            }
+            const titleEl = document.getElementById('ghost-coach-title');
+            if (titleEl) titleEl.innerText = step.title;
+            const textEl = document.getElementById('ghost-coach-text');
+            if (textEl) textEl.innerHTML = step.text;
+
+            if (step.highlightSelector) {
+                document.querySelectorAll(step.highlightSelector).forEach(el => {
+                    el.classList.add('ghost-tutorial-highlight');
+                });
+            }
+        }
+
+        function startInteractiveGhostPractice() {
+            // Auto-load Starter Deck if player hasn't built a deck yet
+            if (mainDeck.length === 0 || barrierDeck.length < 5) {
+                const starter = savedDecksMap['starter deck - fractures in time'];
+                if (starter) {
+                    const origAlert = window.alert;
+                    window.alert = () => {};
+                    loadDeckDataIntoBuilder(starter);
+                    window.alert = origAlert;
+                } else {
+                    seedStarterDeck();
+                    const s2 = savedDecksMap['starter deck - fractures in time'];
+                    if (s2) {
+                        const origAlert = window.alert;
+                        window.alert = () => {};
+                        loadDeckDataIntoBuilder(s2);
+                        window.alert = origAlert;
+                    }
+                }
+            }
+            const htpView = document.getElementById('how-to-play-view');
+            if (htpView) htpView.style.display = 'none';
+
+            isGhostPracticeActive = true;
+            currentGhostPracticeStep = 0;
+            startPlaytest();
+            renderGhostPracticeStep();
+            logAction("Started Gh0st Interactive Practice Drill.");
+        }
+
+        function stopInteractiveGhostPractice() {
+            isGhostPracticeActive = false;
+            clearGhostHighlights();
+            const hud = document.getElementById('ghost-coach-hud');
+            if (hud) hud.style.display = 'none';
+        }
+
+        function nextGhostPracticeStep() {
+            if (currentGhostPracticeStep < GHOST_PRACTICE_STEPS.length - 1) {
+                currentGhostPracticeStep++;
+                renderGhostPracticeStep();
+            } else {
+                stopInteractiveGhostPractice();
+            }
+        }
+
+        function prevGhostPracticeStep() {
+            if (currentGhostPracticeStep > 0) {
+                currentGhostPracticeStep--;
+                renderGhostPracticeStep();
+            }
+        }
+
+        function notifyGhostPracticeEvent(eventType, zoneId = '') {
+            if (!isGhostPracticeActive) return;
+            if (currentGhostPracticeStep === 0 && eventType === 'starting_hand') {
+                currentGhostPracticeStep = 1;
+                renderGhostPracticeStep();
+            } else if (currentGhostPracticeStep === 1 && eventType === 'card_dropped' && zoneId === 'bottom-fan-zone') {
+                currentGhostPracticeStep = 2;
+                renderGhostPracticeStep();
+            } else if (currentGhostPracticeStep === 2 && eventType === 'card_rotated' && zoneId === 'bottom-fan-zone') {
+                currentGhostPracticeStep = 3;
+                renderGhostPracticeStep();
+            } else if (currentGhostPracticeStep === 3 && eventType === 'card_dropped' && zoneId.startsWith('mid-zone-')) {
+                currentGhostPracticeStep = 4;
+                renderGhostPracticeStep();
+            } else if (currentGhostPracticeStep === 4 && eventType === 'card_rotated' && zoneId.startsWith('mid-zone-')) {
+                currentGhostPracticeStep = 5;
+                renderGhostPracticeStep();
+            } else if (currentGhostPracticeStep === 5 && (eventType === 'token_spawned' || (eventType === 'card_dropped' && zoneId === 'zone-activation'))) {
+                currentGhostPracticeStep = 6;
+                renderGhostPracticeStep();
+            }
+        }
 
         window.onload = () => {
             initBuilder();
