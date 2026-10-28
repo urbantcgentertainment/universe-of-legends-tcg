@@ -2549,6 +2549,7 @@
             img.src = getDefaultCardBackSvg();
         }
     </script>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 </head>
 <body>
         <!-- Portrait Mode Mobile Advisory Overlay (Dismissible) -->
@@ -2639,6 +2640,9 @@
                     </button>
                     <button id="start-card-editor-btn" class="start-btn start-btn-admin" onclick="openCardEditorModal()" style="display: none;">
                         <span>Card Database Editor</span>
+                    </button>
+                    <button id="start-pvp-btn" class="start-btn start-btn-admin" onclick="openPvPLobbyModal()" style="display: none; border-color: #00e5ff; background: linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(15, 18, 28, 0.9));">
+                        <span>⚔️ Online PvP Arena (Alpha)</span>
                     </button>
                 </div>
             </div>
@@ -3334,6 +3338,19 @@
                     </div>
                 </div>
 
+                <!-- Discord Webhook Matchmaking Notification Section -->
+                <div style="background: #10121a; border: 1px solid #5865f2; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <span style="font-size: 12px; font-weight: bold; color: #7289da;">Discord Matchmaking Webhook:</span>
+                        <span style="font-size: 10px; color: #aaa;">Channel Alerts</span>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <input type="text" id="backend-discord-webhook-input" placeholder="https://discord.com/api/webhooks/..." style="flex-grow: 1; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 12px;">
+                        <button class="btn-purple" onclick="saveDiscordWebhookUrlFromBackend()" style="padding: 6px 12px; font-size: 11px;">Save</button>
+                    </div>
+                    <div style="font-size: 10.5px; color: #888; margin-top: 4px;">Pings your Discord server when an admin creates a PvP match room.</div>
+                </div>
+
                 <!-- Admin Mode & Passcode Section -->
                 <div style="background: #10121a; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
@@ -3371,6 +3388,108 @@
 
             <div style="display: flex; justify-content: flex-end; border-top: 1px solid #2a2c3d; padding-top: 10px; margin-top: 10px; flex-shrink: 0;">
                 <button class="btn-blue" onclick="closeBackendModal()" style="padding: 6px 16px; font-size: 12px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ONLINE PVP LOBBY MODAL (PEERJS WEBRTC) ================= -->
+    <div id="pvp-lobby-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 680px; width: 92vw; border-color: #00e5ff; box-shadow: 0 0 35px rgba(0, 229, 255, 0.3); background: #121420;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 18px; color: #00e5ff; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">⚔️ Online PvP Arena (Alpha)</span>
+                    <span style="font-size: 10px; background: rgba(0, 229, 255, 0.15); border: 1px solid #00e5ff; color: #00e5ff; padding: 2px 6px; border-radius: 4px; font-weight: bold;">P2P WebRTC</span>
+                </div>
+                <button class="btn-red" onclick="closePvPLobbyModal()" style="padding: 4px 10px; font-size: 12px;">✕ Close</button>
+            </div>
+
+            <!-- Tab Navigation: Host vs Join -->
+            <div style="display: flex; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid #252838; padding-bottom: 8px;">
+                <button id="pvp-tab-host" class="btn-blue" onclick="switchPvPTab('host')" style="flex: 1; padding: 8px; font-size: 12.5px; font-weight: bold;">1. Host a Match</button>
+                <button id="pvp-tab-join" class="btn-purple" onclick="switchPvPTab('join')" style="flex: 1; padding: 8px; font-size: 12.5px; font-weight: bold; background: #232533; border: 1px solid #444;">2. Join a Match</button>
+            </div>
+
+            <!-- HOST VIEW -->
+            <div id="pvp-host-section" style="display: block;">
+                <div style="background: rgba(18, 20, 30, 0.7); border: 1px solid #2a2d40; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12px; font-weight: 800; color: var(--fantasy-gold); margin-bottom: 6px;">SELECT YOUR SAVED DECK</label>
+                    <select id="pvp-host-deck-select" style="width: 100%; padding: 8px 10px; background: #0c0e15; border: 1px solid #333d5a; border-radius: 6px; color: #fff; font-size: 12px; margin-bottom: 12px;">
+                        <!-- Populated dynamically -->
+                    </select>
+
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="btn-green" onclick="generatePvPRoomCode()" style="padding: 8px 16px; font-size: 12px; font-weight: bold;">Generate Room Code</button>
+                        <span id="pvp-host-status" style="font-size: 12px; color: #aaa;">Click to host and create room.</span>
+                    </div>
+                </div>
+
+                <!-- Generated Room Code Box -->
+                <div id="pvp-room-code-box" style="display: none; background: rgba(10, 12, 18, 0.9); border: 2px dashed #00e5ff; border-radius: 8px; padding: 16px; text-align: center; margin-bottom: 14px;">
+                    <div style="font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Share this Room Code with your opponent:</div>
+                    <div id="pvp-display-room-code" style="font-family: monospace; font-size: 28px; font-weight: 900; color: #ffd700; letter-spacing: 4px; margin: 8px 0;">UOL-XXXX</div>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                        <button class="btn-blue" onclick="copyPvPRoomCode()" style="padding: 6px 14px; font-size: 11.5px;">📋 Copy Room Code</button>
+                        <button id="pvp-broadcast-discord-btn" class="btn-purple" onclick="broadcastPvPToDiscord()" style="padding: 6px 14px; font-size: 11.5px; background: #5865f2; border: 1px solid #5865f2;">📢 Ping Discord Matchmaking</button>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11.5px; color: var(--tech-cyan);">
+                        <span class="pvp-radar-dot" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #00e5ff;"></span>
+                        Waiting for challenger to connect...
+                    </div>
+                </div>
+            </div>
+
+            <!-- JOIN VIEW -->
+            <div id="pvp-join-section" style="display: none;">
+                <div style="background: rgba(18, 20, 30, 0.7); border: 1px solid #2a2d40; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12px; font-weight: 800; color: var(--fantasy-gold); margin-bottom: 6px;">SELECT YOUR SAVED DECK</label>
+                    <select id="pvp-join-deck-select" style="width: 100%; padding: 8px 10px; background: #0c0e15; border: 1px solid #333d5a; border-radius: 6px; color: #fff; font-size: 12px; margin-bottom: 12px;">
+                        <!-- Populated dynamically -->
+                    </select>
+
+                    <label style="display: block; font-size: 12px; font-weight: 800; color: var(--tech-cyan); margin-bottom: 6px;">ENTER OPPONENT'S ROOM CODE</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="pvp-join-code-input" placeholder="e.g. UOL-7429" style="flex: 1; padding: 9px 12px; background: #0c0e15; border: 1.5px solid #333d5a; border-radius: 6px; color: #ffd700; font-family: monospace; font-size: 16px; font-weight: bold; letter-spacing: 2px;">
+                        <button class="btn-green" onclick="connectToPvPRoom()" style="padding: 9px 18px; font-size: 12px; font-weight: bold;">Connect &amp; Duel</button>
+                    </div>
+                    <div id="pvp-join-status" style="font-size: 11.5px; color: #aaa; margin-top: 8px;">Enter the 6-character room code given by the match host.</div>
+                </div>
+            </div>
+
+            <!-- CONNECTED HANDSHAKE STAGE -->
+            <div id="pvp-handshake-section" style="display: none; background: rgba(14, 18, 28, 0.85); border: 2px solid #66bb6a; border-radius: 8px; padding: 16px; margin-bottom: 14px;">
+                <div style="text-align: center; font-size: 13px; font-weight: 800; color: #66bb6a; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">
+                    ✓ DUEL CONNECTION ESTABLISHED!
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+                    <!-- Player 1 Profile Card -->
+                    <div id="pvp-p1-card" style="background: rgba(10, 12, 20, 0.8); border: 1px solid #333d5a; border-radius: 6px; padding: 10px; text-align: center;">
+                        <div id="pvp-p1-name" style="font-size: 13px; font-weight: bold; color: var(--tech-cyan);">Host Player</div>
+                        <div id="pvp-p1-deck" style="font-size: 11px; color: #aaa; margin-top: 2px;">Deck: Starter Deck</div>
+                        <div id="pvp-p1-status" style="font-size: 10.5px; color: #ffd700; margin-top: 6px;">Ready</div>
+                    </div>
+
+                    <!-- Player 2 Profile Card -->
+                    <div id="pvp-p2-card" style="background: rgba(10, 12, 20, 0.8); border: 1px solid #333d5a; border-radius: 6px; padding: 10px; text-align: center;">
+                        <div id="pvp-p2-name" style="font-size: 13px; font-weight: bold; color: var(--fantasy-gold);">Challenger</div>
+                        <div id="pvp-p2-deck" style="font-size: 11px; color: #aaa; margin-top: 2px;">Deck: Starter Deck</div>
+                        <div id="pvp-p2-status" style="font-size: 10.5px; color: #ffd700; margin-top: 6px;">Ready</div>
+                    </div>
+                </div>
+
+                <!-- Dice Roll & Match Start Button -->
+                <div style="text-align: center; border-top: 1px solid #2a2c3d; padding-top: 12px;">
+                    <div id="pvp-dice-roll-result" style="font-size: 12px; color: #ffd700; font-weight: bold; margin-bottom: 10px;">
+                        🎲 Roll: Deciding first turn player...
+                    </div>
+                    <button id="pvp-start-duel-btn" class="btn-green" onclick="launchPvPArena()" style="padding: 10px 24px; font-size: 13px; font-weight: 800; letter-spacing: 1px;">
+                        LAUNCH DUEL ARENA ⚔️
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer: Security Info -->
+            <div style="font-size: 11px; color: #667; text-align: center; border-top: 1px solid #252838; padding-top: 10px;">
+                Direct peer-to-peer encrypted connection via WebRTC. Admin testing mode active.
             </div>
         </div>
     </div>
@@ -5741,6 +5860,8 @@
             if (backendBtn) backendBtn.style.display = 'none';
             const cardEditorBtn = document.getElementById('start-card-editor-btn');
             if (cardEditorBtn) cardEditorBtn.style.display = 'none';
+            const pvpBtn = document.getElementById('start-pvp-btn');
+            if (pvpBtn) pvpBtn.style.display = 'none';
             if (errBox) errBox.style.display = 'none';
             if (input) {
                 input.value = '';
@@ -5801,9 +5922,11 @@
                     roleBadge.style.color = '#ffd700';
                     roleBadge.style.border = '1px solid #ffd700';
                 }
-                // Show Backend Button in Top Nav & Card Editor button on Start Screen
+                // Show Backend Button in Top Nav, Card Editor button, and PvP Arena button on Start Screen
                 if (backendBtn) backendBtn.style.display = 'inline-block';
                 if (cardEditorBtn) cardEditorBtn.style.display = 'inline-flex';
+                const pvpBtn = document.getElementById('start-pvp-btn');
+                if (pvpBtn) pvpBtn.style.display = 'inline-flex';
             } else {
                 isAdminModeActive = false;
                 if (roleBadge) {
@@ -5812,11 +5935,12 @@
                     roleBadge.style.color = '#81c784';
                     roleBadge.style.border = '1px solid #2e7d32';
                 }
-                // Hide Backend Button in Top Nav & Card Editor button on Start Screen
+                // Hide Backend Button in Top Nav, Card Editor, and PvP Arena button
                 if (backendBtn) backendBtn.style.display = 'none';
-            const cardEditorBtn = document.getElementById('start-card-editor-btn');
-            if (cardEditorBtn) cardEditorBtn.style.display = 'none';
+                const cardEditorBtn = document.getElementById('start-card-editor-btn');
                 if (cardEditorBtn) cardEditorBtn.style.display = 'none';
+                const pvpBtn = document.getElementById('start-pvp-btn');
+                if (pvpBtn) pvpBtn.style.display = 'none';
             }
         }
 
@@ -6047,6 +6171,375 @@
             openSettingsModal(); // Refresh form
             applyPlayerSettings();
             alert("Settings reset to factory defaults.");
+        }
+
+        
+        // =====================================================================
+        // --- ONLINE PVP ENGINE (PEERJS WEBRTC & DISCORD MATCHMAKING) ---
+        // =====================================================================
+        const DEFAULT_DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1564831038201528443/hjSMe1Zv4ijwCFtTA3-QMCrx0n4JdLEdYuSHeujZjeW5-kik0JrHuN-mB8wBtvPd-jdX";
+        let currentPvPRole = null; // 'host' or 'guest'
+        let currentPvPRoomCode = null;
+        let pvpPeer = null;
+        let pvpConnection = null;
+        let pvpLocalPlayer = { name: 'Admin', deckName: '', hero: 'bass', ready: false };
+        let pvpRemotePlayer = { name: 'Challenger', deckName: '', hero: 'jackson', ready: false };
+        let pvpDiceRoll = null;
+
+        function getDiscordWebhookUrl() {
+            return localStorage.getItem('uofl_discord_webhook_url') || DEFAULT_DISCORD_WEBHOOK;
+        }
+
+        function saveDiscordWebhookUrlFromBackend() {
+            const input = document.getElementById('backend-discord-webhook-input');
+            if (!input) return;
+            const val = input.value.trim();
+            if (val) {
+                localStorage.setItem('uofl_discord_webhook_url', val);
+                alert("Discord Webhook URL saved successfully!");
+            } else {
+                localStorage.removeItem('uofl_discord_webhook_url');
+                alert("Discord Webhook URL cleared; using default.");
+            }
+        }
+
+        function openPvPLobbyModal() {
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Administrator privileges required to access Online PvP Arena (Alpha).");
+                return;
+            }
+
+            populatePvPDeckSelects();
+            switchPvPTab('host');
+
+            const webhookInput = document.getElementById('backend-discord-webhook-input');
+            if (webhookInput) webhookInput.value = getDiscordWebhookUrl();
+
+            const modal = document.getElementById('pvp-lobby-modal');
+            if (modal) modal.className = 'modal-visible';
+        }
+
+        function closePvPLobbyModal() {
+            const modal = document.getElementById('pvp-lobby-modal');
+            if (modal) modal.className = 'modal-hidden';
+        }
+
+        function populatePvPDeckSelects() {
+            const hostSelect = document.getElementById('pvp-host-deck-select');
+            const joinSelect = document.getElementById('pvp-join-deck-select');
+            if (!hostSelect || !joinSelect) return;
+
+            hostSelect.innerHTML = '';
+            joinSelect.innerHTML = '';
+
+            const keys = Object.keys(savedDecksMap);
+            if (keys.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = 'default';
+                opt.text = 'Starter Deck - Fractures in Time (40M / 10R / 5B)';
+                hostSelect.appendChild(opt);
+                const opt2 = document.createElement('option');
+                opt2.value = opt.value;
+                opt2.text = opt.text;
+                joinSelect.appendChild(opt2);
+                return;
+            }
+
+            keys.forEach(k => {
+                const d = savedDecksMap[k];
+                const opt = document.createElement('option');
+                opt.value = k;
+                opt.text = `${d.deckName} (${d.mainCount}M / ${d.reactionCount}R / 5B)`;
+                hostSelect.appendChild(opt);
+                const opt2 = document.createElement('option');
+                opt2.value = opt.value;
+                opt2.text = opt.text;
+                joinSelect.appendChild(opt2);
+            });
+        }
+
+        function switchPvPTab(tab) {
+            const hostSec = document.getElementById('pvp-host-section');
+            const joinSec = document.getElementById('pvp-join-section');
+            const hostTab = document.getElementById('pvp-tab-host');
+            const joinTab = document.getElementById('pvp-tab-join');
+            const handshakeSec = document.getElementById('pvp-handshake-section');
+
+            if (handshakeSec) handshakeSec.style.display = 'none';
+
+            if (tab === 'host') {
+                if (hostSec) hostSec.style.display = 'block';
+                if (joinSec) joinSec.style.display = 'none';
+                if (hostTab) { hostTab.className = 'btn-blue'; hostTab.style.background = ''; hostTab.style.border = ''; }
+                if (joinTab) { joinTab.className = 'btn-purple'; joinTab.style.background = '#232533'; joinTab.style.border = '1px solid #444'; }
+            } else {
+                if (hostSec) hostSec.style.display = 'none';
+                if (joinSec) joinSec.style.display = 'block';
+                if (joinTab) { joinTab.className = 'btn-blue'; joinTab.style.background = ''; joinTab.style.border = ''; }
+                if (hostTab) { hostTab.className = 'btn-purple'; hostTab.style.background = '#232533'; hostTab.style.border = '1px solid #444'; }
+            }
+        }
+
+        function getSelectedPvPDeckName(isHost = true) {
+            const selId = isHost ? 'pvp-host-deck-select' : 'pvp-join-deck-select';
+            const sel = document.getElementById(selId);
+            if (!sel || !sel.value) return 'Starter Deck - Fractures in Time';
+            const k = sel.value;
+            return (savedDecksMap[k] && savedDecksMap[k].deckName) || 'Starter Deck - Fractures in Time';
+        }
+
+        function generatePvPRoomCode() {
+            currentPvPRole = 'host';
+            const randSuffix = Math.floor(1000 + Math.random() * 9000);
+            currentPvPRoomCode = `UOL-${randSuffix}`;
+
+            const display = document.getElementById('pvp-display-room-code');
+            if (display) display.innerText = currentPvPRoomCode;
+
+            const box = document.getElementById('pvp-room-code-box');
+            if (box) box.style.display = 'block';
+
+            const status = document.getElementById('pvp-host-status');
+            if (status) status.innerText = `Room code generated: ${currentPvPRoomCode}`;
+
+            initPvPPeerHost(currentPvPRoomCode);
+        }
+
+        function copyPvPRoomCode() {
+            if (!currentPvPRoomCode) return;
+            navigator.clipboard.writeText(currentPvPRoomCode).then(() => {
+                alert(`Room Code ${currentPvPRoomCode} copied to clipboard! Share it with your opponent.`);
+            }).catch(() => {
+                prompt("Copy Room Code:", currentPvPRoomCode);
+            });
+        }
+
+        async function broadcastPvPToDiscord() {
+            const webhookUrl = getDiscordWebhookUrl();
+            if (!webhookUrl) {
+                alert("No Discord Webhook URL configured!");
+                return;
+            }
+            const roomCode = currentPvPRoomCode || 'UOL-PENDING';
+            const deckName = getSelectedPvPDeckName(true);
+            const hostName = (currentAccessRole === 'admin') ? 'Vincent (Admin)' : 'Challenger';
+
+            const payload = {
+                content: `⚔️ **A challenger is looking for a duel in Universe of Legends TCG!**`,
+                embeds: [
+                    {
+                        title: "Universe of Legends TCG — Online Matchmaking Invite",
+                        description: `**${hostName}** has opened an Online PvP Room and is waiting for an opponent!
+
+**Room Code:** \`${roomCode}\`
+**Deck:** ${deckName}
+**Format:** Fractures in Time (40M / 10R / 5B)
+
+[▶ Join Duel Online](https://universe-of-legends.netlify.app)`,
+                        color: 5814783, // Electric Cyan / Arcane
+                        fields: [
+                            { name: "Room Code", value: `\`${roomCode}\``, inline: true },
+                            { name: "Host", value: hostName, inline: true },
+                            { name: "Format", value: "Fractures in Time", inline: true }
+                        ],
+                        footer: {
+                            text: "Universe of Legends TCG • Magitek Edition",
+                            icon_url: "https://universe-of-legends.netlify.app/Assets/Support_Assets/Mini_Logo.png"
+                        },
+                        timestamp: new Date().toISOString()
+                    }
+                ]
+            };
+
+            const btn = document.getElementById('pvp-broadcast-discord-btn');
+            if (btn) btn.disabled = true;
+
+            try {
+                const res = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    alert("✓ Match invite pinged to Discord successfully!");
+                    if (btn) btn.innerText = "✓ Sent to Discord!";
+                } else {
+                    alert("Discord API Response: " + res.status + " " + res.statusText);
+                }
+            } catch (e) {
+                console.error("Discord webhook fetch error:", e);
+                alert("Could not reach Discord: " + e.message);
+            } finally {
+                if (btn) setTimeout(() => { btn.disabled = false; btn.innerText = "📢 Ping Discord Matchmaking"; }, 4000);
+            }
+        }
+
+        // --- PEERJS WEBRTC HANDSHAKE ENGINE ---
+        function initPvPPeerHost(roomCode) {
+            if (typeof Peer === 'undefined') {
+                console.warn("PeerJS library not loaded from CDN.");
+                return;
+            }
+            try {
+                if (pvpPeer) { try { pvpPeer.destroy(); } catch(e){} }
+                const cleanId = roomCode.toLowerCase().replace(/[^a-z0-9_-]/g, '');
+                pvpPeer = new Peer(cleanId);
+
+                pvpPeer.on('open', (id) => {
+                    console.log("[PvP Host] Peer initialized with room ID:", id);
+                });
+
+                pvpPeer.on('connection', (conn) => {
+                    console.log("[PvP Host] Opponent connected to room!");
+                    pvpConnection = conn;
+                    setupPvPConnectionListeners(conn, true);
+                });
+
+                pvpPeer.on('error', (err) => {
+                    console.error("[PvP Host] Peer error:", err);
+                });
+            } catch (e) {
+                console.error("[PvP Host] Exception starting peer:", e);
+            }
+        }
+
+        function connectToPvPRoom() {
+            currentPvPRole = 'guest';
+            const input = document.getElementById('pvp-join-code-input');
+            const code = input ? input.value.trim().toUpperCase() : '';
+            if (!code) {
+                alert("Please enter a valid 6-character room code.");
+                return;
+            }
+            currentPvPRoomCode = code;
+
+            const status = document.getElementById('pvp-join-status');
+            if (status) status.innerText = `Connecting to ${code}...`;
+
+            if (typeof Peer === 'undefined') {
+                alert("WebRTC PeerJS library is loading. Please check your connection.");
+                return;
+            }
+
+            try {
+                if (pvpPeer) { try { pvpPeer.destroy(); } catch(e){} }
+                pvpPeer = new Peer();
+
+                pvpPeer.on('open', () => {
+                    const cleanTarget = code.toLowerCase().replace(/[^a-z0-9_-]/g, '');
+                    console.log("[PvP Guest] Connecting to host ID:", cleanTarget);
+                    const conn = pvpPeer.connect(cleanTarget);
+                    pvpConnection = conn;
+                    setupPvPConnectionListeners(conn, false);
+                });
+
+                pvpPeer.on('error', (err) => {
+                    console.error("[PvP Guest] Connection error:", err);
+                    alert("Could not connect to room. Please verify the room code and try again.");
+                });
+            } catch(e) {
+                console.error("[PvP Guest] Exception:", e);
+            }
+        }
+
+        function setupPvPConnectionListeners(conn, isHost) {
+            conn.on('open', () => {
+                console.log("[PvP WebRTC] Connection channel OPEN! Role:", isHost ? 'HOST' : 'GUEST');
+                
+                // Exchange Handshake
+                const myDeck = getSelectedPvPDeckName(isHost);
+                const myHero = (playerSettings && playerSettings.splashHero) || 'bass';
+                const myName = isHost ? 'Vincent (Host)' : 'Guest Challenger';
+
+                pvpLocalPlayer = { name: myName, deckName: myDeck, hero: myHero, ready: true };
+
+                conn.send({
+                    type: 'HANDSHAKE',
+                    isHost: isHost,
+                    player: pvpLocalPlayer
+                });
+
+                if (isHost) {
+                    // Host rolls 1-100 high-die
+                    const hostRoll = Math.floor(Math.random() * 100) + 1;
+                    const guestRoll = Math.floor(Math.random() * 100) + 1;
+                    pvpDiceRoll = { hostRoll, guestRoll, hostFirst: hostRoll >= guestRoll };
+                    setTimeout(() => {
+                        conn.send({ type: 'DICE_ROLL', dice: pvpDiceRoll });
+                        renderPvPHandshake();
+                    }, 300);
+                }
+            });
+
+            conn.on('data', (data) => {
+                handlePvPDataPacket(data, isHost);
+            });
+
+            conn.on('close', () => {
+                alert("Opponent has disconnected from the room.");
+                closePvPLobbyModal();
+            });
+        }
+
+        function handlePvPDataPacket(data, isHost) {
+            console.log("[PvP Packet Received]:", data);
+            if (!data || !data.type) return;
+
+            if (data.type === 'HANDSHAKE') {
+                pvpRemotePlayer = data.player || { name: 'Challenger', deckName: 'Starter Deck', hero: 'jackson' };
+                renderPvPHandshake();
+            } else if (data.type === 'DICE_ROLL') {
+                pvpDiceRoll = data.dice;
+                renderPvPHandshake();
+            } else if (data.type === 'LAUNCH_ARENA') {
+                launchPvPArenaLocal();
+            }
+        }
+
+        function renderPvPHandshake() {
+            const hostSec = document.getElementById('pvp-host-section');
+            const joinSec = document.getElementById('pvp-join-section');
+            const handshakeSec = document.getElementById('pvp-handshake-section');
+
+            if (hostSec) hostSec.style.display = 'none';
+            if (joinSec) joinSec.style.display = 'none';
+            if (handshakeSec) handshakeSec.style.display = 'block';
+
+            const p1Name = document.getElementById('pvp-p1-name');
+            const p1Deck = document.getElementById('pvp-p1-deck');
+            const p2Name = document.getElementById('pvp-p2-name');
+            const p2Deck = document.getElementById('pvp-p2-deck');
+
+            if (currentPvPRole === 'host') {
+                if (p1Name) p1Name.innerText = pvpLocalPlayer.name;
+                if (p1Deck) p1Deck.innerText = `Deck: ${pvpLocalPlayer.deckName}`;
+                if (p2Name) p2Name.innerText = pvpRemotePlayer.name;
+                if (p2Deck) p2Deck.innerText = `Deck: ${pvpRemotePlayer.deckName}`;
+            } else {
+                if (p1Name) p1Name.innerText = pvpRemotePlayer.name;
+                if (p1Deck) p1Deck.innerText = `Deck: ${pvpRemotePlayer.deckName}`;
+                if (p2Name) p2Name.innerText = pvpLocalPlayer.name;
+                if (p2Deck) p2Deck.innerText = `Deck: ${pvpLocalPlayer.deckName}`;
+            }
+
+            const diceBox = document.getElementById('pvp-dice-roll-result');
+            if (diceBox && pvpDiceRoll) {
+                const winner = pvpDiceRoll.hostFirst ? 'Host goes first!' : 'Challenger goes first!';
+                diceBox.innerHTML = `🎲 Die Roll Result: Host [${pvpDiceRoll.hostRoll}] vs Challenger [${pvpDiceRoll.guestRoll}] &bull; <b>${winner}</b>`;
+            }
+        }
+
+        function launchPvPArena() {
+            if (pvpConnection && pvpConnection.open) {
+                pvpConnection.send({ type: 'LAUNCH_ARENA' });
+            }
+            launchPvPArenaLocal();
+        }
+
+        function launchPvPArenaLocal() {
+            closePvPLobbyModal();
+            goToPlaytestArena();
+            logAction(`⚔️ Entered Online PvP Arena against ${pvpRemotePlayer.name} (${pvpRemotePlayer.deckName})!`);
         }
 
         // --- CARD DATABASE EDITOR ENGINE (ADMIN ONLY) ---
