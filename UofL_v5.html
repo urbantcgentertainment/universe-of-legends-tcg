@@ -2682,23 +2682,111 @@
 
         /* ================= PHASE 2: PVP SPLIT BOARD & OPPONENT PERSPECTIVE ================= */
         .pvp-split-active #playmat-surface {
-            height: 760px !important;
+            height: 880px !important;
             background: radial-gradient(circle at 50% 50%, rgba(14, 20, 38, 0.96) 0%, rgba(6, 8, 16, 0.98) 100%) !important;
             border: 2px solid rgba(0, 229, 255, 0.45) !important;
             box-shadow: 0 0 50px rgba(0,0,0,0.95), inset 0 0 35px rgba(0, 229, 255, 0.12) !important;
         }
 
-        /* Opponent Half: Dedicated Top 356px (Zero Overlap with Player Space) */
+        /* Opponent Half: Dedicated Upper 410px (Zero Overlap with Player Space) */
         #pvp-opponent-half {
             position: absolute;
             top: 0;
             left: 0;
             width: 1420px;
-            height: 356px;
+            height: 410px;
             background: linear-gradient(180deg, rgba(20, 14, 34, 0.88) 0%, rgba(10, 14, 26, 0.72) 100%);
             border-bottom: 2px solid rgba(0, 229, 255, 0.45);
             z-index: 10;
             pointer-events: auto;
+        }
+
+        /* Center Clash Divider: y = 412px to 442px */
+        .pvp-center-clash-divider {
+            position: absolute;
+            top: 412px;
+            left: 0;
+            width: 1420px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 25;
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.2) 0%, rgba(255, 215, 0, 0.45) 50%, rgba(0, 229, 255, 0.2) 100%);
+            border-top: 1.5px solid rgba(0, 229, 255, 0.7);
+            border-bottom: 1.5px solid rgba(255, 215, 0, 0.7);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+            pointer-events: auto;
+        }
+
+        /* Player Combat Zones: Shifted Down in Split Mode to Face Opponent Units Across Clash Line */
+        .pvp-split-active #mid-zone-1 {
+            top: 450px !important;
+            left: calc(50% - 370px) !important;
+            width: 145px !important;
+            height: 195px !important;
+        }
+        .pvp-split-active #mid-zone-2 {
+            top: 450px !important;
+            left: calc(50% - 180px) !important;
+            width: 145px !important;
+            height: 195px !important;
+        }
+        .pvp-split-active #mid-zone-3 {
+            top: 450px !important;
+            left: calc(50% + 10px) !important;
+            width: 145px !important;
+            height: 195px !important;
+        }
+        .pvp-split-active #mid-zone-4 {
+            top: 450px !important;
+            left: calc(50% + 200px) !important;
+            width: 145px !important;
+            height: 195px !important;
+        }
+
+        /* Player Backrow Zones: Shifted Down to Bottom Half (y = 685px) Giving a 20+ px Clean Buffer */
+        .pvp-split-active #zone-top-left {
+            top: 685px !important;
+            left: 60px !important;
+            width: 220px !important;
+            height: 165px !important;
+        }
+        .pvp-split-active #zone-mid-left,
+        .pvp-split-active .deck-btn-purple {
+            top: 685px !important;
+            left: 295px !important;
+            width: 120px !important;
+            height: 165px !important;
+        }
+        .pvp-split-active #bottom-fan-zone {
+            top: 685px !important;
+            left: calc(50% - 240px) !important;
+            width: 480px !important;
+            height: 165px !important;
+        }
+        .pvp-split-active #zone-activation {
+            top: 685px !important;
+            left: calc(50% + 260px) !important;
+            width: 140px !important;
+            height: 165px !important;
+            border-radius: 8px !important;
+        }
+        .pvp-split-active #zone-bot-right-1,
+        .pvp-split-active #unknown-deck-btn {
+            top: 685px !important;
+            left: calc(50% + 420px) !important;
+            width: 120px !important;
+            height: 165px !important;
+        }
+        .pvp-split-active #zone-bot-right-2,
+        .pvp-split-active #draw-deck-btn {
+            top: 685px !important;
+            left: calc(50% + 560px) !important;
+            width: 120px !important;
+            height: 165px !important;
         }
 
         /* Center Clash Divider */
@@ -3463,6 +3551,50 @@
         </div>
     </div>
 
+    <!-- ================= DECK CONTEXT MENU MODAL ================= -->
+    <div id="deck-context-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 440px; width: 90vw; border-color: #ffd700; box-shadow: 0 0 35px rgba(255, 215, 0, 0.35); background: #0e1220;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a3045; padding-bottom: 8px; margin-bottom: 14px;">
+                <span id="deck-context-title" style="font-size: 15px; font-weight: 800; color: #ffd700; letter-spacing: 0.5px;">🎴 Main Universe Deck Options</span>
+                <button class="btn-red" onclick="closeDeckContextModal()" style="padding: 3px 8px; font-size: 11px;">✕ Close</button>
+            </div>
+            <div style="font-size: 12px; color: #cbd5e1; margin-bottom: 14px;">
+                Choose an action for your Main Universe Deck:
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn-blue" onclick="revealTopDeckCards(1)" style="padding: 8px 12px; font-size: 12px; font-weight: bold; justify-content: flex-start; gap: 10px;">
+                    <span>👁️ Reveal Top 1 Card</span>
+                </button>
+                <button class="btn-blue" onclick="revealTopDeckCards(3)" style="padding: 8px 12px; font-size: 12px; font-weight: bold; justify-content: flex-start; gap: 10px;">
+                    <span>👁️ Reveal Top 3 Cards</span>
+                </button>
+                <button class="btn-blue" onclick="revealTopDeckCards(5)" style="padding: 8px 12px; font-size: 12px; font-weight: bold; justify-content: flex-start; gap: 10px;">
+                    <span>👁️ Reveal Top 5 Cards</span>
+                </button>
+                <button class="btn-purple" onclick="closeDeckContextModal(); searchDeckModal(event);" style="padding: 8px 12px; font-size: 12px; font-weight: bold; justify-content: flex-start; gap: 10px;">
+                    <span>🔍 Search &amp; Browse Entire Deck</span>
+                </button>
+                <button class="btn-green" onclick="shufflePlaytestDeck()" style="padding: 8px 12px; font-size: 12px; font-weight: bold; justify-content: flex-start; gap: 10px;">
+                    <span>🔀 Shuffle Deck</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= DECK REVEAL MODAL (REVEAL & PLACE IN ACTIVATION) ================= -->
+    <div id="deck-reveal-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 860px; width: 95vw; border-color: #00e5ff; box-shadow: 0 0 45px rgba(0, 229, 255, 0.35); background: #0c101d;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #252b42; padding-bottom: 10px; margin-bottom: 14px;">
+                <span id="deck-reveal-title" style="font-size: 16px; font-weight: 800; color: #00e5ff; letter-spacing: 0.8px;">👁️ Revealed Cards from Top of Deck</span>
+                <button class="btn-red" onclick="closeDeckRevealModal()" style="padding: 4px 10px; font-size: 11px;">✕ Done</button>
+            </div>
+            <div style="font-size: 12px; color: #b8c4d8; margin-bottom: 12px;">
+                Cards revealed from the top of your deck. Select an action for each card:
+            </div>
+            <div id="deck-reveal-cards-row" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; max-height: 480px; overflow-y: auto; padding: 10px 4px;"></div>
+        </div>
+    </div>
+
     <!-- ================= VIEW 1: THE DECK BUILDER ================= -->
     <div id="builder-view" style="display: none;">
         
@@ -3666,7 +3798,7 @@
                 </div>
 
                 <!-- Interactive Universe Draw Deck with Regular Card Back -->
-                <div id="draw-deck-btn" class="deck-btn" onclick="drawCard()" oncontextmenu="searchDeckModal(event)" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border: 2px solid #ffd700; border-radius: 8px; position: absolute; z-index: 15; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8); background: #141824 url('Assets/Regular_Card_Back.png') center/cover no-repeat;">
+                <div id="draw-deck-btn" class="deck-btn" onclick="drawCard()" oncontextmenu="openDeckContextMenu(event)" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border: 2px solid #ffd700; border-radius: 8px; position: absolute; z-index: 15; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8); background: #141824 url('Assets/Regular_Card_Back.png') center/cover no-repeat;">
                     <img id="draw-deck-img" src="Assets/Regular_Card_Back.png" alt="Draw Deck" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; pointer-events: none;" onerror="handleCardBackImgError(this);">
                     <div class="btn-label" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 4px 10px; width: 85%; text-align: center; pointer-events: none; z-index: 2;">Draw<br><span id="deck-counter-card" style="font-size: 11px; color: #ffd700; font-weight: bold;">Main: 0</span></div>
                 </div>
@@ -7217,6 +7349,13 @@
                 switchPvPTab('join');
                 const joinInput = document.getElementById('pvp-join-code-input');
                 if (joinInput) joinInput.value = pendingCode;
+            } else {
+                // Auto-generate fresh active room code on modal open so host is immediately live!
+                if (!currentPvPRoomCode || currentPvPRoomCode === 'UOL-XXXX') {
+                    generatePvPRoomCode();
+                } else {
+                    initPvPPeerHost(currentPvPRoomCode);
+                }
             }
 
             const modal = document.getElementById('pvp-lobby-modal');
@@ -7375,32 +7514,82 @@
             }
         }
 
-        // --- PEERJS WEBRTC HANDSHAKE ENGINE ---
+        // --- PEERJS WEBRTC HANDSHAKE & RELIABLE MATCHMAKING ENGINE ---
+        const PEER_SERVER_CONFIG = {
+            debug: 1,
+            config: {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun3.l.google.com:19302' },
+                    { urls: 'stun:stun4.l.google.com:19302' },
+                    { urls: 'stun:global.stun.twilio.com:3478' }
+                ]
+            }
+        };
+
+        function getPvPPeerId(code) {
+            if (!code) return '';
+            const clean = code.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (clean.startsWith('uol')) {
+                return `uol_v5_${clean}`;
+            }
+            return `uol_v5_uol${clean}`;
+        }
+
         function initPvPPeerHost(roomCode) {
             if (typeof Peer === 'undefined') {
                 console.warn("PeerJS library not loaded from CDN.");
                 return;
             }
+
+            const hostPeerId = getPvPPeerId(roomCode);
+            const status = document.getElementById('pvp-host-status');
+            if (status) {
+                status.innerHTML = `<span style="color:#ffd700;">⏳ Registering room code on matchmaking network...</span>`;
+            }
+
             try {
-                if (pvpPeer) { try { pvpPeer.destroy(); } catch(e){} }
-                const cleanId = roomCode.toLowerCase().replace(/[^a-z0-9_-]/g, '');
-                pvpPeer = new Peer(cleanId);
+                if (pvpPeer) {
+                    try { pvpPeer.destroy(); } catch(e){}
+                    pvpPeer = null;
+                }
+
+                pvpPeer = new Peer(hostPeerId, PEER_SERVER_CONFIG);
 
                 pvpPeer.on('open', (id) => {
-                    console.log("[PvP Host] Peer initialized with room ID:", id);
+                    console.log("[PvP Host] Verified live on WebRTC network with ID:", id);
+                    if (status) {
+                        status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Room is LIVE and listening!</span> Share code with opponent.`;
+                    }
                 });
 
                 pvpPeer.on('connection', (conn) => {
                     console.log("[PvP Host] Opponent connected to room!");
                     pvpConnection = conn;
+                    if (status) {
+                        status.innerHTML = `<span style="color:#00e5ff; font-weight:bold;">🤝 Opponent connected! Exchanging handshake...</span>`;
+                    }
                     setupPvPConnectionListeners(conn, true);
                 });
 
                 pvpPeer.on('error', (err) => {
                     console.error("[PvP Host] Peer error:", err);
+                    if (err.type === 'unavailable-id') {
+                        console.warn("[PvP Host] ID was in cooldown, auto-generating fresh code...");
+                        generatePvPRoomCode();
+                        return;
+                    }
+                    if (status) {
+                        status.innerHTML = `<span style="color:#ff5252;">⚠️ Network status: ${err.type || 'disconnected'}. Click "Generate Code" to retry.</span>`;
+                    }
                 });
             } catch (e) {
                 console.error("[PvP Host] Exception starting peer:", e);
+                if (status) {
+                    status.innerHTML = `<span style="color:#ff5252;">⚠️ Connection error: ${e.message}</span>`;
+                }
             }
         }
 
@@ -7409,13 +7598,16 @@
             const input = document.getElementById('pvp-join-code-input');
             const code = input ? input.value.trim().toUpperCase() : '';
             if (!code) {
-                alert("Please enter a valid 6-character room code.");
+                alert("Please enter a room code (e.g. UOL-7429 or 7429).");
                 return;
             }
             currentPvPRoomCode = code;
 
+            const targetPeerId = getPvPPeerId(code);
             const status = document.getElementById('pvp-join-status');
-            if (status) status.innerText = `Connecting to ${code}...`;
+            if (status) {
+                status.innerHTML = `<span style="color:#00e5ff;">⏳ Connecting to room <b>${code}</b>...</span>`;
+            }
 
             if (typeof Peer === 'undefined') {
                 alert("WebRTC PeerJS library is loading. Please check your connection.");
@@ -7423,23 +7615,74 @@
             }
 
             try {
-                if (pvpPeer) { try { pvpPeer.destroy(); } catch(e){} }
-                pvpPeer = new Peer();
+                if (pvpPeer) {
+                    try { pvpPeer.destroy(); } catch(e){}
+                    pvpPeer = null;
+                }
 
-                pvpPeer.on('open', () => {
-                    const cleanTarget = code.toLowerCase().replace(/[^a-z0-9_-]/g, '');
-                    console.log("[PvP Guest] Connecting to host ID:", cleanTarget);
-                    const conn = pvpPeer.connect(cleanTarget);
+                // Create random guest peer ID
+                pvpPeer = new Peer(PEER_SERVER_CONFIG);
+
+                let connTimeout = setTimeout(() => {
+                    if (status) {
+                        status.innerHTML = `<span style="color:#ff5252;">❌ Connection timed out. Make sure the host has opened the room and generated their code.</span>`;
+                    }
+                    alert(`Could not connect to room "${code}".
+
+Ensure that:
+1. The host is currently on the Host screen with the room code showing "Room is LIVE".
+2. The code matches.`);
+                }, 14000);
+
+                pvpPeer.on('open', (myGuestId) => {
+                    console.log("[PvP Guest] Guest registered with ID:", myGuestId, "Connecting to target:", targetPeerId);
+                    if (status) {
+                        status.innerHTML = `<span style="color:#ffd700;">🤝 Found server. Negotiating direct WebRTC channel with host...</span>`;
+                    }
+
+                    const conn = pvpPeer.connect(targetPeerId, {
+                        reliable: true
+                    });
                     pvpConnection = conn;
+
+                    conn.on('open', () => {
+                        clearTimeout(connTimeout);
+                        console.log("[PvP Guest] Connection channel OPEN!");
+                        if (status) {
+                            status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Direct peer connection opened! Exchanging deck...</span>`;
+                        }
+                    });
+
+                    conn.on('error', (err) => {
+                        clearTimeout(connTimeout);
+                        console.error("[PvP Guest Connection Error]:", err);
+                        if (status) {
+                            status.innerHTML = `<span style="color:#ff5252;">❌ Channel error: ${err}</span>`;
+                        }
+                    });
+
                     setupPvPConnectionListeners(conn, false);
                 });
 
                 pvpPeer.on('error', (err) => {
-                    console.error("[PvP Guest] Connection error:", err);
-                    alert("Could not connect to room. Please verify the room code and try again.");
+                    clearTimeout(connTimeout);
+                    console.error("[PvP Guest Peer Error]:", err);
+                    let msg = `Could not connect to room "${code}".`;
+                    if (err.type === 'peer-unavailable') {
+                        msg = `Room "${code}" was not found on the matchmaking server.
+
+Please make sure the host has clicked "Generate Room Code" and is currently waiting in the room before you connect!`;
+                    }
+                    if (status) {
+                        status.innerHTML = `<span style="color:#ff5252;">❌ ${msg.split('\n').join('<br>')}</span>`;
+                    }
+                    alert(msg);
                 });
             } catch(e) {
                 console.error("[PvP Guest] Exception:", e);
+                if (status) {
+                    status.innerHTML = `<span style="color:#ff5252;">❌ Connection error: ${e.message}</span>`;
+                }
             }
         }
 
@@ -9326,7 +9569,7 @@
 
             const isSplit = isOnlinePvPActive || (typeof isAIModeActive !== 'undefined' && isAIModeActive);
             const baseW = 1420;
-            const baseH = isSplit ? 760 : 640;
+            const baseH = isSplit ? 880 : 640;
 
             const scaleX = (availW - 10) / baseW;
             const scaleY = (availH - 10) / baseH;
@@ -9434,6 +9677,203 @@
 
         function closeBattleHubModal() {
             const modal = document.getElementById('battle-hub-modal');
+            if (modal) modal.className = 'modal-hidden';
+        }
+
+        // --- DECK RIGHT-CLICK REVEAL & ACTIVATION ENGINE ---
+        let currentRevealedDeckCards = [];
+
+        function openDeckContextMenu(e) {
+            if (e) e.preventDefault();
+            const modal = document.getElementById('deck-context-modal');
+            const title = document.getElementById('deck-context-title');
+            if (title) {
+                title.innerText = `🎴 Main Universe Deck (${playtestDeck.length} Cards Remaining)`;
+            }
+            if (modal) modal.className = 'modal-visible';
+        }
+
+        function closeDeckContextModal() {
+            const modal = document.getElementById('deck-context-modal');
+            if (modal) modal.className = 'modal-hidden';
+        }
+
+        function shufflePlaytestDeck() {
+            closeDeckContextModal();
+            for (let i = playtestDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [playtestDeck[i], playtestDeck[j]] = [playtestDeck[j], playtestDeck[i]];
+            }
+            logAction("🔀 Shuffled Main Universe Deck.");
+            alert("Main Universe Deck has been shuffled!");
+        }
+
+        function revealTopDeckCards(count = 1) {
+            closeDeckContextModal();
+            if (!playtestDeck || playtestDeck.length === 0) {
+                alert("Main Universe Deck is empty!");
+                return;
+            }
+
+            const numToReveal = Math.min(count, playtestDeck.length);
+            // Slice from the top of playtestDeck (cards at the end of the array)
+            currentRevealedDeckCards = [];
+            for (let i = 0; i < numToReveal; i++) {
+                currentRevealedDeckCards.push(playtestDeck[playtestDeck.length - 1 - i]);
+            }
+
+            renderDeckRevealCards();
+            const modal = document.getElementById('deck-reveal-modal');
+            const title = document.getElementById('deck-reveal-title');
+            if (title) {
+                title.innerText = `👁️ Revealed Top ${currentRevealedDeckCards.length} Card${currentRevealedDeckCards.length > 1 ? 's' : ''} from Deck`;
+            }
+            if (modal) modal.className = 'modal-visible';
+            logAction(`👁️ Revealed top ${currentRevealedDeckCards.length} card(s) from Main Universe Deck.`);
+        }
+
+        function renderDeckRevealCards() {
+            const row = document.getElementById('deck-reveal-cards-row');
+            if (!row) return;
+
+            if (currentRevealedDeckCards.length === 0) {
+                row.innerHTML = '<div style="color:#aaa; font-size:12px; padding:20px;">No more revealed cards.</div>';
+                return;
+            }
+
+            row.innerHTML = '';
+            currentRevealedDeckCards.forEach((card, index) => {
+                const cardBox = document.createElement('div');
+                cardBox.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 8px; background: rgba(18, 22, 36, 0.9); border: 1.5px solid #2a3350; border-radius: 8px; padding: 10px; width: 140px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);';
+
+                cardBox.innerHTML = `
+                    <img src="${card.url}" style="width: 120px; height: 168px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.8);" onerror="this.src='Assets/Regular_Card_Back.png'">
+                    <div style="font-size: 11px; font-weight: bold; color: #ffd700; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;" title="${card.name}">${card.name}</div>
+                    
+                    <button class="btn-blue" onclick="placeRevealedInActivation(${index})" style="width: 100%; padding: 4px 6px; font-size: 10px; font-weight: 800; border-color: #00e5ff; color: #00e5ff;">
+                        ⚡ To Activation
+                    </button>
+                    <button class="btn-green" onclick="addRevealedToHand(${index})" style="width: 100%; padding: 4px 6px; font-size: 10px; font-weight: bold;">
+                        🖐 To Hand
+                    </button>
+                    <button class="btn-purple" onclick="putRevealedOnDeckBottom(${index})" style="width: 100%; padding: 3px 6px; font-size: 9.5px;">
+                        ⬇ Bottom of Deck
+                    </button>
+                    <button class="btn-red" onclick="discardRevealed(${index})" style="width: 100%; padding: 3px 6px; font-size: 9.5px;">
+                        ⚰️ Discard
+                    </button>
+                `;
+                row.appendChild(cardBox);
+            });
+        }
+
+        function removeCardFromTopDeck(card) {
+            const idx = playtestDeck.lastIndexOf(card);
+            if (idx !== -1) {
+                playtestDeck.splice(idx, 1);
+            }
+            const dCounter = document.getElementById('deck-counter');
+            if (dCounter) dCounter.innerText = `Main: ${playtestDeck.length}`;
+            const dCounterCard = document.getElementById('deck-counter-card');
+            if (dCounterCard) dCounterCard.innerText = `Main: ${playtestDeck.length}`;
+        }
+
+        function placeRevealedInActivation(index) {
+            const card = currentRevealedDeckCards[index];
+            if (!card) return;
+
+            removeCardFromTopDeck(card);
+            currentRevealedDeckCards.splice(index, 1);
+
+            // Spawn directly inside Activation Area
+            const surface = document.getElementById('playmat-surface') || document.getElementById('playmat');
+            const actZone = document.getElementById('zone-activation');
+
+            if (surface) {
+                const cardEl = createInteractiveCard(card);
+                cardEl.dataset.zone = 'zone-activation';
+                cardEl.style.position = 'absolute';
+
+                const zLeft = actZone ? actZone.offsetLeft : 970;
+                const zTop = actZone ? actZone.offsetTop : 685;
+                const zW = actZone ? actZone.offsetWidth : 140;
+                const zH = actZone ? actZone.offsetHeight : 165;
+
+                cardEl.style.left = (zLeft + (zW - 120) / 2) + 'px';
+                cardEl.style.top = (zTop + (zH - 168) / 2) + 'px';
+                surface.appendChild(cardEl);
+            }
+
+            logAction(`⚡ Placed revealed card "${card.name}" directly into Activation Area.`);
+            renderDeckRevealCards();
+
+            if (currentRevealedDeckCards.length === 0) {
+                closeDeckRevealModal();
+            }
+        }
+
+        function addRevealedToHand(index) {
+            const card = currentRevealedDeckCards[index];
+            if (!card) return;
+
+            removeCardFromTopDeck(card);
+            currentRevealedDeckCards.splice(index, 1);
+
+            const cardEl = createInteractiveCard(card);
+            const hand = document.getElementById('hand');
+            if (hand) hand.appendChild(cardEl);
+
+            logAction(`[Your Turn]: Added revealed card "${card.name}" to Hand.`);
+            renderDeckRevealCards();
+
+            if (currentRevealedDeckCards.length === 0) {
+                closeDeckRevealModal();
+            }
+        }
+
+        function putRevealedOnDeckBottom(index) {
+            const card = currentRevealedDeckCards[index];
+            if (!card) return;
+
+            removeCardFromTopDeck(card);
+            currentRevealedDeckCards.splice(index, 1);
+
+            // Put at bottom of playtestDeck (index 0)
+            playtestDeck.unshift(card);
+            const dCounter = document.getElementById('deck-counter');
+            if (dCounter) dCounter.innerText = `Main: ${playtestDeck.length}`;
+            const dCounterCard = document.getElementById('deck-counter-card');
+            if (dCounterCard) dCounterCard.innerText = `Main: ${playtestDeck.length}`;
+
+            logAction(`⬇ Put revealed card "${card.name}" on bottom of Main Universe Deck.`);
+            renderDeckRevealCards();
+
+            if (currentRevealedDeckCards.length === 0) {
+                closeDeckRevealModal();
+            }
+        }
+
+        function discardRevealed(index) {
+            const card = currentRevealedDeckCards[index];
+            if (!card) return;
+
+            removeCardFromTopDeck(card);
+            currentRevealedDeckCards.splice(index, 1);
+
+            unknownCards.push({ ...card });
+            updateUnknownCount();
+
+            logAction(`⚰️ Sent revealed card "${card.name}" to The Unknown (Discard).`);
+            renderDeckRevealCards();
+
+            if (currentRevealedDeckCards.length === 0) {
+                closeDeckRevealModal();
+            }
+        }
+
+        function closeDeckRevealModal() {
+            currentRevealedDeckCards = [];
+            const modal = document.getElementById('deck-reveal-modal');
             if (modal) modal.className = 'modal-hidden';
         }
 
@@ -9559,6 +9999,10 @@ function renderPlaytestBarrier() {
                     <div id="barrier-stack-indicator" style="font-size: 10px; color: #aaa;">Stack: ${playtestBarrierDeck.length}</div>
                 `;
             }
+            const zoneLeft = bZone ? bZone.offsetLeft : 80;
+            const zoneTop = bZone ? bZone.offsetTop : 50;
+            const zoneW = bZone ? bZone.offsetWidth : 220;
+            const zoneH = bZone ? bZone.offsetHeight : 155;
 
             if (activeBarrier && surface && bZone) {
                 const cardEl = createInteractiveCard(activeBarrier);
@@ -9566,10 +10010,10 @@ function renderPlaytestBarrier() {
                 cardEl.dataset.isBarrier = 'true';
                 cardEl.className = 'play-card';
                 cardEl.style.position = 'absolute';
-                cardEl.style.width = '225px';
-                cardEl.style.height = '155px';
-                cardEl.style.left = '80px';
-                cardEl.style.top = '50px';
+                cardEl.style.width = '210px';
+                cardEl.style.height = '145px';
+                cardEl.style.left = (zoneLeft + (zoneW - 210) / 2) + 'px';
+                cardEl.style.top = (zoneTop + (zoneH - 145) / 2) + 'px';
                 cardEl.style.zIndex = 25;
                 cardEl.style.cursor = 'grab';
 
@@ -9731,7 +10175,7 @@ function renderPlaytestBarrier() {
         let lastTapTimestamp = 0;
 
         function attachTouchCardListeners(el) {
-            if (!el || el.dataset.touchAttached === 'true') return;
+            if (!el || typeof el.addEventListener !== 'function' || el.dataset.touchAttached === 'true') return;
             el.dataset.touchAttached = 'true';
 
             el.addEventListener('touchstart', (e) => {
@@ -9855,7 +10299,7 @@ function renderPlaytestBarrier() {
             const cardEl = createInteractiveCard(card);
             document.getElementById('hand').appendChild(cardEl);
 
-            logAction(`Drew "${card.name}"`, () => {
+            logAction(`[Your Turn]: You drew "${card.name}" from your deck.`, () => {
                 if (cardEl.parentNode) cardEl.parentNode.removeChild(cardEl);
                 playtestDeck.push(card);
                 if (dCounter) dCounter.innerText = `Main: ${playtestDeck.length}`;
@@ -10472,7 +10916,7 @@ function renderPlaytestBarrier() {
 
             // Detect target snap zone
             let targetZone = null;
-            document.querySelectorAll('.play-zone').forEach(zone => {
+            document.querySelectorAll('.play-zone, .deck-btn').forEach(zone => {
                 const rect = zone.getBoundingClientRect();
                 if (event.clientX >= rect.left && event.clientX <= rect.right &&
                     event.clientY >= rect.top && event.clientY <= rect.bottom) {
@@ -10580,6 +11024,22 @@ function renderPlaytestBarrier() {
                         element.parentNode.removeChild(element);
                     }
                     return; // Skip normal snapping/positioning since card was absorbed into The Unknown pile
+                }
+
+                if (targetZone && (targetZone.id === 'zone-bot-right-2' || targetZone.id === 'draw-deck-btn')) {
+                    // Dropped onto Main Universe Deck! Add back to TOP of deck and remove physical element
+                    if (element.cardData) {
+                        playtestDeck.push({...element.cardData});
+                        const dCounter = document.getElementById('deck-counter');
+                        if (dCounter) dCounter.innerText = `Main: ${playtestDeck.length}`;
+                        const dCounterCard = document.getElementById('deck-counter-card');
+                        if (dCounterCard) dCounterCard.innerText = `Main: ${playtestDeck.length}`;
+                        logAction(`Returned "${element.cardData.name}" to top of Main Universe Deck.`);
+                    }
+                    if (element.parentNode) {
+                        element.parentNode.removeChild(element);
+                    }
+                    return; // Card absorbed into deck
                 }
                 if (willSnap) {
                     element.dataset.zone = targetZone.id;
@@ -10750,10 +11210,11 @@ function renderPlaytestBarrier() {
                 else if (zone.classList.contains('snap-stack')) {
                     // Stacking Rule: Limit of 3 cards.
                     // The FIRST card placed in the stack (index 0) stays ON TOP (highest z-index: 30).
-                    // Every card added after stacks UNDER it and shows shifted downward by 38px per card.
+                    // Subordinate cards stack underneath with a compact 22px vertical offset.
                     if (index >= 3) return;
                     element.style.left = (zoneCenterX - cardWidth / 2) + 'px';
-                    element.style.top = (zoneCenterY - cardHeight / 2) + (index * 38) + 'px';
+                    // Base positioning at zoneTop + 6px so stacked cards never bleed past the zone border
+                    element.style.top = (zoneTop + 6 + (index * 22)) + 'px';
                     element.style.zIndex = 30 - index;
                 }
                 else if (zone.classList.contains('snap-fan')) {
@@ -11634,11 +12095,43 @@ function renderPlaytestBarrier() {
             }
         }
 
+        let pvpOpponentField = { 'zone-1': [], 'zone-2': [], 'zone-3': [], 'zone-4': [] };
+
         function renderOpponentBoardView() {
             const oppHalf = document.getElementById('pvp-opponent-half');
             if (!oppHalf) return;
 
             const oppHeroImg = `Assets/Characters/${pvpRemotePlayer.hero === 'jackson' ? 'White_jackson_main.webp' : (pvpRemotePlayer.hero === 'ramses' ? 'Red_ramses_main.webp' : (pvpRemotePlayer.hero === 'gh0st' ? 'Gh0st_Full.webp' : 'Yellow_Bass_main.webp'))}`;
+
+            // Mini visual energy cards row (fanned out)
+            let energyCardsHtml = '';
+            for (let e = 0; e < Math.min(pvpOpponentEnergy, 10); e++) {
+                energyCardsHtml += `
+                    <div style="width: 38px; height: 54px; border: 1.5px solid #00e676; border-radius: 4px; background: #121e16 url('Assets/Regular_Card_Back.png') center/cover no-repeat; box-shadow: 0 2px 6px rgba(0,0,0,0.8), 0 0 6px rgba(0, 230, 118, 0.4); flex-shrink: 0; margin-left: ${e > 0 ? '-14px' : '0'}; transform: rotate(${(e - Math.min(pvpOpponentEnergy, 10)/2) * 2}deg); z-index: ${e + 1};"></div>
+                `;
+            }
+
+            // Visual active barrier card (Face-down Barrier back with glowing shield)
+            let barrierCardHtml = '';
+            if (pvpOpponentBarriers > 0) {
+                barrierCardHtml = `
+                    <div id="opp-active-barrier-card" style="width: 200px; height: 110px; border: 2px solid #ffd700; border-radius: 6px; position: relative; overflow: hidden; background: #141824 url('Assets/Barrier_Card_Back.png') center/cover no-repeat; box-shadow: 0 4px 14px rgba(0,0,0,0.8), 0 0 14px rgba(255, 61, 87, 0.5); display: flex; flex-direction: column; justify-content: space-between; padding: 6px; cursor: pointer;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(10, 12, 20, 0.9); padding: 2px 6px; border-radius: 4px;">
+                            <span style="font-size: 10px; font-weight: 800; color: #ff3d57;">🛡️ ACTIVE BARRIER</span>
+                            <span style="font-size: 10px; font-weight: 800; color: #ffd700;">Stack: ${pvpOpponentBarriers}</span>
+                        </div>
+                        <div style="text-align: center; background: rgba(10, 12, 20, 0.85); border-radius: 4px; padding: 2px;">
+                            <span style="font-size: 9.5px; color: #00e5ff; font-weight: bold;">⚔️ Click to Attack Barrier</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                barrierCardHtml = `
+                    <div style="color: #ff3d57; font-size: 11px; font-weight: bold; text-align: center; padding: 10px; background: rgba(255,61,87,0.1); border-radius: 6px;">
+                        💥 ALL BARRIERS SHATTERED!<br><span style="color:#ffd700; font-size:10px;">Direct strike to win!</span>
+                    </div>
+                `;
+            }
 
             oppHalf.innerHTML = `
                 <!-- Opponent Header HUD -->
@@ -11675,52 +12168,79 @@ function renderPlaytestBarrier() {
                     </div>
                 </div>
 
-                <!-- Opponent Backrow (y = 50px to 180px) -->
-                <!-- Opponent Barrier Zone (Top-Left) -->
-                <div id="opp-zone-barrier" class="pvp-opp-zone" style="position: absolute; top: 50px; left: 60px; width: 220px; height: 130px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08);">
-                    <div style="font-size:10.5px; font-weight:800; color:#ff3d57; letter-spacing:0.8px; text-transform:uppercase;">Opponent Barrier Zone</div>
-                    <div id="opp-barrier-stack-count" style="font-size:11px; color:#ffd700; font-weight:bold; margin-top: 4px;">Active Barrier (${pvpOpponentBarriers}/5)</div>
-                    <div style="font-size: 9.5px; color: #aaa; margin-top: 2px;">Click to Target in Combat</div>
+                <!-- Opponent Backrow (y = 56px to 210px) -->
+                <!-- Opponent Barrier Zone (Top-Left) with Active Barrier Card -->
+                <div id="opp-zone-barrier" class="pvp-opp-zone" style="position: absolute; top: 56px; left: 60px; width: 220px; height: 145px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08); z-index: 15;">
+                    ${barrierCardHtml}
                 </div>
 
-                <!-- Opponent Energy Zone (Center-Left) -->
-                <div id="opp-zone-energy" class="pvp-opp-zone" style="position: absolute; top: 50px; left: calc(50% - 240px); width: 480px; height: 130px; display:flex; align-items:center; justify-content:center; border: 1.5px dashed #4CAF50; border-radius: 6px; background: rgba(76, 175, 80, 0.06);">
-                    <div id="opp-energy-cards-container" style="display: flex; gap: 4px; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 4px;">
-                        <span style="font-size:11px; color:rgba(76, 175, 80, 0.85); font-weight:bold;">⚡ OPPONENT ENERGY POOL &bull; ${pvpOpponentEnergy} ACTIVE</span>
+                <!-- Opponent Re/Action / Unknown Void -->
+                <div id="opp-zone-reaction" class="pvp-opp-zone" style="position: absolute; top: 56px; left: 295px; width: 120px; height: 145px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px solid #7289da; border-radius: 6px; background: rgba(114, 137, 218, 0.08);">
+                    <span style="font-size:10px; color:#7289da; font-weight:bold; text-align:center;">RE/ACTION<br>DECK</span>
+                </div>
+
+                <!-- Opponent Energy Zone (Center-Left) with Visual Charged Cards -->
+                <div id="opp-zone-energy" class="pvp-opp-zone" style="position: absolute; top: 56px; left: calc(50% - 240px); width: 480px; height: 145px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding: 6px 12px; border: 1.5px dashed #4CAF50; border-radius: 6px; background: rgba(76, 175, 80, 0.06);">
+                    <div style="font-size:10.5px; color:#00e676; font-weight:bold; letter-spacing:0.8px; text-transform:uppercase;">
+                        ⚡ OPPONENT ENERGY ZONE &bull; ${pvpOpponentEnergy} ACTIVE CARDS
+                    </div>
+                    <div id="opp-energy-cards-container" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 95px; overflow-x: auto;">
+                        ${energyCardsHtml}
                     </div>
                 </div>
 
                 <!-- Opponent Activation Area (Center-Right) -->
-                <div id="opp-zone-activation" class="pvp-opp-zone" style="position: absolute; top: 50px; left: calc(50% + 260px); width: 140px; height: 130px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px dashed #00e5ff; border-radius: 6px; background: rgba(0, 229, 255, 0.06);">
-                    <span style="font-size:10px; color:#00e5ff; font-weight:bold; text-align:center;">THE FLOW<br>(Re/Actions)</span>
+                <div id="opp-zone-activation" class="pvp-opp-zone" style="position: absolute; top: 56px; left: calc(50% + 260px); width: 140px; height: 145px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px dashed #00e5ff; border-radius: 6px; background: rgba(0, 229, 255, 0.06);">
+                    <span style="font-size:10px; color:#00e5ff; font-weight:bold; text-align:center;">THE FLOW<br>(Activation)</span>
                 </div>
 
                 <!-- Opponent Draw Deck (Far Right) -->
-                <div id="opp-zone-deck" class="pvp-opp-zone" style="position: absolute; top: 50px; left: calc(50% + 420px); width: 120px; height: 130px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px solid #ffd700; border-radius: 6px; background: #111422 url('Assets/Regular_Card_Back.png') center/cover no-repeat;">
+                <div id="opp-zone-deck" class="pvp-opp-zone" style="position: absolute; top: 56px; left: calc(50% + 420px); width: 120px; height: 145px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px solid #ffd700; border-radius: 6px; background: #111422 url('Assets/Regular_Card_Back.png') center/cover no-repeat;">
                     <div style="background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #ffd700; font-weight: bold;">Opponent Deck</div>
                 </div>
 
-                <!-- Opponent Frontrow: 4 Field Combat Zones (y = 190px to 350px) -->
-                <div id="opp-field-zone-1" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% - 370px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
+                <!-- Opponent Frontrow: 4 Field Combat Zones (y = 226px to 395px) -->
+                <div id="opp-field-zone-1" class="pvp-opp-zone" style="position: absolute; top: 226px; left: calc(50% - 370px); width: 145px; height: 175px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 1</span>
                     <div id="opp-cards-zone-1" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
 
-                <div id="opp-field-zone-2" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% - 180px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
+                <div id="opp-field-zone-2" class="pvp-opp-zone" style="position: absolute; top: 226px; left: calc(50% - 180px); width: 145px; height: 175px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 2</span>
                     <div id="opp-cards-zone-2" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
 
-                <div id="opp-field-zone-3" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% + 10px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
+                <div id="opp-field-zone-3" class="pvp-opp-zone" style="position: absolute; top: 226px; left: calc(50% + 10px); width: 145px; height: 175px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 3</span>
                     <div id="opp-cards-zone-3" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
 
-                <div id="opp-field-zone-4" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% + 200px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
+                <div id="opp-field-zone-4" class="pvp-opp-zone" style="position: absolute; top: 226px; left: calc(50% + 200px); width: 145px; height: 175px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 4</span>
                     <div id="opp-cards-zone-4" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
             `;
+
+            // Re-render standing/rested cards from pvpOpponentField
+            for (let i = 1; i <= 4; i++) {
+                const targetBox = document.getElementById(`opp-cards-zone-${i}`);
+                if (targetBox && pvpOpponentField && pvpOpponentField[`zone-${i}`]) {
+                    pvpOpponentField[`zone-${i}`].forEach(unit => {
+                        const cardImg = document.createElement('img');
+                        cardImg.src = unit.url;
+                        cardImg.className = `opp-card-slot ${unit.isRested ? 'rotated' : ''}`;
+                        cardImg.style.width = '105px';
+                        cardImg.style.height = '145px';
+                        cardImg.style.objectFit = 'cover';
+                        cardImg.style.borderRadius = '6px';
+                        cardImg.style.boxShadow = '0 4px 10px rgba(0,0,0,0.8)';
+                        cardImg.title = `${unit.name} (Cost: ${unit.cost || 1} • ATK: ${unit.atk || 4} / DEF: ${unit.hp || 4})`;
+                        cardImg.cardData = unit;
+                        cardImg.onerror = () => { cardImg.src = 'Assets/Regular_Card_Back.png'; };
+                        targetBox.appendChild(cardImg);
+                    });
+                }
+            }
         }
 
         function renderOpponentHandCards(count) {
@@ -11988,9 +12508,18 @@ function renderPlaytestBarrier() {
 
             cancelPvPAttackTargeting();
 
-            logAction(`⚔️ [Attack Declared]: ${attackerName} (ATK: ${attackerAtk}) is attacking Opponent's ${targetType === 'barrier' ? 'Barrier Zone' : 'Unit'}!`);
+            logAction(`⚔️ [Attack Declared]: You attacked Opponent's ${targetType === 'barrier' ? 'Barrier Zone' : 'Unit'} with "${attackerName}" (ATK: ${attackerAtk})!`);
 
-            // Broadcast Attack Declaration to peer
+            // In AI Mode: Automatically resolve reaction priority locally after 700ms!
+            if (typeof isAIModeActive !== 'undefined' && isAIModeActive) {
+                openPvPFlowModalAsAttacker();
+                setTimeout(() => {
+                    handleAICombatReaction();
+                }, 750);
+                return;
+            }
+
+            // In WebRTC Multiplayer Mode: Broadcast to peer
             if (pvpConnection && pvpConnection.open) {
                 pvpConnection.send({
                     type: 'ATTACK_DECLARED',
@@ -11998,8 +12527,45 @@ function renderPlaytestBarrier() {
                 });
             }
 
-            // Open The Flow: Attacker waits for defender's reaction priority
             openPvPFlowModalAsAttacker();
+        }
+
+        function handleAICombatReaction() {
+            closePvPFlowModal();
+            if (!pvpActiveCombat) return;
+
+            logAction(`⏩ [The Flow]: ${pvpRemotePlayer.name} passed reaction priority. Combat resolves!`);
+
+            if (pvpActiveCombat.targetType === 'barrier') {
+                pvpOpponentBarriers = Math.max(0, pvpOpponentBarriers - 1);
+                aiBarriersRemaining = pvpOpponentBarriers;
+
+                logAction(`💥 [Barrier Shattered]: You struck ${pvpRemotePlayer.name}'s Barrier! (${pvpOpponentBarriers}/5 barriers remain).`);
+
+                if (pvpOpponentBarriers === 0) {
+                    logAction(`🏆 [VICTORY]: All of ${pvpRemotePlayer.name}'s barriers have been shattered! Direct strike for the win!`);
+                    triggerPvPMatchEnd(true);
+                } else {
+                    renderOpponentBoardView();
+                }
+            } else if (pvpActiveCombat.targetType === 'unit') {
+                const zoneNum = pvpActiveCombat.targetZoneId ? pvpActiveCombat.targetZoneId.replace('opp-field-zone-', '') : '1';
+                if (pvpOpponentField && pvpOpponentField[`zone-${zoneNum}`] && pvpOpponentField[`zone-${zoneNum}`].length > 0) {
+                    const defUnit = pvpOpponentField[`zone-${zoneNum}`][0];
+                    const defDef = parseInt(defUnit.hp) || 4;
+                    const atkPower = pvpActiveCombat.attacker.atk;
+
+                    if (atkPower >= defDef) {
+                        pvpOpponentField[`zone-${zoneNum}`] = [];
+                        logAction(`💥 [Combat]: Your "${pvpActiveCombat.attacker.name}" (ATK: ${atkPower}) destroyed ${pvpRemotePlayer.name}'s "${defUnit.name}" (DEF: ${defDef})!`);
+                    } else {
+                        logAction(`🛡️ [Combat]: ${pvpRemotePlayer.name}'s "${defUnit.name}" (DEF: ${defDef}) absorbed the blow from "${pvpActiveCombat.attacker.name}" (ATK: ${atkPower})!`);
+                    }
+                    renderOpponentBoardView();
+                }
+            }
+
+            pvpActiveCombat = null;
         }
 
         function openPvPFlowModalAsAttacker() {
@@ -12490,9 +13056,65 @@ function renderPlaytestBarrier() {
 
         // --- CORE AI ARENA EXECUTION ---
         function startAIPlaytestArena(playerDeckName, aiDeckName, aiDisplayName, aiHeroId, difficulty) {
-            goToPlaytestArena();
+            // 1. Properly load player deck
+            let targetDeckData = null;
+            const allDecks = [...(typeof loadedSavedDecks !== 'undefined' ? loadedSavedDecks : []), ...(typeof DEFAULT_SEED_DECKS !== 'undefined' ? DEFAULT_SEED_DECKS : [])];
+            
+            if (playerDeckName && playerDeckName !== '__active_built_deck__') {
+                const found = allDecks.find(d => d.deckName === playerDeckName);
+                if (found && found.deckDataJson) {
+                    try {
+                        targetDeckData = typeof found.deckDataJson === 'object' ? found.deckDataJson : JSON.parse(found.deckDataJson);
+                    } catch(e) {}
+                }
+            } else if (typeof mainDeck !== 'undefined' && mainDeck.length > 0) {
+                // Use current active built deck
+                targetDeckData = {
+                    mainDeck: mainDeck.map(c => c.id || c.name),
+                    barriers: barrierDeck.map(c => c.id || c.name),
+                    reactionDeck: reactionDeck.map(c => c.id || c.name)
+                };
+            }
 
-            // Setup AI parameters
+            if (!targetDeckData && allDecks.length > 0 && allDecks[0].deckDataJson) {
+                try {
+                    targetDeckData = typeof allDecks[0].deckDataJson === 'object' ? allDecks[0].deckDataJson : JSON.parse(allDecks[0].deckDataJson);
+                } catch(e) {}
+            }
+
+            // Map IDs to actual catalog card objects
+            mainDeck = [];
+            barrierDeck = [];
+            reactionDeck = [];
+
+            if (targetDeckData) {
+                (targetDeckData.barriers || []).forEach(id => {
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) barrierDeck.push({ ...found });
+                });
+                (targetDeckData.mainDeck || []).forEach(id => {
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) mainDeck.push({ ...found });
+                });
+                (targetDeckData.reactionDeck || []).forEach(id => {
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) reactionDeck.push({ ...found });
+                });
+            }
+
+            // Guarantee separation: NO BARRIERS in mainDeck!
+            mainDeck = mainDeck.filter(c => !c.type || !c.type.includes('Barrier'));
+            if (barrierDeck.length === 0) {
+                barrierDeck = catalog.filter(c => c.type && c.type.includes('Barrier')).slice(0, 5);
+            }
+            if (mainDeck.length === 0) {
+                mainDeck = catalog.filter(c => c.type && !c.type.includes('Barrier') && !c.type.includes('Action')).slice(0, 40);
+            }
+
+            // 2. Launch Playtest Area
+            startPlaytest();
+
+            // 3. Setup AI parameters
             pvpRemotePlayer = {
                 name: aiDisplayName,
                 deckName: aiDeckName,
@@ -12515,21 +13137,34 @@ function renderPlaytestBarrier() {
             // Launch Split Board
             initPvPSplitBoard();
 
-            // Populate AI Deck from catalog
+            // 4. Populate AI Deck with strictly non-barrier cards
+            const nonBarrierCatalog = catalog.filter(c => !c.type || !c.type.includes('Barrier'));
+            const barrierCatalog = catalog.filter(c => c.type && c.type.includes('Barrier'));
+
             aiDeckCards = [];
             for (let i = 0; i < 40; i++) {
-                const randCard = catalog[Math.floor(Math.random() * catalog.length)];
-                if (randCard) aiDeckCards.push(randCard);
+                const randCard = nonBarrierCatalog[Math.floor(Math.random() * nonBarrierCatalog.length)];
+                if (randCard) aiDeckCards.push({ ...randCard });
             }
+
+            aiBarrierCards = [];
+            for (let i = 0; i < 5; i++) {
+                const bCard = barrierCatalog[i % barrierCatalog.length];
+                if (bCard) aiBarrierCards.push({ ...bCard });
+            }
+
             aiHandCards = aiDeckCards.splice(0, 7);
             aiEnergyCount = 2;
             aiBarriersRemaining = 5;
             pvpOpponentBarriers = 5;
             pvpOpponentEnergy = 2;
             pvpOpponentHandCount = 7;
+            pvpOpponentField = { 'zone-1': [], 'zone-2': [], 'zone-3': [], 'zone-4': [] };
 
             renderOpponentBoardView();
-            logAction(`🤖 [AI Duel Initialized]: Opponent: ${aiDisplayName} (${difficulty.toUpperCase()} difficulty).`);
+            renderPlaytestBarrier();
+
+            logAction(`🤖 [Match Initialized]: Solo Duel vs ${aiDisplayName} (${difficulty.toUpperCase()} AI) initialized.`);
         }
 
         // Hook into passPvPTurn to trigger AI turn if AI mode is active
@@ -12550,13 +13185,12 @@ function renderPlaytestBarrier() {
             // Step 1: Charge Phase
             // Ready all rested AI units
             for (let i = 1; i <= 4; i++) {
-                const targetBox = document.getElementById(`opp-cards-zone-${i}`);
-                if (targetBox) {
-                    targetBox.querySelectorAll('.rotated').forEach(el => el.classList.remove('rotated'));
+                if (pvpOpponentField && pvpOpponentField[`zone-${i}`]) {
+                    pvpOpponentField[`zone-${i}`].forEach(u => u.isRested = false);
                 }
             }
 
-            // Draw card (Keep card identity private from opponent!)
+            // Draw card (Keep card identity private from human player!)
             if (aiDeckCards.length > 0) {
                 aiHandCards.push(aiDeckCards.pop());
                 logAction(`🎴 ${pvpRemotePlayer.name} drew a card.`);
@@ -12584,12 +13218,14 @@ function renderPlaytestBarrier() {
             let playedUnit = false;
 
             for (let i = 1; i <= 4; i++) {
-                const targetBox = document.getElementById(`opp-cards-zone-${i}`);
-                if (targetBox && targetBox.children.length === 0 && aiHandCards.length > 0) {
-                    // Find a unit the AI can afford
+                const isZoneEmpty = !pvpOpponentField[`zone-${i}`] || pvpOpponentField[`zone-${i}`].length === 0;
+                if (isZoneEmpty && aiHandCards.length > 0) {
+                    // Match any unit card (Legend, Minion, or non-Barrier/non-Action)
                     const unitCard = aiHandCards.find(c => {
+                        if (!c) return false;
+                        const isUnit = c.type && (c.type.includes('Legend') || c.type.includes('Minion') || (!c.type.includes('Barrier') && !c.type.includes('Action')));
                         const cost = parseInt(c.cost) || 1;
-                        return (c.type === 'Legend' || c.type === 'Minion' || !c.type || c.type.includes('Unit')) && cost <= currentEnergy;
+                        return isUnit && cost <= currentEnergy;
                     });
 
                     if (unitCard) {
@@ -12597,13 +13233,13 @@ function renderPlaytestBarrier() {
                         currentEnergy -= unitCost;
                         aiHandCards.splice(aiHandCards.indexOf(unitCard), 1);
 
-                        const cardImg = document.createElement('img');
-                        cardImg.src = unitCard.url;
-                        cardImg.className = 'opp-card-slot';
-                        cardImg.title = `${unitCard.name} (Cost: ${unitCost} • ${unitCard.atk || 4}/${unitCard.hp || 4})`;
-                        cardImg.cardData = unitCard;
-                        cardImg.onerror = () => { cardImg.src = 'Assets/Regular_Card_Back.png'; };
-                        targetBox.appendChild(cardImg);
+                        // Store in pvpOpponentField so it persists cleanly across renders!
+                        pvpOpponentField[`zone-${i}`] = [{
+                            ...unitCard,
+                            isRested: false,
+                            atk: parseInt(unitCard.atk) || 4,
+                            hp: parseInt(unitCard.hp) || 4
+                        }];
 
                         logAction(`⚔️ ${pvpRemotePlayer.name} summoned "${unitCard.name}" (Cost: ${unitCost}, ATK: ${unitCard.atk || 4}, DEF: ${unitCard.hp || 4}) to Field ${i}!`);
 
@@ -12612,9 +13248,7 @@ function renderPlaytestBarrier() {
                             const arriveMatch = unitCard.text.match(/Arrive:\s*([^.]+)/i);
                             const arriveTxt = arriveMatch ? arriveMatch[1].trim() : "Combat ability triggered";
                             
-                            // Tactical Arrive effects:
                             if (/destroy/i.test(arriveTxt)) {
-                                // Destroy a player unit if present
                                 for (let pz = 1; pz <= 4; pz++) {
                                     const pZone = document.getElementById(`mid-zone-${pz}`);
                                     const pCard = pZone ? pZone.querySelector('.play-card') : null;
@@ -12626,8 +13260,7 @@ function renderPlaytestBarrier() {
                                     }
                                 }
                             } else if (/item|stack|reinforce/i.test(arriveTxt)) {
-                                unitCard.atk = (parseInt(unitCard.atk) || 4) + 1;
-                                cardImg.title = `${unitCard.name} (Reinforced • ${unitCard.atk}/${unitCard.hp || 4})`;
+                                pvpOpponentField[`zone-${i}`][0].atk += 1;
                                 logAction(`✨ [Arrive Ability]: "${unitCard.name}" reinforced with combat gear (+1 ATK)!`);
                             } else if (/draw/i.test(arriveTxt)) {
                                 if (aiDeckCards.length > 0) {
@@ -12656,27 +13289,28 @@ function renderPlaytestBarrier() {
         function executeAIAttackPhase() {
             if (!isAIModeActive || pvpIsMyTurn) return;
 
-            // Find an eligible standing AI unit
-            let attackerEl = null;
+            // Find an eligible standing AI unit in pvpOpponentField
+            let attackerUnit = null;
             let attackerZone = 0;
 
             for (let i = 1; i <= 4; i++) {
-                const targetBox = document.getElementById(`opp-cards-zone-${i}`);
-                if (targetBox && targetBox.children.length > 0) {
-                    const unit = targetBox.children[0];
-                    if (!unit.classList.contains('rotated')) {
-                        attackerEl = unit;
+                if (pvpOpponentField && pvpOpponentField[`zone-${i}`] && pvpOpponentField[`zone-${i}`].length > 0) {
+                    const u = pvpOpponentField[`zone-${i}`][0];
+                    if (!u.isRested) {
+                        attackerUnit = u;
                         attackerZone = i;
                         break;
                     }
                 }
             }
 
-            if (attackerEl) {
+            if (attackerUnit) {
                 // Rest the attacker
-                attackerEl.classList.add('rotated');
-                const atkName = attackerEl.cardData ? attackerEl.cardData.name : 'Unit';
-                const atkPower = attackerEl.cardData ? (attackerEl.cardData.atk || 4) : 4;
+                attackerUnit.isRested = true;
+                renderOpponentBoardView();
+
+                const atkName = attackerUnit.name || 'Unit';
+                const atkPower = attackerUnit.atk || 4;
 
                 // Tactical Combat Evaluation: Check for standing player units to fight
                 let targetPlayerZone = null;
@@ -12693,7 +13327,6 @@ function renderPlaytestBarrier() {
                 }
 
                 if (targetPlayerCard && targetPlayerCard.cardData && (parseInt(targetPlayerCard.cardData.hp) || 4) <= atkPower) {
-                    // Attack player's standing unit
                     const defName = targetPlayerCard.cardData.name;
                     logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) attacked your standing "${defName}"!`);
                     openPvPFlowModalAsDefender({
@@ -12702,7 +13335,6 @@ function renderPlaytestBarrier() {
                         targetZoneId: targetPlayerZone
                     });
                 } else {
-                    // Attack player's Barrier Zone!
                     logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) declared attack on your Barrier Zone!`);
                     openPvPFlowModalAsDefender({
                         attacker: { name: atkName, atk: atkPower },
@@ -12711,7 +13343,6 @@ function renderPlaytestBarrier() {
                     });
                 }
             } else {
-                // No eligible attacks, end AI turn
                 endAITurn();
             }
         }
