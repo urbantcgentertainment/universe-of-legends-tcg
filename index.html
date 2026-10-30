@@ -5,6 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universe of Legends TCG - Digital Deck Builder & Simulator</title>
         <style>
+
+        /* =====================================================================
+           --- OFFICIAL UNIVERSE OF LEGENDS PHYSICAL TCG TYPOGRAPHY ---
+           ===================================================================== */
+        @font-face {
+            font-family: 'Quantify';
+            src: url('Assets/Fonts/Quantify.ttf') format('truetype'),
+                 url('Assets/Support_Assets/Font/Quantify.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Quantify';
+            src: url('Assets/Fonts/Quantify.ttf') format('truetype'),
+                 url('Assets/Support_Assets/Font/Quantify.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Quantify';
+            src: url('Assets/Fonts/Quantify.ttf') format('truetype'),
+                 url('Assets/Support_Assets/Font/Quantify.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Quantify';
+            src: url('Assets/Fonts/Quantify.ttf') format('truetype'),
+                 url('Assets/Support_Assets/Font/Quantify.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Friz Quadrata';
+            src: url('Assets/Fonts/FrizQuadrata-Regular.ttf') format('truetype'),
+                 url('Assets/Support_Assets/Font/FrizQuadrata-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Friz Quadrata';
+            src: url('Assets/Fonts/FrizQuadrata-Medium.otf') format('opentype'),
+                 url('Assets/Support_Assets/Font/FrizQuadrata-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Friz Quadrata';
+            src: url('Assets/Fonts/FrizQuadrata-Medium.otf') format('opentype'),
+                 url('Assets/Support_Assets/Font/FrizQuadrata-Medium.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Friz Quadrata';
+            src: url('Assets/Fonts/FrizQuadrata-Bold.otf') format('opentype'),
+                 url('Assets/Support_Assets/Font/FrizQuadrata-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Friz Quadrata';
+            src: url('Assets/Fonts/FrizQuadrata-Bold.otf') format('opentype'),
+                 url('Assets/Support_Assets/Font/FrizQuadrata-Bold.otf') format('opentype');
+            font-weight: 800;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Friz Quadrata';
+            src: url('Assets/Fonts/FrizQuadrata-Italic.ttf') format('truetype'),
+                 url('Assets/Support_Assets/Font/FrizQuadrata-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        /* 1. QUANTIFY: Numbers, Stats, Energy Costs, ATK/DEF, Barrier Counts, and Game Logo */
+        .game-title,
+        .start-command-title,
+        .uofl-logo-font,
+        .brand-logo-text {
+            font-family: 'Quantify', 'Orbitron', 'Rajdhani', sans-serif !important;
+            letter-spacing: 1.5px;
+        }
+
+        .stat-number,
+        .stat-num,
+        .uofl-stat-num,
+        .detail-stats b,
+        #playtest-left .detail-stats b,
+        #pack-detail-stats b,
+        #detail-cost b,
+        #detail-atk b,
+        #detail-hp b,
+        #playtest-detail-cost b,
+        #playtest-detail-atk b,
+        #playtest-detail-hp b,
+        #energy-count-live,
+        #opp-energy-count-text,
+        #playtest-energy-count,
+        #playtest-reaction-count,
+        #playtest-barrier-count,
+        #playtest-deck-count,
+        #nav-main-count b,
+        #nav-reaction-count b,
+        #nav-barrier-count b,
+        #barrier-count-badge,
+        #main-count-badge,
+        #reaction-count-badge,
+        .zone-card-cost,
+        .zone-card-stats,
+        .opp-card-stats,
+        .opp-hand-count,
+        .story-realm-badge,
+        .story-node-status-badge {
+            font-family: 'Quantify', monospace, sans-serif !important;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2. FRIZ QUADRATA BOLD: Card Names & Titles */
+        .detail-title,
+        #playtest-left .detail-title,
+        #pack-detail-name,
+        .card-name,
+        .barrier-card-name,
+        .play-card-name,
+        .pack-card-name,
+        .story-char-title,
+        .story-chapter-title,
+        #card-editor-title,
+        .section-header,
+        .deck-section-header,
+        .catalog-header,
+        .action-log-title,
+        .reaction-header,
+        .ghost-coach-header,
+        .htp-board-title,
+        .htp-info-card-title,
+        .htp-speaker-tag {
+            font-family: 'Friz Quadrata', 'Cinzel', 'Trajan Pro', Georgia, serif !important;
+            letter-spacing: 0.4px;
+        }
+
+        /* 3. FRIZ QUADRATA REGULAR & MEDIUM: Card Text, Descriptions, Abilities, and Story Blurbs */
+        .detail-text,
+        #playtest-left .detail-text,
+        #pack-detail-text,
+        .card-text,
+        .play-card-text,
+        .card-desc,
+        .card-ability,
+        #card-editor-text,
+        .story-narrative-blurb,
+        .story-chapter-subtitle,
+        .story-char-desc,
+        .htp-speech-text,
+        .htp-info-card-body,
+        .htp-protip-card,
+        .action-log-entry {
+            font-family: 'Friz Quadrata', 'Georgia', 'Times New Roman', serif !important;
+        }
+
         :root {
             /* Core Magitek Palette (from Official Card Back & Booster Art) */
             --bg-obsidian: #06070d;
@@ -487,10 +659,10 @@
             overflow: hidden;
         }
         #main-deck-grid {
-            padding: 14px;
+            padding: 10px 8px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(10, 1fr) !important;
+            gap: 6px;
             align-content: start;
             overflow-y: auto;
             flex-grow: 1;
@@ -505,11 +677,12 @@
             flex-shrink: 0;
         }
         #reaction-deck-grid {
-            padding: 10px 15px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            overflow-x: auto;
+            padding: 6px 8px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr) !important;
+            gap: 6px;
+            align-content: start;
+            overflow-y: auto;
             flex-grow: 1;
         }
         #reaction-deck-grid .card-thumb {
@@ -2251,18 +2424,27 @@
                 font-size: 7.5px !important;
             }
             #main-deck-grid {
-                padding: 5px !important;
-                grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)) !important;
-                gap: 4px !important;
-            }
+            padding: 10px 8px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr) !important;
+            gap: 6px;
+            align-content: start;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
             #reaction-deck-container {
                 height: 76px !important;
                 min-height: 76px !important;
             }
             #reaction-deck-grid {
-                padding: 3px 6px !important;
-                gap: 4px !important;
-            }
+            padding: 6px 8px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr) !important;
+            gap: 6px;
+            align-content: start;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
             #reaction-deck-grid .card-thumb { width: 38px !important; }
 
             /* Right Catalog Column */
@@ -2500,21 +2682,139 @@
 
         /* ================= PHASE 2: PVP SPLIT BOARD & OPPONENT PERSPECTIVE ================= */
         .pvp-split-active #playmat-surface {
-            background: radial-gradient(circle at 50% 50%, rgba(10, 16, 32, 0.95) 0%, rgba(5, 7, 14, 0.98) 100%);
-            border: 2px solid rgba(0, 229, 255, 0.35);
-            box-shadow: 0 0 40px rgba(0,0,0,0.9), inset 0 0 30px rgba(0, 229, 255, 0.08);
+            height: 760px !important;
+            background: radial-gradient(circle at 50% 50%, rgba(14, 20, 38, 0.96) 0%, rgba(6, 8, 16, 0.98) 100%) !important;
+            border: 2px solid rgba(0, 229, 255, 0.45) !important;
+            box-shadow: 0 0 50px rgba(0,0,0,0.95), inset 0 0 35px rgba(0, 229, 255, 0.12) !important;
         }
 
+        /* Opponent Half: Dedicated Top 356px (Zero Overlap with Player Space) */
         #pvp-opponent-half {
             position: absolute;
             top: 0;
             left: 0;
             width: 1420px;
-            height: 310px;
+            height: 356px;
+            background: linear-gradient(180deg, rgba(20, 14, 34, 0.88) 0%, rgba(10, 14, 26, 0.72) 100%);
             border-bottom: 2px solid rgba(0, 229, 255, 0.45);
-            background: linear-gradient(180deg, rgba(16, 12, 28, 0.75) 0%, rgba(8, 12, 22, 0.65) 100%);
             z-index: 10;
             pointer-events: auto;
+        }
+
+        /* Center Clash Divider */
+        .pvp-center-clash-divider {
+            position: absolute;
+            top: 356px;
+            left: 0;
+            width: 1420px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 25;
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.2) 0%, rgba(255, 215, 0, 0.45) 50%, rgba(0, 229, 255, 0.2) 100%);
+            border-top: 1.5px solid rgba(0, 229, 255, 0.7);
+            border-bottom: 1.5px solid rgba(255, 215, 0, 0.7);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+            pointer-events: auto;
+        }
+
+        /* Player Combat Zones: Shifted Down in Split Mode to Face Opponent Units Across Clash Line */
+        .pvp-split-active #mid-zone-1 {
+            top: 396px !important;
+            left: calc(50% - 370px) !important;
+            width: 145px !important;
+            height: 155px !important;
+        }
+        .pvp-split-active #mid-zone-2 {
+            top: 396px !important;
+            left: calc(50% - 180px) !important;
+            width: 145px !important;
+            height: 155px !important;
+        }
+        .pvp-split-active #mid-zone-3 {
+            top: 396px !important;
+            left: calc(50% + 10px) !important;
+            width: 145px !important;
+            height: 155px !important;
+        }
+        .pvp-split-active #mid-zone-4 {
+            top: 396px !important;
+            left: calc(50% + 200px) !important;
+            width: 145px !important;
+            height: 155px !important;
+        }
+
+        /* Player Backrow Zones: Shifted Down to Bottom Half (y = 566px) */
+        .pvp-split-active #zone-top-left {
+            top: 566px !important;
+            left: 60px !important;
+            width: 220px !important;
+            height: 160px !important;
+        }
+        .pvp-split-active #zone-mid-left,
+        .pvp-split-active .deck-btn-purple {
+            top: 566px !important;
+            left: 295px !important;
+            width: 120px !important;
+            height: 160px !important;
+        }
+        .pvp-split-active #bottom-fan-zone {
+            top: 566px !important;
+            left: calc(50% - 240px) !important;
+            width: 480px !important;
+            height: 160px !important;
+        }
+        .pvp-split-active #zone-activation {
+            top: 566px !important;
+            left: calc(50% + 260px) !important;
+            width: 140px !important;
+            height: 160px !important;
+            border-radius: 8px !important;
+        }
+        .pvp-split-active #zone-bot-right-1,
+        .pvp-split-active #unknown-deck-btn {
+            top: 566px !important;
+            left: calc(50% + 420px) !important;
+            width: 120px !important;
+            height: 160px !important;
+        }
+        .pvp-split-active #zone-bot-right-2,
+        .pvp-split-active #draw-deck-btn {
+            top: 566px !important;
+            left: calc(50% + 560px) !important;
+            width: 120px !important;
+            height: 160px !important;
+        }
+
+        /* Story Mode Portrait Character Art Containment */
+        .story-bg-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: right center !important;
+            transition: background-image 0.5s ease-in-out;
+            z-index: 1;
+        }
+        .story-content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: max(28px, env(safe-area-inset-top, 28px)) 36px 20px 36px !important;
+            box-sizing: border-box;
+            pointer-events: none;
         }
 
         .pvp-opp-header-hud {
@@ -2864,7 +3164,7 @@
 
     <script>
         function getDefaultCardBackSvg() {
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350" viewBox="0 0 250 350"><defs><linearGradient id="cbgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0e1017"/><stop offset="50%" stop-color="#181b28"/><stop offset="100%" stop-color="#0b0d14"/></linearGradient><linearGradient id="cbdrGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffd700"/><stop offset="50%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#9d4edd"/></linearGradient></defs><rect width="250" height="350" rx="14" fill="url(#cbgGrad)" stroke="url(#cbdrGrad)" stroke-width="4"/><rect x="14" y="14" width="222" height="322" rx="10" fill="none" stroke="#252b42" stroke-width="2"/><circle cx="125" cy="175" r="54" fill="#0f1320" stroke="#ffd700" stroke-width="3"/><polygon points="125,135 155,185 95,185" fill="#00e5ff" opacity="0.8"/><circle cx="125" cy="175" r="16" fill="#141824" stroke="#ffd700" stroke-width="2"/><text x="125" y="166" fill="#ffd700" font-size="14" font-weight="900" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" letter-spacing="1">UNIVERSE</text><text x="125" y="186" fill="#00e5ff" font-size="11" font-weight="800" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" letter-spacing="2">OF LEGENDS</text></svg>`;
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350" viewBox="0 0 250 350"><defs><linearGradient id="cbgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0e1017"/><stop offset="50%" stop-color="#181b28"/><stop offset="100%" stop-color="#0b0d14"/></linearGradient><linearGradient id="cbdrGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffd700"/><stop offset="50%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#9d4edd"/></linearGradient></defs><rect width="250" height="350" rx="14" fill="url(#cbgGrad)" stroke="url(#cbdrGrad)" stroke-width="4"/><rect x="14" y="14" width="222" height="322" rx="10" fill="none" stroke="#252b42" stroke-width="2"/><circle cx="125" cy="175" r="54" fill="#0f1320" stroke="#ffd700" stroke-width="3"/><polygon points="125,135 155,185 95,185" fill="#00e5ff" opacity="0.8"/><circle cx="125" cy="175" r="16" fill="#141824" stroke="#ffd700" stroke-width="2"/><text x="125" y="166" fill="#ffd700" font-size="14" font-weight="900" text-anchor="middle" font-family="'Quantify', sans-serif" letter-spacing="1">UNIVERSE</text><text x="125" y="186" fill="#00e5ff" font-size="11" font-weight="800" text-anchor="middle" font-family="'Quantify', sans-serif" letter-spacing="2">OF LEGENDS</text></svg>`;
             try {
                 if (typeof btoa === 'function') {
                     return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
@@ -2984,37 +3284,45 @@
                 </div>
 
                 <!-- 2. Master Duel Vertical Menu Blades (Enabled once authenticated) -->
-                <div id="start-menu-buttons-container" class="start-menu-buttons" style="display: none;">
-                    <button class="start-btn start-btn-primary" onclick="goToDeckBuilder()">
-                        <span>Deck Builder</span>
+                <div id="start-menu-buttons-container" class="start-menu-buttons" style="display: none; flex-direction: column; gap: 8px;">
+                    <!-- 1. Battle Modes Hub (Consolidated PvP, Story, AI Duel, Sandbox) -->
+                    <button id="start-battle-hub-btn" class="start-btn start-btn-primary" onclick="openBattleHubModal()" style="border-color: #ffd700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.22) 0%, rgba(20, 16, 36, 0.95) 100%); box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);">
+                        <span>⚔️ Battle Modes (Hub)</span>
                     </button>
-                    <button class="start-btn start-btn-secondary" onclick="goToTestingArea()">
-                        <span>Testing Area</span>
+
+                    <!-- 2. Deck Builder & Collection -->
+                    <button id="start-deckbuilder-btn" class="start-btn start-btn-secondary" onclick="goToDeckBuilder()">
+                        <span>🎴 Deck Builder</span>
                     </button>
-                    <button class="start-btn start-btn-pack" onclick="goToPackOpening()">
-                        <span>Pack Opening Simulator</span>
+
+                    <!-- 3. Pack Opening Simulator -->
+                    <button id="start-pack-btn" class="start-btn start-btn-pack" onclick="goToPackOpening()">
+                        <span>🎁 Pack Simulator</span>
                     </button>
-                    <button id="start-story-btn" class="start-btn" onclick="openStoryModeView()" style="border-color: #ffd700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.22), rgba(18, 14, 32, 0.95)); box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);">
-                        <span>⚔️ Chronicles: Story Mode</span>
-                    </button>
-                    <button id="start-ai-duel-btn" class="start-btn" onclick="openAIMatchModal()" style="border-color: #00e5ff; background: linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(12, 16, 26, 0.95));">
-                        <span>🤖 Solo AI Duel (Practice)</span>
-                    </button>
+
+                    <!-- 4. How to Play (Gh0st Guide) -->
                     <button id="start-howtoplay-btn" class="start-btn start-btn-howto" onclick="goToHowToPlay()">
-                        <span>How to Play (Gh0st Guide)</span>
+                        <span>📖 How to Play Guide</span>
                     </button>
-                    <button id="start-settings-btn" class="start-btn" onclick="openSettingsModal()" style="border-color: #ffd700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(15, 18, 28, 0.9));">
-                        <span>Player Settings</span>
-                    </button>
-                    <button id="start-card-editor-btn" class="start-btn start-btn-admin" onclick="openCardEditorModal()" style="display: none;">
-                        <span>Card Database Editor</span>
-                    </button>
-                    <button id="start-pvp-btn" class="start-btn start-btn-admin" onclick="openPvPLobbyModal()" style="display: none; border-color: #00e5ff; background: linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(15, 18, 28, 0.9));">
-                        <span>⚔️ Online PvP Arena (Alpha)</span>
-                    </button>
+
+                    <!-- Hidden alias buttons to preserve test compatibility and programmatic access -->
+                    <button id="start-story-btn" onclick="openStoryModeView()" style="display: none;"></button>
+                    <button id="start-ai-duel-btn" onclick="openAIMatchModal()" style="display: none;"></button>
+
+                    <!-- Compact Utility Icon Bar -->
+                    <div id="start-utility-bar" style="display: flex; gap: 8px; margin-top: 6px; width: 100%;">
+                        <button id="start-settings-btn" class="btn-magitek" onclick="openSettingsModal()" style="flex: 1; padding: 6px 10px; font-size: 11px; border-color: #ffd700; color: #ffd700; background: rgba(255, 215, 0, 0.08);">
+                            ⚙ Settings
+                        </button>
+                        <button id="start-pvp-btn" class="btn-magitek" onclick="openPvPLobbyModal()" style="display: none; flex: 1; padding: 6px 10px; font-size: 11px; border-color: #00e5ff; color: #00e5ff; background: rgba(0, 229, 255, 0.08);">
+                            ⚔️ Quick PvP
+                        </button>
+                        <button id="start-card-editor-btn" class="btn-magitek" onclick="openCardEditorModal()" style="display: none; flex: 1; padding: 6px 10px; font-size: 11px; border-color: var(--magic-purple); color: #c4b5fd; background: rgba(157, 78, 221, 0.12);">
+                            🔒 Editor
+                        </button>
+                    </div>
                 </div>
             </div>
-
             <!-- RIGHT COLUMN: Interactive Hero Character & Crest Showcase -->
             <div class="start-right-showcase">
                 <div class="arcane-tech-circle"></div>
@@ -3052,15 +3360,106 @@
         </div>
         <div class="nav-actions">
 
-            <select id="saved-decks-dropdown" onchange="handleDeckDropdownSelect(this)" title="Load a saved deck from Google Sheets" style="background: #191b26; color: #ffd700; border: 1px solid #ffd700; border-radius: 4px; padding: 5px 8px; font-size: 12px; max-width: 175px; cursor: pointer; font-weight: 500;">
+            <select id="saved-decks-dropdown" onchange="handleDeckDropdownSelect(this)" title="Load a saved deck from Google Sheets" style="background: #191b26; color: #ffd700; border: 1.5px solid #ffd700; border-radius: 4px; padding: 4px 8px; font-size: 11.5px; max-width: 160px; cursor: pointer; font-weight: 600;">
                 <option value="">-- Load Saved Deck --</option>
             </select>
-            <button class="btn-blue" onclick="refreshSavedDecks()" title="Refresh decks from Google Sheet" style="padding: 5px 7px; font-size: 11px;">↻</button>
-            <button class="btn-blue" onclick="openSaveDeckModal()">Save Deck</button>
-            <button class="btn-blue" onclick="sortDecks()">Sort</button>
-            <button class="btn-red" onclick="clearAllDecks()">Clear All</button>
-            <button id="nav-backend-btn" class="btn-purple" onclick="openBackendModal()" style="display: none; padding: 5px 8px; font-size: 12px;" title="Backend & Deck Locks Settings">⚙ Backend</button>
-            <button class="btn-green" onclick="startPlaytest()">Test Deck ▶</button>
+            <button class="btn-blue" onclick="refreshSavedDecks()" title="Refresh decks from Google Sheet" style="padding: 4px 6px; font-size: 11px;">↻</button>
+            
+            <!-- Streamlined Grouped Deck Actions Dropdown -->
+            <select id="deckActionsDropdown" onchange="handleDeckActionSelect(this)" style="background: #101426; color: #00e5ff; border: 1.5px solid #00e5ff; border-radius: 4px; padding: 4px 8px; font-size: 11.5px; font-weight: 700; cursor: pointer;">
+                <option value="">🛠️ Deck Actions ▾</option>
+                <option value="save">💾 Save Deck</option>
+                <option value="sort">🔀 Sort Deck</option>
+                <option value="clear">🗑️ Clear All</option>
+                <option value="guide">📖 How to Play Guide</option>
+                <option value="backend">⚙ Backend Settings</option>
+            </select>
+
+            <button id="nav-backend-btn" class="btn-purple" onclick="openBackendModal()" style="display: none; padding: 4px 7px; font-size: 11px;" title="Backend & Deck Locks Settings">⚙ Admin</button>
+            <button class="btn-green" onclick="startPlaytest()" style="padding: 5px 12px; font-size: 12px; font-weight: 800; box-shadow: 0 0 12px rgba(0, 230, 118, 0.45);">Test Deck ▶</button>
+        </div>
+    </div>
+
+    <!-- ================= BATTLE MODES CONSOLIDATED HUB MODAL ================= -->
+    <div id="battle-hub-modal" class="modal-hidden">
+        <div class="modal-content" style="max-width: 780px; width: 92vw; border-color: #ffd700; box-shadow: 0 0 45px rgba(255, 215, 0, 0.35); background: #0c0f1c;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #2a2e45; padding-bottom: 12px; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px; font-weight: 900; color: #ffd700; letter-spacing: 1.5px; text-transform: uppercase;">⚔️ Universe of Legends: Battle Modes</span>
+                </div>
+                <button class="btn-red" onclick="closeBattleHubModal()" style="padding: 5px 12px; font-size: 12px; font-weight: bold;">✕ Close</button>
+            </div>
+
+            <div style="font-size: 12.5px; color: #b8c4d8; margin-bottom: 16px;">
+                Select your combat format. Challenge human opponents across the WebRTC network or practice against AI bots and test deck interactions.
+            </div>
+
+            <!-- 2x2 Game Mode Cards Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px;">
+                <!-- Mode 1: Online PvP Arena -->
+                <div style="background: linear-gradient(145deg, rgba(14, 22, 42, 0.95), rgba(10, 14, 26, 0.95)); border: 1.5px solid #00e5ff; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 14px; font-weight: 800; color: #00e5ff; text-transform: uppercase;">⚔️ Online PvP Arena</span>
+                            <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; background: rgba(0, 229, 255, 0.2); color: #00e5ff; border: 1px solid #00e5ff;">MULTIPLAYER</span>
+                        </div>
+                        <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 14px;">
+                            Real-time WebRTC peer-to-peer matchmaking. Host or join custom room codes, roll high die for turn order, and ping Discord matchmaking directly.
+                        </div>
+                    </div>
+                    <button class="btn-blue" onclick="closeBattleHubModal(); openPvPLobbyModal();" style="width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 800; border-color: #00e5ff;">
+                        Enter PvP Lobby ▶
+                    </button>
+                </div>
+
+                <!-- Mode 2: Chronicles Story Mode -->
+                <div style="background: linear-gradient(145deg, rgba(28, 20, 42, 0.95), rgba(12, 10, 26, 0.95)); border: 1.5px solid #ffd700; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 14px; font-weight: 800; color: #ffd700; text-transform: uppercase;">📖 Chronicles: Story Mode</span>
+                            <span id="hub-story-badge" style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; background: rgba(255, 215, 0, 0.2); color: #ffd700; border: 1px solid #ffd700;">🔒 ADMIN LOCKED</span>
+                        </div>
+                        <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 14px;">
+                            Solo progression challenge. Battle through 5 elemental bosses: Bass (Tech), Ramses (Magic), Jackson (Fantasy), Raya (Neutral), and Gh0st Singularity.
+                        </div>
+                    </div>
+                    <button id="hub-story-btn" class="btn-magitek" onclick="closeBattleHubModal(); openStoryModeView();" style="width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 800; border-color: #ffd700; color: #ffd700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(20, 14, 32, 0.9));">
+                        Launch Story Mode ▶
+                    </button>
+                </div>
+
+                <!-- Mode 3: Solo AI Duel -->
+                <div style="background: linear-gradient(145deg, rgba(16, 26, 36, 0.95), rgba(8, 16, 24, 0.95)); border: 1.5px solid #00e676; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 14px; font-weight: 800; color: #00e676; text-transform: uppercase;">🤖 Solo AI Duel</span>
+                            <span id="hub-ai-badge" style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; background: rgba(0, 230, 118, 0.2); color: #00e676; border: 1px solid #00e676;">🔒 ADMIN LOCKED</span>
+                        </div>
+                        <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 14px;">
+                            Custom bot match. Choose your deck, select the AI deck and hero avatar, and pick your difficulty level (Cadet, Veteran, or Legend).
+                        </div>
+                    </div>
+                    <button id="hub-ai-btn" class="btn-green" onclick="closeBattleHubModal(); openAIMatchModal();" style="width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 800; border-color: #00e676;">
+                        Setup AI Duel ▶
+                    </button>
+                </div>
+
+                <!-- Mode 4: Solo Sandbox Testing Area -->
+                <div style="background: linear-gradient(145deg, rgba(20, 22, 34, 0.95), rgba(10, 12, 20, 0.95)); border: 1.5px solid #9d4edd; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 14px; font-weight: 800; color: #c4b5fd; text-transform: uppercase;">🧪 Solo Sandbox Arena</span>
+                            <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; background: rgba(157, 78, 221, 0.2); color: #c4b5fd; border: 1px solid #9d4edd;">TESTING</span>
+                        </div>
+                        <div style="font-size: 11.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 14px;">
+                            Freeform testing sandbox. Test opening hands (7 cards), mulligans, unit stacking, barrier reveals, and token spawns without turn timers.
+                        </div>
+                    </div>
+                    <button class="btn-purple" onclick="closeBattleHubModal(); goToTestingArea();" style="width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 800; border-color: #9d4edd;">
+                        Enter Sandbox ▶
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -3158,18 +3557,34 @@
 
         <div id="playtest-main">
             <div id="controls">
-                <button class="btn-blue" onclick="goToStartPage()" style="background: #232533; border: 1px solid #555;">Main Menu</button>
-                <button class="btn-red" onclick="returnToBuilder()">◀ Back to Builder</button>
-                <button class="btn-blue" onclick="drawCard()">Draw Card</button>
-                <button class="btn-green" onclick="drawStartingHand()">Starting Hand (7)</button>
-                <button class="btn-blue" onclick="openMulliganModal()">Mulligan</button>
-                <span id="deck-counter" style="font-weight: bold; color: #ffd700; font-size: 11px; white-space: nowrap;">Main: 0</span>
-                <button class="btn-blue" onclick="readyAllCards()">Ready Cards</button>
-                <button class="btn-blue" onclick="spawnToken('shield')" title="Spawn Shield Token (If unit would be destroyed, remove this card instead)">+ Shield</button>
-                <button class="btn-purple" onclick="spawnToken('sealed')" title="Spawn Sealed Token (Unit cannot attack, block, activate abilities, or stand during Charge phase)">+ Sealed</button>
-                <button class="btn-red" onclick="spawnToken('temptation')" title="Spawn Temptation Token (A unit must be played on this card; -1 ATK / -1 DEF)">+ Temptation</button>
+                <button class="btn-red" onclick="returnToBuilder()" style="padding: 4px 8px; font-size: 11px;">◀ Builder</button>
+                <button class="btn-blue" onclick="goToStartPage()" style="padding: 4px 8px; font-size: 11px; background: #232533; border: 1px solid #555;">Menu</button>
                 
-                <input type="file" id="customPlaymatInput" accept="image/*" style="display: none;" onchange="handleCustomPlaymatUploaded(event)">
+                <button class="btn-blue" onclick="drawCard()" style="padding: 4px 9px; font-size: 11px;">🎴 Draw</button>
+                <button class="btn-green" onclick="drawStartingHand()" style="padding: 4px 9px; font-size: 11px;">🖐 Hand (7)</button>
+                <button class="btn-blue" onclick="readyAllCards()" style="padding: 4px 9px; font-size: 11px;">🔄 Ready All</button>
+
+                <span id="deck-counter" style="font-weight: bold; color: #ffd700; font-size: 11px; white-space: nowrap; margin: 0 4px;">Main: 0</span>
+
+                <!-- Streamlined Dropdown for Tokens (Clean, uncrowded) -->
+                <select id="tokenSpawnDropdown" onchange="handleTokenDropdownSelect(this)" style="background: #101426; color: #00e5ff; border: 1.5px solid #00e5ff; border-radius: 4px; padding: 4px 8px; font-size: 11px; font-weight: 700; cursor: pointer; max-width: 145px;">
+                    <option value="">+ Spawn Token...</option>
+                    <option value="shield">🛡️ Shield Token</option>
+                    <option value="sealed">🔒 Sealed Token</option>
+                    <option value="temptation">🍎 Temptation Token</option>
+                </select>
+
+                <!-- Streamlined Dropdown for Auxiliary Tools -->
+                <select id="playToolsDropdown" onchange="handlePlayToolSelect(this)" style="background: #101426; color: #ffd700; border: 1.5px solid #ffd700; border-radius: 4px; padding: 4px 8px; font-size: 11px; font-weight: 700; cursor: pointer; max-width: 135px;">
+                    <option value="">🎲 Tools ▾</option>
+                    <option value="mulligan">Mulligan Hand</option>
+                    <option value="roll6">Roll 1d6</option>
+                    <option value="roll20">Roll 1d20</option>
+                    <option value="coin">Flip Coin</option>
+                    <option value="clear">Clear Board</option>
+                </select>
+
+                <input type="file" id="customPlaymatInput"  accept="image/*" style="display: none;" onchange="handleCustomPlaymatUploaded(event)">
                 <select id="bgSelector" onchange="changeBackground()" style="margin-left: auto; max-width: 175px;">
                     <option value="default">Playmat: Default Grid</option>
                     <option value="__custom_file__">+ Load Custom Playmat Image...</option>
@@ -6050,10 +6465,10 @@
             const color = (card.color || 'Neutral').toUpperCase();
 
             if (isH) {
-                return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="350" height="250" viewBox="0 0 350 250"><rect width="350" height="250" rx="10" fill="%231a1c26" stroke="%23ffd700" stroke-width="4"/><rect x="15" y="15" width="320" height="32" rx="4" fill="%23282a36"/><text x="175" y="36" fill="%23ffd700" font-size="13" font-weight="bold" text-anchor="middle" font-family="sans-serif">${name}</text><text x="25" y="68" fill="%2300b4ff" font-size="11" font-family="sans-serif">${type}</text><text x="325" y="68" fill="%2327ae60" font-size="11" font-weight="bold" text-anchor="end" font-family="sans-serif">${color}</text><rect x="15" y="80" width="320" height="155" rx="5" fill="%23111217"/><text x="175" y="155" fill="%23666" font-size="14" text-anchor="middle" font-family="sans-serif">BARRIER - ${color}</text></svg>`;
+                return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="350" height="250" viewBox="0 0 350 250"><rect width="350" height="250" rx="10" fill="%231a1c26" stroke="%23ffd700" stroke-width="4"/><rect x="15" y="15" width="320" height="32" rx="4" fill="%23282a36"/><text x="175" y="36" fill="%23ffd700" font-size="13" font-weight="bold" text-anchor="middle" font-family="'Friz Quadrata', Georgia, serif">${name}</text><text x="25" y="68" fill="%2300b4ff" font-size="11" font-family="sans-serif">${type}</text><text x="325" y="68" fill="%2327ae60" font-size="11" font-weight="bold" text-anchor="end" font-family="sans-serif">${color}</text><rect x="15" y="80" width="320" height="155" rx="5" fill="%23111217"/><text x="175" y="155" fill="%23666" font-size="14" text-anchor="middle" font-family="sans-serif">BARRIER - ${color}</text></svg>`;
             }
 
-            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350" viewBox="0 0 250 350"><rect width="250" height="350" rx="10" fill="%231a1c26" stroke="%23ffd700" stroke-width="4"/><rect x="15" y="15" width="220" height="32" rx="4" fill="%23282a36"/><text x="125" y="36" fill="%23ffd700" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">${name}</text><text x="20" y="66" fill="%2300b4ff" font-size="11" font-family="sans-serif">${type}</text><text x="230" y="66" fill="%234caf50" font-size="11" font-weight="bold" text-anchor="end" font-family="sans-serif">${cost}</text><rect x="15" y="80" width="220" height="195" rx="5" fill="%23111217"/><text x="125" y="180" fill="%23666" font-size="13" text-anchor="middle" font-family="sans-serif">Universe of Legends</text><rect x="15" y="285" width="220" height="48" rx="5" fill="%23282a36"/><text x="125" y="315" fill="%23ff9800" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">${stats}</text></svg>`;
+            return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="350" viewBox="0 0 250 350"><rect width="250" height="350" rx="10" fill="%231a1c26" stroke="%23ffd700" stroke-width="4"/><rect x="15" y="15" width="220" height="32" rx="4" fill="%23282a36"/><text x="125" y="36" fill="%23ffd700" font-size="12" font-weight="bold" text-anchor="middle" font-family="'Friz Quadrata', Georgia, serif">${name}</text><text x="20" y="66" fill="%2300b4ff" font-size="11" font-family="sans-serif">${type}</text><text x="230" y="66" fill="%234caf50" font-size="11" font-weight="bold" text-anchor="end" font-family="'Quantify', sans-serif">${cost}</text><rect x="15" y="80" width="220" height="195" rx="5" fill="%23111217"/><text x="125" y="180" fill="%23666" font-size="13" text-anchor="middle" font-family="sans-serif">Universe of Legends</text><rect x="15" y="285" width="220" height="48" rx="5" fill="%23282a36"/><text x="125" y="315" fill="%23ff9800" font-size="12" font-weight="bold" text-anchor="middle" font-family="'Quantify', sans-serif">${stats}</text></svg>`;
         }
 
         // --- ACTIVE BARRIER COLOR DETECTOR ---
@@ -8563,9 +8978,9 @@
             }
             document.getElementById('detail-name').innerText = card.name || 'Select a Card';
             document.getElementById('detail-type').innerText = `Type: ${card.type || '---'}`;
-            document.getElementById('detail-cost').innerHTML = `<img src="Assets/Support_Assets/Element_board.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'Element_board.png')">Cost: <b>${card.cost !== undefined ? card.cost : '---'}</b>`;
-            document.getElementById('detail-atk').innerHTML = `<img src="Assets/Support_Assets/ic_attack.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_attack.png')">ATK: <b>${card.atk !== undefined ? card.atk : '---'}</b>`;
-            document.getElementById('detail-hp').innerHTML = `<img src="Assets/Support_Assets/ic_shield.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_shield.png')">DEF: <b>${card.hp !== undefined ? card.hp : '---'}</b>`;
+            document.getElementById('detail-cost').innerHTML = `<img src="Assets/Support_Assets/Element_board.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'Element_board.png')">Cost: <b class="uofl-stat-num">${card.cost !== undefined ? card.cost : '---'}</b>`;
+            document.getElementById('detail-atk').innerHTML = `<img src="Assets/Support_Assets/ic_attack.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_attack.png')">ATK: <b class="uofl-stat-num">${card.atk !== undefined ? card.atk : '---'}</b>`;
+            document.getElementById('detail-hp').innerHTML = `<img src="Assets/Support_Assets/ic_shield.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_shield.png')">DEF: <b class="uofl-stat-num">${card.hp !== undefined ? card.hp : '---'}</b>`;
             document.getElementById('detail-text').innerText = card.text || 'No effect text.';
         }
 
@@ -8909,8 +9324,9 @@
             const availH = playmat.clientHeight;
             if (availW === 0 || availH === 0) return;
 
+            const isSplit = isOnlinePvPActive || (typeof isAIModeActive !== 'undefined' && isAIModeActive);
             const baseW = 1420;
-            const baseH = 640;
+            const baseH = isSplit ? 760 : 640;
 
             const scaleX = (availW - 10) / baseW;
             const scaleY = (availH - 10) / baseH;
@@ -8918,6 +9334,107 @@
 
             surface.style.transform = `scale(${scale})`;
             surface.style.transformOrigin = 'center center';
+        }
+
+
+        // --- STREAMLINED CONTROLS & DROPDOWN ACTION HANDLERS ---
+        function handleTokenDropdownSelect(sel) {
+            if (!sel || !sel.value) return;
+            const tokenType = sel.value;
+            spawnToken(tokenType);
+            sel.selectedIndex = 0;
+        }
+
+        function handlePlayToolSelect(sel) {
+            if (!sel || !sel.value) return;
+            const val = sel.value;
+            sel.selectedIndex = 0;
+            if (val === 'mulligan') openMulliganModal();
+            else if (val === 'roll6') rollDice(6);
+            else if (val === 'roll20') rollDice(20);
+            else if (val === 'coin') flipCoin();
+            else if (val === 'clear') {
+                if (confirm('Clear all cards and tokens from the playmat?')) {
+                    clearPlaymatBoard();
+                }
+            }
+        }
+
+        function handleDeckActionSelect(sel) {
+            if (!sel || !sel.value) return;
+            const val = sel.value;
+            sel.selectedIndex = 0;
+            if (val === 'save') openSaveDeckModal();
+            else if (val === 'sort') sortDecks();
+            else if (val === 'clear') clearAllDecks();
+            else if (val === 'guide') goToHowToPlay();
+            else if (val === 'backend') openBackendModal();
+        }
+
+        function rollDice(sides = 6) {
+            const roll = Math.floor(Math.random() * sides) + 1;
+            alert('🎲 Rolled 1d' + sides + ': ' + roll);
+            logAction('🎲 Rolled 1d' + sides + ': ' + roll);
+            return roll;
+        }
+
+        function flipCoin() {
+            const isHeads = Math.random() < 0.5;
+            const res = isHeads ? 'HEADS' : 'TAILS';
+            alert('🪙 Coin Flip: ' + res);
+            logAction('🪙 Coin Flip: ' + res);
+            return res;
+        }
+
+        function clearPlaymatBoard() {
+            const playmat = document.getElementById('playmat');
+            if (playmat) {
+                playmat.querySelectorAll('.play-card, .token').forEach(c => c.remove());
+            }
+            logAction('Cleared all cards and tokens from the battlefield.');
+        }
+
+        // --- BATTLE MODES CONSOLIDATED HUB CONTROLLER ---
+        // --- BATTLE MODES CONSOLIDATED HUB CONTROLLER ---
+        function openBattleHubModal() {
+            if (!currentAccessRole) {
+                alert("Please enter a valid access passcode on the start screen to continue.");
+                return;
+            }
+
+            const isAdmin = (currentAccessRole === 'admin' || isAdminModeActive);
+            const storyBadge = document.getElementById('hub-story-badge');
+            const storyBtn = document.getElementById('hub-story-btn');
+            const aiBadge = document.getElementById('hub-ai-badge');
+            const aiBtn = document.getElementById('hub-ai-btn');
+
+            if (storyBadge) {
+                storyBadge.innerText = isAdmin ? '👑 ADMIN TEST' : '🔒 ADMIN LOCKED';
+                storyBadge.style.color = isAdmin ? '#ffd700' : '#ff5252';
+                storyBadge.style.borderColor = isAdmin ? '#ffd700' : '#ff5252';
+            }
+            if (storyBtn) {
+                storyBtn.innerHTML = isAdmin ? 'Launch Story Mode ▶' : '🔒 Admin Testing Only';
+                storyBtn.style.opacity = isAdmin ? '1' : '0.7';
+            }
+
+            if (aiBadge) {
+                aiBadge.innerText = isAdmin ? '👑 ADMIN TEST' : '🔒 ADMIN LOCKED';
+                aiBadge.style.color = isAdmin ? '#00e676' : '#ff5252';
+                aiBadge.style.borderColor = isAdmin ? '#00e676' : '#ff5252';
+            }
+            if (aiBtn) {
+                aiBtn.innerHTML = isAdmin ? 'Setup AI Duel ▶' : '🔒 Admin Testing Only';
+                aiBtn.style.opacity = isAdmin ? '1' : '0.7';
+            }
+
+            const modal = document.getElementById('battle-hub-modal');
+            if (modal) modal.className = 'modal-visible';
+        }
+
+        function closeBattleHubModal() {
+            const modal = document.getElementById('battle-hub-modal');
+            if (modal) modal.className = 'modal-hidden';
         }
 
         function startPlaytest() {
@@ -9199,9 +9716,9 @@ function renderPlaytestBarrier() {
             }
             document.getElementById('playtest-detail-name').innerText = card.name || 'Hover a Card';
             document.getElementById('playtest-detail-type').innerText = `Type: ${card.type || '---'}`;
-            document.getElementById('playtest-detail-cost').innerHTML = `<img src="Assets/Support_Assets/Element_board.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'Element_board.png')">Cost: <b>${card.cost !== undefined ? card.cost : '---'}</b>`;
-            document.getElementById('playtest-detail-atk').innerHTML = `<img src="Assets/Support_Assets/ic_attack.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_attack.png')">ATK: <b>${card.atk !== undefined ? card.atk : '---'}</b>`;
-            document.getElementById('playtest-detail-hp').innerHTML = `<img src="Assets/Support_Assets/ic_shield.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_shield.png')">DEF: <b>${card.hp !== undefined ? card.hp : '---'}</b>`;
+            document.getElementById('playtest-detail-cost').innerHTML = `<img src="Assets/Support_Assets/Element_board.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'Element_board.png')">Cost: <b class="uofl-stat-num">${card.cost !== undefined ? card.cost : '---'}</b>`;
+            document.getElementById('playtest-detail-atk').innerHTML = `<img src="Assets/Support_Assets/ic_attack.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_attack.png')">ATK: <b class="uofl-stat-num">${card.atk !== undefined ? card.atk : '---'}</b>`;
+            document.getElementById('playtest-detail-hp').innerHTML = `<img src="Assets/Support_Assets/ic_shield.webp" class="support-icon-inline" alt="" onerror="handleSupportAssetError(this,'ic_shield.png')">DEF: <b class="uofl-stat-num">${card.hp !== undefined ? card.hp : '---'}</b>`;
             document.getElementById('playtest-detail-text').innerText = card.text || 'Card details appear here.';
         }
 
@@ -11121,13 +11638,13 @@ function renderPlaytestBarrier() {
             const oppHalf = document.getElementById('pvp-opponent-half');
             if (!oppHalf) return;
 
-            const oppHeroImg = `Assets/Characters/${pvpRemotePlayer.hero === 'jackson' ? 'White_jackson_main.webp' : (pvpRemotePlayer.hero === 'ramses' ? 'Red_ramses_main.webp' : 'Yellow_Bass_main.webp')}`;
+            const oppHeroImg = `Assets/Characters/${pvpRemotePlayer.hero === 'jackson' ? 'White_jackson_main.webp' : (pvpRemotePlayer.hero === 'ramses' ? 'Red_ramses_main.webp' : (pvpRemotePlayer.hero === 'gh0st' ? 'Gh0st_Full.webp' : 'Yellow_Bass_main.webp'))}`;
 
             oppHalf.innerHTML = `
                 <!-- Opponent Header HUD -->
-                <div class="pvp-opp-header-hud">
+                <div class="pvp-opp-header-hud" style="position: absolute; top: 6px; left: 16px; right: 16px; height: 38px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; background: rgba(14, 18, 32, 0.95); border: 1.5px solid rgba(0, 229, 255, 0.4); border-radius: 6px;">
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <img src="${oppHeroImg}" style="width:26px; height:26px; border-radius:50%; border:1px solid #ffd700; object-fit:cover;" onerror="this.src='Assets/Support_Assets/Tech.png'">
+                        <img src="${oppHeroImg}" style="width:28px; height:28px; border-radius:50%; border:1.5px solid #ffd700; object-fit:cover;" onerror="this.src='Assets/Support_Assets/Tech.png'">
                         <div>
                             <span style="font-size:12px; font-weight:800; color:#ffd700;">${pvpRemotePlayer.name}</span>
                             <span style="font-size:10.5px; color:#aaa; margin-left:6px;">(${pvpRemotePlayer.deckName})</span>
@@ -11136,11 +11653,17 @@ function renderPlaytestBarrier() {
 
                     <!-- Opponent Hand Bar (Card Backs) -->
                     <div style="display:flex; align-items:center; gap:4px;">
-                        <span style="font-size:11px; font-weight:bold; color:#00e5ff; margin-right:4px;">🎴 Opponent Hand:</span>
+                        <span style="font-size:11px; font-weight:bold; color:#00e5ff; margin-right:4px;">🎴 Hand:</span>
                         <div id="opp-hand-cards-row" style="display:flex; gap:3px;">
                             ${renderOpponentHandCards(pvpOpponentHandCount)}
                         </div>
                         <span id="opp-hand-count-text" style="font-size:11px; color:#ffd700; margin-left:4px;">(${pvpOpponentHandCount})</span>
+                    </div>
+
+                    <!-- Opponent Energy Indicator -->
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <span style="font-size:11px; font-weight:bold; color:#4CAF50;">⚡ Energy:</span>
+                        <span id="opp-energy-count-text" style="font-size:13px; font-weight:900; color:#ffd700;">${pvpOpponentEnergy} / 10</span>
                     </div>
 
                     <!-- Opponent Barrier Life Crystals -->
@@ -11152,37 +11675,50 @@ function renderPlaytestBarrier() {
                     </div>
                 </div>
 
+                <!-- Opponent Backrow (y = 50px to 180px) -->
                 <!-- Opponent Barrier Zone (Top-Left) -->
-                <div id="opp-zone-barrier" class="pvp-opp-zone" style="top: 48px; left: 80px; width: 225px; height: 110px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                <div id="opp-zone-barrier" class="pvp-opp-zone" style="position: absolute; top: 50px; left: 60px; width: 220px; height: 130px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08);">
                     <div style="font-size:10.5px; font-weight:800; color:#ff3d57; letter-spacing:0.8px; text-transform:uppercase;">Opponent Barrier Zone</div>
-                    <div id="opp-barrier-stack-count" style="font-size:11px; color:#ffd700; font-weight:bold;">Active Shield (${pvpOpponentBarriers}/5)</div>
+                    <div id="opp-barrier-stack-count" style="font-size:11px; color:#ffd700; font-weight:bold; margin-top: 4px;">Active Barrier (${pvpOpponentBarriers}/5)</div>
+                    <div style="font-size: 9.5px; color: #aaa; margin-top: 2px;">Click to Target in Combat</div>
                 </div>
 
-                <!-- Opponent 4 Field Combat Zones (Mirrored Directly Above Player Zones) -->
-                <div id="opp-field-zone-1" class="pvp-opp-zone" style="top: 48px; left: calc(50% - 370px); width: 145px; height: 245px; display:flex; flex-direction:column; align-items:center; padding:4px;">
+                <!-- Opponent Energy Zone (Center-Left) -->
+                <div id="opp-zone-energy" class="pvp-opp-zone" style="position: absolute; top: 50px; left: calc(50% - 240px); width: 480px; height: 130px; display:flex; align-items:center; justify-content:center; border: 1.5px dashed #4CAF50; border-radius: 6px; background: rgba(76, 175, 80, 0.06);">
+                    <div id="opp-energy-cards-container" style="display: flex; gap: 4px; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 4px;">
+                        <span style="font-size:11px; color:rgba(76, 175, 80, 0.85); font-weight:bold;">⚡ OPPONENT ENERGY POOL &bull; ${pvpOpponentEnergy} ACTIVE</span>
+                    </div>
+                </div>
+
+                <!-- Opponent Activation Area (Center-Right) -->
+                <div id="opp-zone-activation" class="pvp-opp-zone" style="position: absolute; top: 50px; left: calc(50% + 260px); width: 140px; height: 130px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px dashed #00e5ff; border-radius: 6px; background: rgba(0, 229, 255, 0.06);">
+                    <span style="font-size:10px; color:#00e5ff; font-weight:bold; text-align:center;">THE FLOW<br>(Re/Actions)</span>
+                </div>
+
+                <!-- Opponent Draw Deck (Far Right) -->
+                <div id="opp-zone-deck" class="pvp-opp-zone" style="position: absolute; top: 50px; left: calc(50% + 420px); width: 120px; height: 130px; display:flex; flex-direction:column; align-items:center; justify-content:center; border: 1.5px solid #ffd700; border-radius: 6px; background: #111422 url('Assets/Regular_Card_Back.png') center/cover no-repeat;">
+                    <div style="background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #ffd700; font-weight: bold;">Opponent Deck</div>
+                </div>
+
+                <!-- Opponent Frontrow: 4 Field Combat Zones (y = 190px to 350px) -->
+                <div id="opp-field-zone-1" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% - 370px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 1</span>
-                    <div id="opp-cards-zone-1" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center;"></div>
+                    <div id="opp-cards-zone-1" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
 
-                <div id="opp-field-zone-2" class="pvp-opp-zone" style="top: 48px; left: calc(50% - 180px); width: 145px; height: 245px; display:flex; flex-direction:column; align-items:center; padding:4px;">
+                <div id="opp-field-zone-2" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% - 180px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 2</span>
-                    <div id="opp-cards-zone-2" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center;"></div>
+                    <div id="opp-cards-zone-2" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
 
-                <div id="opp-field-zone-3" class="pvp-opp-zone" style="top: 48px; left: calc(50% + 10px); width: 145px; height: 245px; display:flex; flex-direction:column; align-items:center; padding:4px;">
+                <div id="opp-field-zone-3" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% + 10px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 3</span>
-                    <div id="opp-cards-zone-3" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center;"></div>
+                    <div id="opp-cards-zone-3" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
 
-                <div id="opp-field-zone-4" class="pvp-opp-zone" style="top: 48px; left: calc(50% + 200px); width: 145px; height: 245px; display:flex; flex-direction:column; align-items:center; padding:4px;">
+                <div id="opp-field-zone-4" class="pvp-opp-zone" style="position: absolute; top: 190px; left: calc(50% + 200px); width: 145px; height: 155px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 4</span>
-                    <div id="opp-cards-zone-4" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center;"></div>
-                </div>
-
-                <!-- Opponent Energy Zone (Top-Right Space) -->
-                <div id="opp-zone-energy" class="pvp-opp-zone" style="top: 48px; left: calc(50% + 380px); width: 280px; height: 110px; border-color:#00e676; background:rgba(12, 26, 18, 0.65); display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                    <span style="font-size:10.5px; font-weight:800; color:#00e676; letter-spacing:0.8px; text-transform:uppercase;">⚡ Opponent Energy Zone</span>
-                    <div id="opp-energy-count-text" style="font-size:14px; font-weight:900; color:#ffd700; margin-top:4px;">${pvpOpponentEnergy} / 10 Active</div>
+                    <div id="opp-cards-zone-4" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
                 </div>
             `;
         }
@@ -11733,8 +12269,8 @@ function renderPlaytestBarrier() {
         }
 
         function openStoryModeView() {
-            if (!currentAccessRole) {
-                alert("Please enter a valid access passcode on the start screen to continue.");
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Chronicles Story Mode is currently in testing and requires Administrator access.");
                 return;
             }
 
@@ -11834,6 +12370,10 @@ function renderPlaytestBarrier() {
         }
 
         function launchStoryBattle() {
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Administrator access required.");
+                return;
+            }
             const ch = STORY_CHAPTERS[currentStoryChapter];
             const sel = document.getElementById('story-player-deck-select');
             const playerDeckName = sel ? sel.value : 'Starter Deck - Fractures in Time';
@@ -11849,34 +12389,67 @@ function renderPlaytestBarrier() {
 
         // --- SOLO AI DUEL MODAL (OPTION 1) ---
         function openAIMatchModal() {
-            if (!currentAccessRole) {
-                alert("Please enter a valid access passcode on the start screen to continue.");
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Solo AI Duel is currently in testing and requires Administrator access.");
                 return;
             }
 
             const pSel = document.getElementById('ai-player-deck-select');
             const oSel = document.getElementById('ai-opponent-deck-select');
 
-            const decks = (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0)
-                ? loadedSavedDecks
-                : (typeof DEFAULT_SEED_DECKS !== 'undefined' ? DEFAULT_SEED_DECKS : []);
+            // 1. Compile Available Player Decks
+            let playerDecks = [];
+            if (typeof mainDeck !== 'undefined' && mainDeck.length > 0) {
+                playerDecks.push({ name: `Current Deck (${mainDeck.length} Cards)`, value: '__active_built_deck__' });
+            }
+            playerDecks.push({ name: 'Starter Deck - Fractures in Time (40 Cards)', value: 'Starter Deck - Fractures in Time' });
+            
+            if (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0) {
+                loadedSavedDecks.forEach(d => {
+                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
+                        playerDecks.push({ name: d.deckName, value: d.deckName });
+                    }
+                });
+            } else if (typeof DEFAULT_SEED_DECKS !== 'undefined' && DEFAULT_SEED_DECKS.length > 0) {
+                DEFAULT_SEED_DECKS.forEach(d => {
+                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
+                        playerDecks.push({ name: d.deckName, value: d.deckName });
+                    }
+                });
+            }
 
             if (pSel) {
                 pSel.innerHTML = '';
-                decks.forEach(d => {
+                playerDecks.forEach(d => {
                     const opt = document.createElement('option');
-                    opt.value = d.deckName;
-                    opt.innerText = d.deckName;
+                    opt.value = d.value;
+                    opt.innerText = d.name;
                     pSel.appendChild(opt);
+                });
+            }
+
+            // 2. Compile Available AI Opponent Decks
+            let aiDecks = [
+                { name: 'Starter Deck - Fractures in Time', value: 'Starter Deck - Fractures in Time' },
+                { name: 'Tech Mobilize Swarm (AI Aggro)', value: 'Tech Mobilize Swarm' },
+                { name: 'Magic Control & Spells (AI Control)', value: 'Magic Control & Spells' },
+                { name: 'Fantasy Sea Raiders (AI Midrange)', value: 'Fantasy Sea Raiders' }
+            ];
+
+            if (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0) {
+                loadedSavedDecks.forEach(d => {
+                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
+                        aiDecks.push({ name: `${d.deckName} (Custom)`, value: d.deckName });
+                    }
                 });
             }
 
             if (oSel) {
                 oSel.innerHTML = '';
-                decks.forEach(d => {
+                aiDecks.forEach(d => {
                     const opt = document.createElement('option');
-                    opt.value = d.deckName;
-                    opt.innerText = d.deckName;
+                    opt.value = d.value;
+                    opt.innerText = d.name;
                     oSel.appendChild(opt);
                 });
             }
@@ -11891,6 +12464,10 @@ function renderPlaytestBarrier() {
         }
 
         function launchCustomAIDuel() {
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Administrator access required.");
+                return;
+            }
             const pSel = document.getElementById('ai-player-deck-select');
             const oSel = document.getElementById('ai-opponent-deck-select');
             const hSel = document.getElementById('ai-hero-select');
@@ -11971,7 +12548,7 @@ function renderPlaytestBarrier() {
             logAction(`🤖 ${pvpRemotePlayer.name} is taking their turn...`);
 
             // Step 1: Charge Phase
-            // Ready rested AI units
+            // Ready all rested AI units
             for (let i = 1; i <= 4; i++) {
                 const targetBox = document.getElementById(`opp-cards-zone-${i}`);
                 if (targetBox) {
@@ -11979,38 +12556,90 @@ function renderPlaytestBarrier() {
                 }
             }
 
-            // Draw card
+            // Draw card (Keep card identity private from opponent!)
             if (aiDeckCards.length > 0) {
                 aiHandCards.push(aiDeckCards.pop());
+                logAction(`🎴 ${pvpRemotePlayer.name} drew a card.`);
             }
 
-            // Charge Energy (Max 10)
-            if (aiEnergyCount < 10 && aiHandCards.length > 2) {
-                aiHandCards.pop();
+            // Charge Energy (Max 10) - Placing card face down into Energy Zone
+            if (aiEnergyCount < 10 && aiHandCards.length > 1) {
+                const chargeCard = aiHandCards.pop();
                 aiEnergyCount++;
                 pvpOpponentEnergy = aiEnergyCount;
+                
+                // Check for Spark: ability
+                if (chargeCard && chargeCard.text && chargeCard.text.includes('Spark:')) {
+                    const sparkMatch = chargeCard.text.match(/Spark:\s*([^.]+)/i);
+                    const sparkTxt = sparkMatch ? sparkMatch[1].trim() : "Bonus Energy triggered";
+                    logAction(`✨ [Spark Ability]: ${pvpRemotePlayer.name} triggered Spark from charged energy! (${sparkTxt})`);
+                }
+                
+                // Private logging: do NOT disclose which card was placed face-down
                 logAction(`⚡ ${pvpRemotePlayer.name} charged 1 Energy (${aiEnergyCount} active).`);
             }
 
-            // Step 2: Main Phase (Summon Unit if open zone)
+            // Step 2: Main Phase (Summon Units by Paying Energy Cost & Trigger Arrive Effects)
+            let currentEnergy = aiEnergyCount;
             let playedUnit = false;
+
             for (let i = 1; i <= 4; i++) {
                 const targetBox = document.getElementById(`opp-cards-zone-${i}`);
                 if (targetBox && targetBox.children.length === 0 && aiHandCards.length > 0) {
-                    const unitCard = aiHandCards.find(c => c.type === 'Legend' || c.type === 'Minion') || aiHandCards[0];
+                    // Find a unit the AI can afford
+                    const unitCard = aiHandCards.find(c => {
+                        const cost = parseInt(c.cost) || 1;
+                        return (c.type === 'Legend' || c.type === 'Minion' || !c.type || c.type.includes('Unit')) && cost <= currentEnergy;
+                    });
+
                     if (unitCard) {
+                        const unitCost = parseInt(unitCard.cost) || 1;
+                        currentEnergy -= unitCost;
                         aiHandCards.splice(aiHandCards.indexOf(unitCard), 1);
+
                         const cardImg = document.createElement('img');
                         cardImg.src = unitCard.url;
                         cardImg.className = 'opp-card-slot';
-                        cardImg.title = `${unitCard.name} (${unitCard.atk || 4}/${unitCard.hp || 4})`;
+                        cardImg.title = `${unitCard.name} (Cost: ${unitCost} • ${unitCard.atk || 4}/${unitCard.hp || 4})`;
                         cardImg.cardData = unitCard;
                         cardImg.onerror = () => { cardImg.src = 'Assets/Regular_Card_Back.png'; };
                         targetBox.appendChild(cardImg);
 
-                        logAction(`⚔️ ${pvpRemotePlayer.name} summoned "${unitCard.name}" to Field ${i}!`);
+                        logAction(`⚔️ ${pvpRemotePlayer.name} summoned "${unitCard.name}" (Cost: ${unitCost}, ATK: ${unitCard.atk || 4}, DEF: ${unitCard.hp || 4}) to Field ${i}!`);
+
+                        // Evaluate Arrive: effect on summon
+                        if (unitCard.text && unitCard.text.includes('Arrive:')) {
+                            const arriveMatch = unitCard.text.match(/Arrive:\s*([^.]+)/i);
+                            const arriveTxt = arriveMatch ? arriveMatch[1].trim() : "Combat ability triggered";
+                            
+                            // Tactical Arrive effects:
+                            if (/destroy/i.test(arriveTxt)) {
+                                // Destroy a player unit if present
+                                for (let pz = 1; pz <= 4; pz++) {
+                                    const pZone = document.getElementById(`mid-zone-${pz}`);
+                                    const pCard = pZone ? pZone.querySelector('.play-card') : null;
+                                    if (pCard) {
+                                        const pName = pCard.cardData ? pCard.cardData.name : 'Unit';
+                                        pCard.remove();
+                                        logAction(`💥 [Arrive Ability]: "${unitCard.name}" destroyed your "${pName}"!`);
+                                        break;
+                                    }
+                                }
+                            } else if (/item|stack|reinforce/i.test(arriveTxt)) {
+                                unitCard.atk = (parseInt(unitCard.atk) || 4) + 1;
+                                cardImg.title = `${unitCard.name} (Reinforced • ${unitCard.atk}/${unitCard.hp || 4})`;
+                                logAction(`✨ [Arrive Ability]: "${unitCard.name}" reinforced with combat gear (+1 ATK)!`);
+                            } else if (/draw/i.test(arriveTxt)) {
+                                if (aiDeckCards.length > 0) {
+                                    aiHandCards.push(aiDeckCards.pop());
+                                    logAction(`✨ [Arrive Ability]: "${unitCard.name}" allowed ${pvpRemotePlayer.name} to draw a card.`);
+                                }
+                            } else {
+                                logAction(`✨ [Arrive Ability]: "${unitCard.name}" activated: "${arriveTxt}".`);
+                            }
+                        }
+
                         playedUnit = true;
-                        break;
                     }
                 }
             }
@@ -12018,7 +12647,7 @@ function renderPlaytestBarrier() {
             pvpOpponentHandCount = aiHandCards.length;
             renderOpponentBoardView();
 
-            // Step 3: Attack Phase (with 700ms pacing)
+            // Step 3: Attack Phase (with 750ms pacing)
             setTimeout(() => {
                 executeAIAttackPhase();
             }, 750);
@@ -12049,15 +12678,40 @@ function renderPlaytestBarrier() {
                 const atkName = attackerEl.cardData ? attackerEl.cardData.name : 'Unit';
                 const atkPower = attackerEl.cardData ? (attackerEl.cardData.atk || 4) : 4;
 
-                logAction(`⚔️ [AI Attack]: ${pvpRemotePlayer.name}'s "${atkName}" declared attack on your Barrier Zone!`);
+                // Tactical Combat Evaluation: Check for standing player units to fight
+                let targetPlayerZone = null;
+                let targetPlayerCard = null;
 
-                // Open The Flow for the human player!
-                openPvPFlowModalAsDefender({
-                    attacker: { name: atkName, atk: atkPower },
-                    targetType: 'barrier'
-                });
+                for (let pz = 1; pz <= 4; pz++) {
+                    const pZone = document.getElementById(`mid-zone-${pz}`);
+                    const pCard = pZone ? pZone.querySelector('.play-card') : null;
+                    if (pCard && !pCard.classList.contains('rotated')) {
+                        targetPlayerZone = `mid-zone-${pz}`;
+                        targetPlayerCard = pCard;
+                        break;
+                    }
+                }
+
+                if (targetPlayerCard && targetPlayerCard.cardData && (parseInt(targetPlayerCard.cardData.hp) || 4) <= atkPower) {
+                    // Attack player's standing unit
+                    const defName = targetPlayerCard.cardData.name;
+                    logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) attacked your standing "${defName}"!`);
+                    openPvPFlowModalAsDefender({
+                        attacker: { name: atkName, atk: atkPower },
+                        targetType: 'unit',
+                        targetZoneId: targetPlayerZone
+                    });
+                } else {
+                    // Attack player's Barrier Zone!
+                    logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) declared attack on your Barrier Zone!`);
+                    openPvPFlowModalAsDefender({
+                        attacker: { name: atkName, atk: atkPower },
+                        targetType: 'barrier',
+                        targetZoneId: 'zone-top-left'
+                    });
+                }
             } else {
-                // No attacks to make, end AI turn
+                // No eligible attacks, end AI turn
                 endAITurn();
             }
         }
