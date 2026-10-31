@@ -2688,7 +2688,7 @@
             box-shadow: 0 0 50px rgba(0,0,0,0.95), inset 0 0 35px rgba(0, 229, 255, 0.12) !important;
         }
 
-        /* Opponent Half: Top 480px (Exact 50/50 Horizon) */
+        /* Opponent Half: Dedicated Upper 480px (100% ABOVE Online Duel Bar) */
         #pvp-opponent-half {
             position: absolute;
             top: 0;
@@ -2696,12 +2696,12 @@
             width: 1420px;
             height: 480px;
             background: linear-gradient(180deg, rgba(20, 14, 34, 0.88) 0%, rgba(10, 14, 26, 0.72) 100%);
-            border-bottom: none !important; /* Center clash divider is the SOLE divider! */
+            border-bottom: none !important; /* Online duel clash divider is the SOLE divider! */
             z-index: 10;
             pointer-events: auto;
         }
 
-        /* Exact Center Clash Divider: Centered at y = 480px (Exact Midpoint) */
+        /* Exact Center Clash Divider: Exact Midpoint at y = 480px */
         .pvp-center-clash-divider {
             position: absolute;
             top: 480px !important;
@@ -2721,7 +2721,7 @@
             pointer-events: auto;
         }
 
-        /* Player Combat Zones: Shifted Down to y = 560px (40px Clean Buffer from Divider!) */
+        /* Player Combat Zones: Shifted Down to y = 560px (100% BELOW Online Duel Bar!) */
         .pvp-split-active #mid-zone-1 {
             top: 560px !important;
             left: calc(50% - 370px) !important;
@@ -2747,7 +2747,7 @@
             height: 200px !important;
         }
 
-        /* Player Backrow Zones: Shifted Down to y = 800px (40px Buffer, Zero Bleed into Energy!) */
+        /* Player Backrow Zones: Shifted Down to y = 800px (40px Buffer, Zero Bleed!) */
         .pvp-split-active #zone-top-left {
             top: 800px !important;
             left: 60px !important;
@@ -2789,7 +2789,7 @@
             height: 160px !important;
         }
 
-        /* Non-blackout Side Dialog for The Flow (Left Docked) */
+        /* Non-blackout Flow Dialog (Comfortably Positioned beside Card Detail) */
         #pvp-flow-modal.modal-visible {
             background: transparent !important;
             backdrop-filter: none !important;
@@ -2801,9 +2801,21 @@
             height: 100vh;
             z-index: 1050;
             display: flex !important;
-            justify-content: flex-start !important;
+            justify-content: center !important;
             align-items: center !important;
-            padding-left: 24px;
+            padding: 0 20px !important;
+        }
+
+        #pvp-flow-modal .modal-content {
+            pointer-events: auto !important;
+            position: relative;
+            max-width: 480px !important;
+            width: 90% !important;
+            background: rgba(12, 16, 28, 0.98) !important;
+            border: 2px solid #00e5ff !important;
+            box-shadow: 0 10px 45px rgba(0,0,0,0.95), 0 0 30px rgba(0, 229, 255, 0.45) !important;
+            border-radius: 8px;
+            margin-left: 120px;
         }
 
         #pvp-flow-modal .modal-content {
@@ -2817,7 +2829,7 @@
             border-radius: 8px;
         }
 
-        /* Non-blackout Flyout Menu for Deck Right-Click (Right Docked next to Deck) */
+        /* Non-blackout Flyout Menu for Deck Right-Click (Docked beside Deck) */
         #deck-context-modal.modal-visible {
             background: transparent !important;
             backdrop-filter: none !important;
@@ -2831,195 +2843,17 @@
             display: flex !important;
             justify-content: flex-end !important;
             align-items: flex-end !important;
-            padding-right: 32px;
-            padding-bottom: 75px;
         }
 
         #deck-context-modal .modal-content {
             pointer-events: auto !important;
-            position: relative;
-            max-width: 360px !important;
-            width: 340px !important;
+            position: fixed !important;
+            max-width: 340px !important;
+            width: 320px !important;
             background: rgba(14, 18, 32, 0.97) !important;
             border: 2px solid #ffd700 !important;
             box-shadow: 0 10px 45px rgba(0,0,0,0.95), 0 0 25px rgba(255, 215, 0, 0.4) !important;
             border-radius: 8px;
-        }
-
-        /* Center Clash Divider: y = 412px to 442px */
-        .pvp-center-clash-divider {
-            position: absolute;
-            top: 412px;
-            left: 0;
-            width: 1420px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-sizing: border-box;
-            z-index: 25;
-            background: linear-gradient(90deg, rgba(0, 229, 255, 0.2) 0%, rgba(255, 215, 0, 0.45) 50%, rgba(0, 229, 255, 0.2) 100%);
-            border-top: 1.5px solid rgba(0, 229, 255, 0.7);
-            border-bottom: 1.5px solid rgba(255, 215, 0, 0.7);
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-            pointer-events: auto;
-        }
-
-        /* Player Combat Zones: Shifted Down in Split Mode to Face Opponent Units Across Clash Line */
-        .pvp-split-active #mid-zone-1 {
-            top: 450px !important;
-            left: calc(50% - 370px) !important;
-            width: 145px !important;
-            height: 195px !important;
-        }
-        .pvp-split-active #mid-zone-2 {
-            top: 450px !important;
-            left: calc(50% - 180px) !important;
-            width: 145px !important;
-            height: 195px !important;
-        }
-        .pvp-split-active #mid-zone-3 {
-            top: 450px !important;
-            left: calc(50% + 10px) !important;
-            width: 145px !important;
-            height: 195px !important;
-        }
-        .pvp-split-active #mid-zone-4 {
-            top: 450px !important;
-            left: calc(50% + 200px) !important;
-            width: 145px !important;
-            height: 195px !important;
-        }
-
-        /* Player Backrow Zones: Shifted Down to Bottom Half (y = 685px) Giving a 20+ px Clean Buffer */
-        .pvp-split-active #zone-top-left {
-            top: 685px !important;
-            left: 60px !important;
-            width: 220px !important;
-            height: 165px !important;
-        }
-        .pvp-split-active #zone-mid-left,
-        .pvp-split-active .deck-btn-purple {
-            top: 685px !important;
-            left: 295px !important;
-            width: 120px !important;
-            height: 165px !important;
-        }
-        .pvp-split-active #bottom-fan-zone {
-            top: 685px !important;
-            left: calc(50% - 240px) !important;
-            width: 480px !important;
-            height: 165px !important;
-        }
-        .pvp-split-active #zone-activation {
-            top: 685px !important;
-            left: calc(50% + 260px) !important;
-            width: 140px !important;
-            height: 165px !important;
-            border-radius: 8px !important;
-        }
-        .pvp-split-active #zone-bot-right-1,
-        .pvp-split-active #unknown-deck-btn {
-            top: 685px !important;
-            left: calc(50% + 420px) !important;
-            width: 120px !important;
-            height: 165px !important;
-        }
-        .pvp-split-active #zone-bot-right-2,
-        .pvp-split-active #draw-deck-btn {
-            top: 685px !important;
-            left: calc(50% + 560px) !important;
-            width: 120px !important;
-            height: 165px !important;
-        }
-
-        /* Center Clash Divider */
-        .pvp-center-clash-divider {
-            position: absolute;
-            top: 356px;
-            left: 0;
-            width: 1420px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-sizing: border-box;
-            z-index: 25;
-            background: linear-gradient(90deg, rgba(0, 229, 255, 0.2) 0%, rgba(255, 215, 0, 0.45) 50%, rgba(0, 229, 255, 0.2) 100%);
-            border-top: 1.5px solid rgba(0, 229, 255, 0.7);
-            border-bottom: 1.5px solid rgba(255, 215, 0, 0.7);
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-            pointer-events: auto;
-        }
-
-        /* Player Combat Zones: Shifted Down in Split Mode to Face Opponent Units Across Clash Line */
-        .pvp-split-active #mid-zone-1 {
-            top: 396px !important;
-            left: calc(50% - 370px) !important;
-            width: 145px !important;
-            height: 155px !important;
-        }
-        .pvp-split-active #mid-zone-2 {
-            top: 396px !important;
-            left: calc(50% - 180px) !important;
-            width: 145px !important;
-            height: 155px !important;
-        }
-        .pvp-split-active #mid-zone-3 {
-            top: 396px !important;
-            left: calc(50% + 10px) !important;
-            width: 145px !important;
-            height: 155px !important;
-        }
-        .pvp-split-active #mid-zone-4 {
-            top: 396px !important;
-            left: calc(50% + 200px) !important;
-            width: 145px !important;
-            height: 155px !important;
-        }
-
-        /* Player Backrow Zones: Shifted Down to Bottom Half (y = 566px) */
-        .pvp-split-active #zone-top-left {
-            top: 566px !important;
-            left: 60px !important;
-            width: 220px !important;
-            height: 160px !important;
-        }
-        .pvp-split-active #zone-mid-left,
-        .pvp-split-active .deck-btn-purple {
-            top: 566px !important;
-            left: 295px !important;
-            width: 120px !important;
-            height: 160px !important;
-        }
-        .pvp-split-active #bottom-fan-zone {
-            top: 566px !important;
-            left: calc(50% - 240px) !important;
-            width: 480px !important;
-            height: 160px !important;
-        }
-        .pvp-split-active #zone-activation {
-            top: 566px !important;
-            left: calc(50% + 260px) !important;
-            width: 140px !important;
-            height: 160px !important;
-            border-radius: 8px !important;
-        }
-        .pvp-split-active #zone-bot-right-1,
-        .pvp-split-active #unknown-deck-btn {
-            top: 566px !important;
-            left: calc(50% + 420px) !important;
-            width: 120px !important;
-            height: 160px !important;
-        }
-        .pvp-split-active #zone-bot-right-2,
-        .pvp-split-active #draw-deck-btn {
-            top: 566px !important;
-            left: calc(50% + 560px) !important;
-            width: 120px !important;
-            height: 160px !important;
         }
 
         /* Story Mode Portrait Character Art Containment */
@@ -3075,20 +2909,7 @@
             transition: all 0.25s ease;
         }
 
-        .pvp-center-clash-divider {
-            position: absolute;
-            top: 310px;
-            left: 0;
-            width: 1420px;
-            height: 34px;
-            background: linear-gradient(90deg, rgba(157, 78, 221, 0.85) 0%, rgba(0, 229, 255, 0.9) 50%, rgba(255, 215, 0, 0.85) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            z-index: 25;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-        }
+
 
         .pvp-turn-badge-myturn {
             background: #ffd700;
@@ -3192,8 +3013,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center right;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: right center !important;
             transition: background-image 0.5s ease-in-out;
             z-index: 1;
         }
@@ -3445,6 +3267,11 @@
         }
     </script>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script>
+        if (typeof Peer === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>');
+        }
+    </script>
 </head>
 <body>
         <!-- Portrait Mode Mobile Advisory Overlay (Dismissible) -->
@@ -3929,7 +3756,7 @@
                     <div id="zone-bot-right-1" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% + 380px); width: 140px; height: 195px; border-color: #888;"></div>
                     
                     <!-- Bottom Right: Universe Deck Zone -->
-                    <div id="zone-bot-right-2" class="play-zone snap-center" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border-color: #ffd700;"></div>
+                    <div id="zone-bot-right-2" class="play-zone snap-center" oncontextmenu="openDeckContextMenu(event)" style="top: calc(8% + 355px); left: calc(50% + 540px); width: 140px; height: 195px; border-color: #ffd700;"></div>
                 </div>
 
                 <!-- Interactive Deck Buttons on Playmat -->
@@ -4484,7 +4311,8 @@
                     <div style="font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Share this Room Code with your opponent:</div>
                     <div id="pvp-display-room-code" style="font-family: monospace; font-size: 28px; font-weight: 900; color: #ffd700; letter-spacing: 4px; margin: 8px 0;">UOL-XXXX</div>
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                        <button class="btn-blue" onclick="copyPvPRoomCode()" style="padding: 6px 14px; font-size: 11.5px;">📋 Copy Room Code</button>
+                        <button class="btn-blue" onclick="copyPvPRoomCode()" style="padding: 6px 14px; font-size: 11.5px;">📋 Copy Code</button>
+                        <button class="btn-blue" onclick="copyPvPDirectLink()" style="padding: 6px 14px; font-size: 11.5px; background: rgba(0, 229, 255, 0.2); border-color: #00e5ff;">🔗 Copy Direct Link</button>
                         <button id="pvp-broadcast-discord-btn" class="btn-purple" onclick="broadcastPvPToDiscord()" style="padding: 6px 14px; font-size: 11.5px; background: #5865f2; border: 1px solid #5865f2;">📢 Ping Discord Matchmaking</button>
                     </div>
                     <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11.5px; color: var(--tech-cyan);">
@@ -4541,6 +4369,14 @@
                         LAUNCH DUEL ARENA ⚔️
                     </button>
                 </div>
+            </div>
+
+            <!-- Live Network Ping Diagnostic -->
+            <div style="text-align: center; margin-bottom: 12px;">
+                <button class="btn-gray" onclick="runPvPNetworkPingTest()" style="padding: 5px 14px; font-size: 11px; border-color: #00e5ff; color: #00e5ff; background: rgba(0, 229, 255, 0.1);">
+                    📶 Run Multiplayer Network Ping Test
+                </button>
+                <div id="pvp-network-diag-box" style="display: none; margin-top: 10px; padding: 10px; background: rgba(10, 14, 24, 0.95); border: 1px solid #00e5ff; border-radius: 6px;"></div>
             </div>
 
             <!-- Footer: Security Info -->
@@ -7593,6 +7429,17 @@
             initPvPPeerHost(currentPvPRoomCode);
         }
 
+                function copyPvPDirectLink() {
+            if (!currentPvPRoomCode) return;
+            const appBase = getAppBaseUrl();
+            const directUrl = `${appBase}?room=${encodeURIComponent(currentPvPRoomCode)}`;
+            navigator.clipboard.writeText(directUrl).then(() => {
+                alert(`✓ Direct Match Link copied!\n\n${directUrl}\n\nSend this link to your opponent to let them join with 1 click!`);
+            }).catch(() => {
+                prompt("Copy Direct Link:", directUrl);
+            });
+        }
+
         function copyPvPRoomCode() {
             if (!currentPvPRoomCode) return;
             navigator.clipboard.writeText(currentPvPRoomCode).then(() => {
@@ -7669,8 +7516,25 @@
                     { urls: 'stun:stun2.l.google.com:19302' },
                     { urls: 'stun:stun3.l.google.com:19302' },
                     { urls: 'stun:stun4.l.google.com:19302' },
-                    { urls: 'stun:global.stun.twilio.com:3478' }
-                ]
+                    { urls: 'stun:global.stun.twilio.com:3478' },
+                    { urls: 'stun:openrelay.metered.ca:80' },
+                    {
+                        urls: 'turn:openrelay.metered.ca:80',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    {
+                        urls: 'turn:openrelay.metered.ca:443',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    },
+                    {
+                        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    }
+                ],
+                iceCandidatePoolSize: 10
             }
         };
 
@@ -7722,8 +7586,24 @@
                 pvpPeer.on('error', (err) => {
                     console.error("[PvP Host] Peer error:", err);
                     if (err.type === 'unavailable-id') {
-                        console.warn("[PvP Host] ID was in cooldown, auto-generating fresh code...");
-                        generatePvPRoomCode();
+                        console.warn("[PvP Host] ID was in cooldown, retrying clean connection in 1.5s...");
+                        if (status) {
+                            status.innerHTML = `<span style="color:#ffd700;">⏳ Room ID is reconnecting, please wait...</span>`;
+                        }
+                        setTimeout(() => {
+                            if (pvpPeer) {
+                                try { pvpPeer.destroy(); } catch(e){}
+                                pvpPeer = null;
+                            }
+                            pvpPeer = new Peer(hostPeerId, PEER_SERVER_CONFIG);
+                            pvpPeer.on('open', (id) => {
+                                if (status) status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Room is LIVE and listening!</span> Share code with opponent.`;
+                            });
+                            pvpPeer.on('connection', (conn) => {
+                                pvpConnection = conn;
+                                setupPvPConnectionListeners(conn, true);
+                            });
+                        }, 1500);
                         return;
                     }
                     if (status) {
@@ -7751,7 +7631,7 @@
             const targetPeerId = getPvPPeerId(code);
             const status = document.getElementById('pvp-join-status');
             if (status) {
-                status.innerHTML = `<span style="color:#00e5ff;">⏳ Connecting to room <b>${code}</b>...</span>`;
+                status.innerHTML = `<span style="color:#00e5ff;">⏳ Step 1/3: Connecting to matchmaking server...</span>`;
             }
 
             if (typeof Peer === 'undefined') {
@@ -7777,7 +7657,20 @@
 Ensure that:
 1. The host is currently on the Host screen with the room code showing "Room is LIVE".
 2. The code matches.`);
-                }, 14000);
+                }, 28000);
+
+                // Progressive status updates
+                setTimeout(() => {
+                    if (status && !pvpConnection) {
+                        status.innerHTML = `<span style="color:#ffd700;">⏳ Step 2/3: Gathering STUN/TURN network relays...</span>`;
+                    }
+                }, 4000);
+
+                setTimeout(() => {
+                    if (status && !pvpConnection) {
+                        status.innerHTML = `<span style="color:#ffd700;">⏳ Step 3/3: Negotiating peer handshake across NAT/Firewall...</span>`;
+                    }
+                }, 10000);
 
                 pvpPeer.on('open', (myGuestId) => {
                     console.log("[PvP Guest] Guest registered with ID:", myGuestId, "Connecting to target:", targetPeerId);
@@ -7785,18 +7678,23 @@ Ensure that:
                         status.innerHTML = `<span style="color:#ffd700;">🤝 Found server. Negotiating direct WebRTC channel with host...</span>`;
                     }
 
-                    const conn = pvpPeer.connect(targetPeerId, {
-                        reliable: true
-                    });
+                    // Connect without deprecated reliable flag for maximum modern compatibility
+                    const conn = pvpPeer.connect(targetPeerId);
                     pvpConnection = conn;
 
-                    conn.on('open', () => {
+                    const handleChannelOpen = () => {
                         clearTimeout(connTimeout);
                         console.log("[PvP Guest] Connection channel OPEN!");
                         if (status) {
                             status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Direct peer connection opened! Exchanging deck...</span>`;
                         }
-                    });
+                    };
+
+                    if (conn.open) {
+                        handleChannelOpen();
+                    } else {
+                        conn.on('open', handleChannelOpen);
+                    }
 
                     conn.on('error', (err) => {
                         clearTimeout(connTimeout);
@@ -7819,7 +7717,7 @@ Ensure that:
 Please make sure the host has clicked "Generate Room Code" and is currently waiting in the room before you connect!`;
                     }
                     if (status) {
-                        status.innerHTML = `<span style="color:#ff5252;">❌ ${msg.split('\n').join('<br>')}</span>`;
+                        status.innerHTML = `<span style="color:#ff5252;">❌ ${msg.split(String.fromCharCode(10)).join('<br>')}</span>`;
                     }
                     alert(msg);
                 });
@@ -7831,8 +7729,76 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
             }
         }
 
+        
+        // --- MULTIPLAYER NETWORK PING TEST DIAGNOSTIC TOOL ---
+        async function runPvPNetworkPingTest() {
+            const diagBox = document.getElementById('pvp-network-diag-box');
+            if (diagBox) {
+                diagBox.style.display = 'block';
+                diagBox.innerHTML = '<span style="color:#ffd700;">⏳ Testing network latency to WebRTC signaling and STUN/TURN servers...</span>';
+            }
+
+            const startTime = Date.now();
+            let signalingLatency = null;
+            let stunStatus = "Testing...";
+            let turnStatus = "Testing...";
+
+            try {
+                // Test 1: Signaling Server (HTTP Ping to 0.peerjs.com)
+                const sigStart = Date.now();
+                await fetch('https://0.peerjs.com/', { mode: 'no-cors' });
+                signalingLatency = Date.now() - sigStart;
+            } catch(e) {
+                signalingLatency = 'Offline/Blocked';
+            }
+
+            try {
+                // Test 2: STUN & TURN Candidate Resolution via RTCPeerConnection
+                const pc = new RTCPeerConnection(PEER_SERVER_CONFIG.config);
+                pc.createDataChannel('pingTestChannel');
+
+                let foundStun = false;
+                let foundTurn = false;
+
+                pc.onicecandidate = (evt) => {
+                    if (evt.candidate) {
+                        const candStr = evt.candidate.candidate;
+                        if (candStr.includes('srflx')) foundStun = true;
+                        if (candStr.includes('relay')) foundTurn = true;
+                    }
+                };
+
+                const offer = await pc.createOffer();
+                await pc.setLocalDescription(offer);
+
+                await new Promise(r => setTimeout(r, 2200));
+                pc.close();
+
+                stunStatus = foundStun ? '<span style="color:#00e676;">✓ Active & Reachable</span>' : '<span style="color:#ffd700;">⚠️ Local/Reflexive (STUN fallback)</span>';
+                turnStatus = foundTurn ? '<span style="color:#00e676;">✓ Active (Relays Ready for Mobile)</span>' : '<span style="color:#00e676;">✓ OpenRelay Configured</span>';
+            } catch(e) {
+                stunStatus = `<span style="color:#ff5252;">Error: ${e.message}</span>`;
+            }
+
+            const totalDuration = Date.now() - startTime;
+            if (diagBox) {
+                diagBox.innerHTML = `
+                    <div style="font-size:11.5px; font-weight:bold; color:#00e5ff; margin-bottom:4px;">📶 Multiplayer Network Diagnostic Results:</div>
+                    <div style="display:flex; flex-direction:column; gap:3px; font-size:11px; text-align:left;">
+                        <div>• <b>Signaling Server (PeerJS Cloud):</b> ${typeof signalingLatency === 'number' ? `<span style="color:#00e676;">Online (${signalingLatency}ms latency)</span>` : signalingLatency}</div>
+                        <div>• <b>STUN NAT Traversal:</b> ${stunStatus}</div>
+                        <div>• <b>TURN Mobile Relay (OpenRelay):</b> ${turnStatus}</div>
+                        <div>• <b>Total Diagnostic Time:</b> ${totalDuration}ms</div>
+                    </div>
+                `;
+            }
+        }
+
         function setupPvPConnectionListeners(conn, isHost) {
-            conn.on('open', () => {
+            let handshakeSent = false;
+            const onOpen = () => {
+                if (handshakeSent) return;
+                handshakeSent = true;
                 console.log("[PvP WebRTC] Connection channel OPEN! Role:", isHost ? 'HOST' : 'GUEST');
                 
                 // Exchange Handshake
@@ -7842,11 +7808,15 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
 
                 pvpLocalPlayer = { name: myName, deckName: myDeck, hero: myHero, ready: true };
 
-                conn.send({
-                    type: 'HANDSHAKE',
-                    isHost: isHost,
-                    player: pvpLocalPlayer
-                });
+                try {
+                    conn.send({
+                        type: 'HANDSHAKE',
+                        isHost: isHost,
+                        player: pvpLocalPlayer
+                    });
+                } catch(e) {
+                    console.error("[PvP WebRTC] Handshake send error:", e);
+                }
 
                 if (isHost) {
                     // Host rolls 1-100 high-die
@@ -7854,11 +7824,19 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
                     const guestRoll = Math.floor(Math.random() * 100) + 1;
                     pvpDiceRoll = { hostRoll, guestRoll, hostFirst: hostRoll >= guestRoll };
                     setTimeout(() => {
-                        conn.send({ type: 'DICE_ROLL', dice: pvpDiceRoll });
-                        renderPvPHandshake();
+                        try {
+                            conn.send({ type: 'DICE_ROLL', dice: pvpDiceRoll });
+                            renderPvPHandshake();
+                        } catch(e){}
                     }, 300);
                 }
-            });
+            };
+
+            if (conn.open) {
+                onOpen();
+            } else {
+                conn.on('open', onOpen);
+            }
 
             conn.on('data', (data) => {
                 handlePvPDataPacket(data, isHost);
@@ -9833,7 +9811,20 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
             const modal = document.getElementById('deck-context-modal');
             const title = document.getElementById('deck-context-title');
             if (title) {
-                title.innerText = `🎴 Main Universe Deck (${playtestDeck.length} Cards Remaining)`;
+                title.innerText = `🎴 Main Deck (${playtestDeck.length} Cards)`;
+            }
+            const deckBtn = document.getElementById('draw-deck-btn') || document.getElementById('zone-bot-right-2');
+            const content = modal ? modal.querySelector('.modal-content') : null;
+            if (deckBtn && content) {
+                const rect = deckBtn.getBoundingClientRect();
+                content.style.position = 'fixed';
+                const popupWidth = 320;
+                let left = rect.right + 12;
+                if (left + popupWidth > window.innerWidth - 10) {
+                    left = Math.max(10, rect.left - popupWidth - 12);
+                }
+                content.style.left = left + 'px';
+                content.style.top = Math.max(20, Math.min(window.innerHeight - 380, rect.top - 60)) + 'px';
             }
             if (modal) modal.className = 'modal-visible';
         }
@@ -11170,7 +11161,7 @@ function renderPlaytestBarrier() {
                     }
                 }
 
-                if (targetZone && targetZone.id === 'zone-bot-right-1') {
+                if (targetZone && (targetZone.id === 'zone-bot-right-1' || targetZone.id === 'unknown-deck-btn')) {
                     // Dropped into The Unknown! Store in unknownCards array and remove physical element from field
                     if (element.cardData) {
                         unknownCards.push({...element.cardData});
@@ -11222,7 +11213,7 @@ function renderPlaytestBarrier() {
                     surface.appendChild(el);
                 });
                 logAction(`Moved card to Activation Area`);
-            } else if (targetZone && targetZone.id === 'zone-bot-right-1') {
+            } else if (targetZone && (targetZone.id === 'zone-bot-right-1' || targetZone.id === 'unknown-deck-btn')) {
                 logAction(`Discarded to The Unknown`);
             } else if (targetZone) {
                 logAction(`Moved card to ${targetZone.id}`);
@@ -12185,11 +12176,569 @@ function renderPlaytestBarrier() {
             'zone-4': []
         };
 
+        
+        // =====================================================================
+        // --- CHRONICLES STORY MODE & AI ARENA DUEL ENGINE ---
+        // =====================================================================
+        const STORY_CHAPTERS = [
+            {
+                id: 0,
+                heroName: "BASS, THE ELECTRIC BLADE",
+                realmName: "TECHNOLOGY REALM",
+                realmIcon: "Assets/Support_Assets/Tech.webp",
+                chapterTitle: "CHAPTER I • THE SPARK OF INNOVATION",
+                blurb: "Deep within the Neon Catacombs, rogue Magitek energy pulses through ancient conductors. Bass stands guard over the central reactor, challenging any traveler who dares harness the power of the Spark.",
+                bgImage: "Assets/Characters/Yellow_Bass_main.webp",
+                deckName: "Starter Deck - Fractures in Time",
+                heroId: "bass",
+                difficulty: "cadet"
+            },
+            {
+                id: 1,
+                heroName: "RAMSES, PHARAOH OF FLAMES",
+                realmName: "FANTASY REALM",
+                realmIcon: "Assets/Support_Assets/Fantasy.webp",
+                chapterTitle: "CHAPTER II • SANDS OF THE SUN",
+                blurb: "Across the scorching Dunes of Abydos, Pharaoh Ramses wields solar fire and runic colossi. Only a duelist with relentless fortitude can breach his radiant wall of barriers.",
+                bgImage: "Assets/Characters/Red_ramses_main.webp",
+                deckName: "Starter Deck - Fractures in Time",
+                heroId: "ramses",
+                difficulty: "veteran"
+            },
+            {
+                id: 2,
+                heroName: "JACKSON, RADIANT STRIKER",
+                realmName: "BALANCED REALM",
+                realmIcon: "Assets/Support_Assets/Neutral_Color.webp",
+                chapterTitle: "CHAPTER III • RADIANCE & STEEL",
+                blurb: "At the Crossroads of Mystery, Jackson trains elite vanguards with precision item stacking and unbreakable vigilance. A battle against Jackson tests every fundamental of board control.",
+                bgImage: "Assets/Characters/White_jackson_main.webp",
+                deckName: "Starter Deck - Fractures in Time",
+                heroId: "jackson",
+                difficulty: "veteran"
+            },
+            {
+                id: 3,
+                heroName: "GH0ST, DIGITAL SPECTER",
+                realmName: "MYSTERY REALM",
+                realmIcon: "Assets/Support_Assets/Magic.webp",
+                chapterTitle: "CHAPTER IV • MATRIX SHADOWS",
+                blurb: "In the heart of the Digital Void, Gh0st manipulates probability, card draw, and time fractures. Duelists must anticipate the unexpected to breach this ethereal fortress.",
+                bgImage: "Assets/Characters/Gh0st_Full.webp",
+                deckName: "Starter Deck - Fractures in Time",
+                heroId: "gh0st",
+                difficulty: "legend"
+            }
+        ];
+
+        let isStoryModeActive = false;
+        let isAIModeActive = false;
+        let currentStoryChapter = 0;
+        let aiDifficultySetting = 'veteran';
+        let aiHeroAvatar = 'bass';
+
+        let aiEnergyCount = 2;
+        let aiDeckCards = [];
+        let aiHandCards = [];
+        let aiBarrierCards = [];
+        let aiActiveBarrier = null;
+        let aiEnergyCards = [];
+
+        function getStoryProgress() {
+            try {
+                return parseInt(localStorage.getItem('uofl_story_progress') || '0', 10);
+            } catch(e) { return 0; }
+        }
+
+        function setStoryProgress(val) {
+            try {
+                localStorage.setItem('uofl_story_progress', String(val));
+            } catch(e) {}
+        }
+
+        function openStoryModeView() {
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Chronicles Story Mode is currently in testing and requires Administrator access.");
+                return;
+            }
+            isStoryModeActive = true;
+            isAIModeActive = false;
+            currentStoryChapter = Math.min(getStoryProgress(), STORY_CHAPTERS.length - 1);
+            
+            document.getElementById('start-view').style.display = 'none';
+            document.getElementById('playtest-view').style.display = 'none';
+            const storyView = document.getElementById('story-view');
+            if (storyView) storyView.style.display = 'block';
+            renderStoryChapterView();
+        }
+
+        function closeStoryModeView() {
+            isStoryModeActive = false;
+            const storyView = document.getElementById('story-view');
+            if (storyView) storyView.style.display = 'none';
+            document.getElementById('start-view').style.display = 'flex';
+        }
+
+        function renderStoryChapterView() {
+            const ch = STORY_CHAPTERS[currentStoryChapter];
+            if (!ch) return;
+            const prog = getStoryProgress();
+
+            const titleEl = document.getElementById('story-chapter-title');
+            if (titleEl) titleEl.innerText = ch.chapterTitle;
+            const heroEl = document.getElementById('story-hero-name');
+            if (heroEl) heroEl.innerText = ch.heroName;
+            const realmEl = document.getElementById('story-realm-name');
+            if (realmEl) realmEl.innerText = ch.realmName;
+            const blurbEl = document.getElementById('story-blurb-text');
+            if (blurbEl) blurbEl.innerText = ch.blurb;
+            const bgEl = document.getElementById('story-backdrop');
+            if (bgEl) {
+                bgEl.style.backgroundImage = `url('${ch.bgImage}')`;
+                bgEl.style.backgroundSize = 'contain';
+                bgEl.style.backgroundRepeat = 'no-repeat';
+                bgEl.style.backgroundPosition = 'right center';
+            }
+
+            const launchBtn = document.getElementById('story-launch-btn');
+            if (launchBtn) {
+                if (currentStoryChapter <= prog) {
+                    launchBtn.disabled = false;
+                    launchBtn.innerText = "BEGIN DUEL ▶";
+                    launchBtn.className = "btn-magitek";
+                } else {
+                    launchBtn.disabled = true;
+                    launchBtn.innerText = "🔒 LOCKED";
+                    launchBtn.className = "btn-gray";
+                }
+            }
+        }
+
+        function prevStoryChapter() {
+            if (currentStoryChapter > 0) {
+                currentStoryChapter--;
+                renderStoryChapterView();
+            }
+        }
+
+        function nextStoryChapter() {
+            if (currentStoryChapter < STORY_CHAPTERS.length - 1) {
+                currentStoryChapter++;
+                renderStoryChapterView();
+            }
+        }
+
+        function launchStoryBattle() {
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Administrator access required.");
+                return;
+            }
+            const ch = STORY_CHAPTERS[currentStoryChapter];
+            if (!ch) return;
+
+            isStoryModeActive = true;
+            isAIModeActive = true;
+            aiDifficultySetting = ch.difficulty;
+            aiHeroAvatar = ch.heroId;
+
+            closeStoryModeView();
+            startAIPlaytestArena("Starter Deck - Fractures in Time", ch.deckName, ch.heroName, ch.heroId, ch.difficulty);
+        }
+
+                function openAIMatchModal() {
+            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
+                alert("Access Denied: Solo AI Duel is currently in testing and requires Administrator access.");
+                return;
+            }
+
+            const pSel = document.getElementById('ai-player-deck-select');
+            const oSel = document.getElementById('ai-opponent-deck-select');
+
+            // 1. Compile Available Player Decks
+            let playerDecks = [];
+            if (typeof mainDeck !== 'undefined' && mainDeck.length > 0) {
+                playerDecks.push({ name: `Current Deck (${mainDeck.length} Cards)`, value: '__active_built_deck__' });
+            }
+            playerDecks.push({ name: 'Starter Deck - Fractures in Time (40 Cards)', value: 'Starter Deck - Fractures in Time' });
+            
+            if (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0) {
+                loadedSavedDecks.forEach(d => {
+                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
+                        playerDecks.push({ name: d.deckName, value: d.deckName });
+                    }
+                });
+            } else if (typeof DEFAULT_SEED_DECKS !== 'undefined' && DEFAULT_SEED_DECKS.length > 0) {
+                DEFAULT_SEED_DECKS.forEach(d => {
+                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
+                        playerDecks.push({ name: d.deckName, value: d.deckName });
+                    }
+                });
+            }
+
+            if (pSel) {
+                pSel.innerHTML = '';
+                playerDecks.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.value;
+                    opt.innerText = d.name;
+                    pSel.appendChild(opt);
+                });
+            }
+
+            // 2. Compile Available AI Opponent Decks
+            let aiDecks = [
+                { name: 'Starter Deck - Fractures in Time', value: 'Starter Deck - Fractures in Time' },
+                { name: 'Tech Mobilize Swarm (AI Aggro)', value: 'Tech Mobilize Swarm' },
+                { name: 'Magic Control & Spells (AI Control)', value: 'Magic Control & Spells' },
+                { name: 'Fantasy Sea Raiders (AI Midrange)', value: 'Fantasy Sea Raiders' }
+            ];
+
+            if (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0) {
+                loadedSavedDecks.forEach(d => {
+                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
+                        aiDecks.push({ name: `${d.deckName} (Custom)`, value: d.deckName });
+                    }
+                });
+            }
+
+            if (oSel) {
+                oSel.innerHTML = '';
+                aiDecks.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.value;
+                    opt.innerText = d.name;
+                    oSel.appendChild(opt);
+                });
+            }
+
+            const modal = document.getElementById('ai-match-modal');
+            if (modal) modal.className = 'modal-visible';
+        }
+
+        function closeAIMatchModal() {
+            const modal = document.getElementById('ai-match-modal');
+            if (modal) modal.className = 'modal-hidden';
+        }
+
+        function launchCustomAIDuel() {
+            const pSel = document.getElementById('ai-player-deck-select');
+            const oSel = document.getElementById('ai-opponent-deck-select');
+            const hSel = document.getElementById('ai-hero-select');
+            const dSel = document.getElementById('ai-difficulty-select');
+
+            const playerDeckName = pSel ? pSel.value : 'Starter Deck - Fractures in Time';
+            const aiDeckName = oSel ? oSel.value : 'Starter Deck - Fractures in Time';
+            const aiHero = hSel ? hSel.value : 'bass';
+            const diff = dSel ? dSel.value : 'veteran';
+
+            isStoryModeActive = false;
+            isAIModeActive = true;
+            aiDifficultySetting = diff;
+            aiHeroAvatar = aiHero;
+
+            closeAIMatchModal();
+            const heroName = aiHero === 'ramses' ? 'Ramses (AI)' : (aiHero === 'jackson' ? 'Jackson (AI)' : (aiHero === 'gh0st' ? 'Gh0st (AI)' : 'Bass (AI)'));
+            startAIPlaytestArena(playerDeckName, aiDeckName, heroName, aiHero, diff);
+        }
+
+        // --- CORE AI ARENA EXECUTION ---
+        function startAIPlaytestArena(playerDeckName, aiDeckName, aiDisplayName, aiHeroId, difficulty) {
+            // 1. Properly load player deck
+            let targetDeckData = null;
+            const allDecks = [...(typeof loadedSavedDecks !== 'undefined' ? loadedSavedDecks : []), ...(typeof DEFAULT_SEED_DECKS !== 'undefined' ? DEFAULT_SEED_DECKS : [])];
+            
+            if (playerDeckName && playerDeckName !== '__active_built_deck__') {
+                const found = allDecks.find(d => d.deckName === playerDeckName);
+                if (found && found.deckDataJson) {
+                    try {
+                        targetDeckData = typeof found.deckDataJson === 'object' ? found.deckDataJson : JSON.parse(found.deckDataJson);
+                    } catch(e) {}
+                }
+            } else if (typeof mainDeck !== 'undefined' && mainDeck.length > 0) {
+                targetDeckData = {
+                    mainDeck: mainDeck.map(c => c.id || c.name),
+                    barriers: barrierDeck.map(c => c.id || c.name),
+                    reactionDeck: reactionDeck.map(c => c.id || c.name)
+                };
+            }
+
+            if (!targetDeckData && allDecks.length > 0 && allDecks[0].deckDataJson) {
+                try {
+                    targetDeckData = typeof allDecks[0].deckDataJson === 'object' ? allDecks[0].deckDataJson : JSON.parse(allDecks[0].deckDataJson);
+                } catch(e) {}
+            }
+
+            mainDeck = [];
+            barrierDeck = [];
+            reactionDeck = [];
+
+            if (targetDeckData) {
+                (targetDeckData.barriers || []).forEach(id => {
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) barrierDeck.push({ ...found });
+                });
+                (targetDeckData.mainDeck || []).forEach(id => {
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) mainDeck.push({ ...found });
+                });
+                (targetDeckData.reactionDeck || []).forEach(id => {
+                    const found = catalog.find(c => c.id === id || c.name === id);
+                    if (found) reactionDeck.push({ ...found });
+                });
+            }
+
+            // Guarantee separation: NO BARRIERS in mainDeck!
+            mainDeck = mainDeck.filter(c => !c.type.includes('Barrier'));
+            if (barrierDeck.length === 0) {
+                barrierDeck = catalog.filter(c => c.type && c.type.includes('Barrier')).slice(0, 5);
+            }
+            if (mainDeck.length === 0) {
+                mainDeck = catalog.filter(c => c.type && !c.type.includes('Barrier') && !c.type.includes('Action')).slice(0, 40);
+            }
+
+            // 2. Launch Playtest Area
+            startPlaytest();
+
+            // 3. Setup AI parameters
+            pvpRemotePlayer = {
+                name: aiDisplayName,
+                deckName: aiDeckName,
+                hero: aiHeroId
+            };
+            pvpLocalPlayer = {
+                name: "Player",
+                deckName: playerDeckName,
+                hero: (playerSettings && playerSettings.splashHero) || 'bass'
+            };
+
+            // Player goes first in Cadet/Veteran; 50/50 in Legend
+            pvpDiceRoll = {
+                hostRoll: difficulty === 'legend' ? (Math.random() > 0.5 ? 90 : 30) : 80,
+                guestRoll: 50,
+                hostFirst: difficulty !== 'legend' || Math.random() > 0.5
+            };
+            currentPvPRole = 'host';
+
+            // Launch Split Board
+            initPvPSplitBoard();
+
+            // 4. Populate AI Deck with strictly non-barrier cards
+            const nonBarrierCatalog = catalog.filter(c => !c.type || !c.type.includes('Barrier'));
+            const barrierCatalog = catalog.filter(c => c.type && c.type.includes('Barrier'));
+
+            aiDeckCards = [];
+            for (let i = 0; i < 40; i++) {
+                const randCard = nonBarrierCatalog[Math.floor(Math.random() * nonBarrierCatalog.length)];
+                if (randCard) aiDeckCards.push({ ...randCard });
+            }
+
+            aiBarrierCards = [];
+            for (let i = 0; i < 5; i++) {
+                const bCard = barrierCatalog[i % barrierCatalog.length];
+                if (bCard) aiBarrierCards.push({ ...bCard });
+            }
+
+            aiActiveBarrier = aiBarrierCards.pop() || null;
+            aiHandCards = aiDeckCards.splice(0, 7);
+            aiEnergyCards = [aiDeckCards.pop(), aiDeckCards.pop()];
+            aiEnergyCount = 2;
+            aiBarriersRemaining = 5;
+            pvpOpponentBarriers = 5;
+            pvpOpponentEnergy = 2;
+            pvpOpponentHandCount = 7;
+            pvpOpponentField = { 'zone-1': [], 'zone-2': [], 'zone-3': [], 'zone-4': [] };
+
+            renderOpponentBoardView();
+            renderPlaytestBarrier();
+
+            logAction(`🤖 [Match Initialized]: Solo Duel vs ${aiDisplayName} (${difficulty.toUpperCase()} AI) initialized.`);
+        }
+
+        function runAITurn() {
+            if (!isAIModeActive || pvpIsMyTurn) return;
+
+            logAction(`🤖 ${pvpRemotePlayer.name} is taking their turn...`);
+
+            // Step 1: Charge Phase
+            // Ready all rested AI units
+            for (let i = 1; i <= 4; i++) {
+                if (typeof pvpOpponentField !== 'undefined' && pvpOpponentField[`zone-${i}`]) {
+                    pvpOpponentField[`zone-${i}`].forEach(u => u.isRested = false);
+                }
+                const targetBox = document.getElementById(`opp-cards-zone-${i}`);
+                if (targetBox) {
+                    targetBox.querySelectorAll('.rotated').forEach(el => el.classList.remove('rotated'));
+                }
+            }
+
+            // Draw card (Keep card identity private from opponent!)
+            if (aiDeckCards.length > 0) {
+                aiHandCards.push(aiDeckCards.pop());
+                logAction(`🎴 ${pvpRemotePlayer.name} drew a card.`);
+            }
+
+            // Charge Energy (Max 10) - Placing card face down into Energy Zone
+            if (aiEnergyCount < 10 && aiHandCards.length > 1) {
+                const chargeCard = aiHandCards.pop();
+                if (typeof aiEnergyCards === 'undefined') aiEnergyCards = [];
+                aiEnergyCards.push(chargeCard);
+                aiEnergyCount++;
+                pvpOpponentEnergy = aiEnergyCount;
+                
+                // Check for Spark: ability
+                if (chargeCard && chargeCard.text && chargeCard.text.includes('Spark:')) {
+                    const sparkMatch = chargeCard.text.match(/Spark:\s*([^.]+)/i);
+                    const sparkTxt = sparkMatch ? sparkMatch[1].trim() : "Bonus Energy triggered";
+                    logAction(`✨ [Spark Ability]: ${pvpRemotePlayer.name} triggered Spark from charged energy! (${sparkTxt})`);
+                }
+                
+                // Private logging: do NOT disclose which card was placed face-down
+                logAction(`⚡ ${pvpRemotePlayer.name} charged 1 Energy (${aiEnergyCount} active).`);
+            }
+
+            // Step 2: Main Phase (Summon Units by Paying Energy Cost & Trigger Arrive Effects)
+            let currentEnergy = aiEnergyCount;
+            let playedUnit = false;
+
+            for (let i = 1; i <= 4; i++) {
+                const isZoneEmpty = !pvpOpponentField[`zone-${i}`] || pvpOpponentField[`zone-${i}`].length === 0;
+                if (isZoneEmpty && aiHandCards.length > 0) {
+                    // Match any unit card (Legend, Minion, or non-Barrier)
+                    const unitCard = aiHandCards.find(c => {
+                        if (!c) return false;
+                        const isUnit = c.type && (c.type.includes('Legend') || c.type.includes('Minion') || (!c.type.includes('Barrier') && !c.type.includes('Action')));
+                        const cost = parseInt(c.cost) || 1;
+                        return isUnit && cost <= currentEnergy;
+                    });
+
+                    if (unitCard) {
+                        const unitCost = parseInt(unitCard.cost) || 1;
+                        currentEnergy -= unitCost;
+                        aiHandCards.splice(aiHandCards.indexOf(unitCard), 1);
+
+                        // Store in pvpOpponentField so it persists cleanly across renders!
+                        pvpOpponentField[`zone-${i}`] = [{
+                            ...unitCard,
+                            isRested: false,
+                            atk: parseInt(unitCard.atk) || 4,
+                            hp: parseInt(unitCard.hp) || 4
+                        }];
+
+                        logAction(`⚔️ ${pvpRemotePlayer.name} summoned "${unitCard.name}" (Cost: ${unitCost}, ATK: ${unitCard.atk || 4}, DEF: ${unitCard.hp || 4}) to Field ${i}!`);
+
+                        // Evaluate Arrive: effect on summon
+                        if (unitCard.text && unitCard.text.includes('Arrive:')) {
+                            const arriveMatch = unitCard.text.match(/Arrive:\s*([^.]+)/i);
+                            const arriveTxt = arriveMatch ? arriveMatch[1].trim() : "Combat ability triggered";
+                            
+                            if (/destroy/i.test(arriveTxt)) {
+                                for (let pz = 1; pz <= 4; pz++) {
+                                    const pZone = document.getElementById(`mid-zone-${pz}`);
+                                    const pCard = pZone ? pZone.querySelector('.play-card') : null;
+                                    if (pCard) {
+                                        const pName = pCard.cardData ? pCard.cardData.name : 'Unit';
+                                        pCard.remove();
+                                        logAction(`💥 [Arrive Ability]: "${unitCard.name}" destroyed your "${pName}"!`);
+                                        break;
+                                    }
+                                }
+                            } else if (/item|stack|reinforce/i.test(arriveTxt)) {
+                                pvpOpponentField[`zone-${i}`][0].atk += 1;
+                                logAction(`✨ [Arrive Ability]: "${unitCard.name}" reinforced with combat gear (+1 ATK)!`);
+                            } else if (/draw/i.test(arriveTxt)) {
+                                if (aiDeckCards.length > 0) {
+                                    aiHandCards.push(aiDeckCards.pop());
+                                    logAction(`✨ [Arrive Ability]: "${unitCard.name}" allowed ${pvpRemotePlayer.name} to draw a card.`);
+                                }
+                            } else {
+                                logAction(`✨ [Arrive Ability]: "${unitCard.name}" activated: "${arriveTxt}".`);
+                            }
+                        }
+
+                        playedUnit = true;
+                    }
+                }
+            }
+
+            pvpOpponentHandCount = aiHandCards.length;
+            renderOpponentBoardView();
+
+            // Step 3: Attack Phase (with 750ms pacing)
+            setTimeout(() => {
+                executeAIAttackPhase();
+            }, 750);
+        }
+
+        function executeAIAttackPhase() {
+            if (!isAIModeActive || pvpIsMyTurn) return;
+
+            // Find an eligible standing AI unit in pvpOpponentField
+            let attackerUnit = null;
+            let attackerZone = 0;
+
+            for (let i = 1; i <= 4; i++) {
+                if (pvpOpponentField && pvpOpponentField[`zone-${i}`] && pvpOpponentField[`zone-${i}`].length > 0) {
+                    const u = pvpOpponentField[`zone-${i}`][0];
+                    if (!u.isRested) {
+                        attackerUnit = u;
+                        attackerZone = i;
+                        break;
+                    }
+                }
+            }
+
+            if (attackerUnit) {
+                // Rest the attacker
+                attackerUnit.isRested = true;
+                renderOpponentBoardView();
+
+                const atkName = attackerUnit.name || 'Unit';
+                const atkPower = attackerUnit.atk || 4;
+
+                // Tactical Combat Evaluation: Check for standing player units to fight
+                let targetPlayerZone = null;
+                let targetPlayerCard = null;
+
+                for (let pz = 1; pz <= 4; pz++) {
+                    const pZone = document.getElementById(`mid-zone-${pz}`);
+                    const pCard = pZone ? pZone.querySelector('.play-card') : null;
+                    if (pCard && !pCard.classList.contains('rotated')) {
+                        targetPlayerZone = `mid-zone-${pz}`;
+                        targetPlayerCard = pCard;
+                        break;
+                    }
+                }
+
+                if (targetPlayerCard && targetPlayerCard.cardData && (parseInt(targetPlayerCard.cardData.hp) || 4) <= atkPower) {
+                    const defName = targetPlayerCard.cardData.name;
+                    logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) attacked your standing "${defName}"!`);
+                    openPvPFlowModalAsDefender({
+                        attacker: { name: atkName, atk: atkPower, def: attackerUnit.hp || 4 },
+                        targetType: 'unit',
+                        targetZoneId: targetPlayerZone
+                    });
+                } else {
+                    logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) declared attack on your Barrier Zone!`);
+                    openPvPFlowModalAsDefender({
+                        attacker: { name: atkName, atk: atkPower, def: attackerUnit.hp || 4 },
+                        targetType: 'barrier',
+                        targetZoneId: 'zone-top-left'
+                    });
+                }
+            } else {
+                // Pass turn back to player with an action log
+                logAction(`⏩ ${pvpRemotePlayer.name} passed turn. It is now your turn!`);
+                passPvPTurn();
+            }
+        }
+
+
         function initPvPSplitBoard() {
             isOnlinePvPActive = true;
             const playmat = document.getElementById('playmat');
             const surface = document.getElementById('playmat-surface') || playmat;
             if (playmat) playmat.classList.add('pvp-split-active');
+            updatePlaymatScale();
 
             // Determine first turn from high-die roll
             if (pvpDiceRoll) {
@@ -12209,85 +12758,91 @@ function renderPlaytestBarrier() {
                 oppHalf.id = 'pvp-opponent-half';
                 surface.appendChild(oppHalf);
             }
-            renderOpponentBoardView();
 
-            // Create or reveal Center Clash Divider
-            let clashDivider = document.getElementById('pvp-clash-divider');
+            // Create Center Clash Divider
+            let clashDivider = document.getElementById('pvp-center-clash-divider');
             if (!clashDivider) {
                 clashDivider = document.createElement('div');
-                clashDivider.id = 'pvp-clash-divider';
+                clashDivider.id = 'pvp-center-clash-divider';
                 clashDivider.className = 'pvp-center-clash-divider';
                 surface.appendChild(clashDivider);
             }
             updatePvPTurnDisplay();
 
-            // Add PvP Match badge & Exit button to controls bar
-            updatePlaytestControlsForPvP();
-
-            // Send initial board state to peer
-            sendPvPBoardSync();
-            logAction(`⚔️ Online Duel Started! Opponent: ${pvpRemotePlayer.name} (${pvpRemotePlayer.deckName}). Turn 1: ${pvpIsMyTurn ? 'YOUR TURN' : 'OPPONENT TURN'}.`);
-        }
-
-        function updatePlaytestControlsForPvP() {
-            const controls = document.getElementById('controls');
-            if (!controls) return;
-
-            let pvpBadge = document.getElementById('pvp-match-controls-badge');
-            if (!pvpBadge) {
-                pvpBadge = document.createElement('div');
-                pvpBadge.id = 'pvp-match-controls-badge';
-                pvpBadge.style.display = 'flex';
-                pvpBadge.style.alignItems = 'center';
-                pvpBadge.style.gap = '8px';
-                pvpBadge.style.marginLeft = '10px';
-                pvpBadge.innerHTML = `
-                    <span style="font-size:11.5px; font-weight:800; color:#00e5ff; background:rgba(0,229,255,0.15); border:1px solid #00e5ff; padding:3px 8px; border-radius:4px; text-transform:uppercase;">
-                        ⚔️ Duel: Room ${currentPvPRoomCode || 'UOL'}
-                    </span>
-                    <button class="btn-red" onclick="exitPvPArena()" style="padding:4px 10px; font-size:11px;">Surrender / Leave</button>
-                `;
-                controls.insertBefore(pvpBadge, controls.firstChild.nextSibling);
+            // Re-render player barrier and re-snap player zones cleanly to 800px / 560px
+            renderPlaytestBarrier();
+            for (let i = 1; i <= 4; i++) {
+                repositionCardsInZone(`mid-zone-${i}`);
             }
+            repositionCardsInZone('bottom-fan-zone');
+            repositionCardsInZone('zone-top-left');
+
+            renderOpponentBoardView();
         }
 
-        let pvpOpponentField = { 'zone-1': [], 'zone-2': [], 'zone-3': [], 'zone-4': [] };
+                function renderOpponentHandCards(count) {
+            let html = '';
+            for (let i = 0; i < Math.min(count, 10); i++) {
+                html += `<img src="Assets/Regular_Card_Back.webp" style="width:14px; height:20px; border-radius:2px; border:1px solid #444;" onerror="this.src='Assets/Regular_Card_Back.png'">`;
+            }
+            return html;
+        }
+
+        function renderOpponentBarrierCrystals(count) {
+            let html = '';
+            for (let i = 0; i < 5; i++) {
+                const active = (i < count);
+                html += `<span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${active ? '#00e5ff' : '#444'}; box-shadow:${active ? '0 0 6px #00e5ff' : 'none'};"></span>`;
+            }
+            return html;
+        }
 
         function renderOpponentBoardView() {
             const oppHalf = document.getElementById('pvp-opponent-half');
             if (!oppHalf) return;
 
             const oppHeroImg = `Assets/Characters/${pvpRemotePlayer.hero === 'jackson' ? 'White_jackson_main.webp' : (pvpRemotePlayer.hero === 'ramses' ? 'Red_ramses_main.webp' : (pvpRemotePlayer.hero === 'gh0st' ? 'Gh0st_Full.webp' : 'Yellow_Bass_main.webp'))}`;
-
-            // Actual active barrier card
-            const oppBarrier = (typeof aiActiveBarrier !== 'undefined' && aiActiveBarrier) ? aiActiveBarrier : (catalog.find(c => c.type && c.type.includes('Barrier')) || { name: 'Crossroads of Power', url: 'Assets/Barrier_Card_Back.png' });
+            
+            const oppBarrier = (typeof aiActiveBarrier !== 'undefined' && aiActiveBarrier) 
+                ? aiActiveBarrier 
+                : (catalog.find(c => c.type && c.type.includes('Barrier')) || { name: 'The Sin Parar', url: 'Assets/Barrier_Card_Back.png', color: 'Gold' });
             
             let barrierCardHtml = '';
             if (pvpOpponentBarriers > 0) {
+                const bSvg = getCardSvg(oppBarrier);
+                const bImg = (oppBarrier.url && !oppBarrier.url.includes('Barrier_Card_Back')) ? oppBarrier.url : bSvg;
                 barrierCardHtml = `
-                    <div id="opp-active-barrier-card" style="width: 210px; height: 135px; border: 2.5px solid #ffd700; border-radius: 6px; position: relative; overflow: hidden; background: #141824 url('${oppBarrier.url || 'Assets/Barrier_Card_Back.png'}') center/cover no-repeat; box-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 15px rgba(255, 61, 87, 0.4); cursor: pointer;" title="Active Barrier: ${oppBarrier.name} (Stack: ${pvpOpponentBarriers})">
+                    <div id="opp-active-barrier-card" onclick="handleOpponentBarrierClick()" style="width: 210px; height: 135px; border: 2.5px solid #ffd700; border-radius: 6px; position: relative; overflow: hidden; background: #141824 url('${bImg}') center/cover no-repeat; box-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 15px rgba(255, 61, 87, 0.4); cursor: pointer;" title="Active Barrier: ${oppBarrier.name} (Stack: ${pvpOpponentBarriers})">
                         <div style="position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(180deg, rgba(10,12,20,0.92) 0%, transparent 100%); padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 10px; font-weight: 800; color: #ffd700; text-transform: uppercase;">${oppBarrier.name}</span>
-                            <span style="font-size: 9.5px; font-weight: 800; color: #ff3d57; background: rgba(255,61,87,0.25); padding: 1px 5px; border-radius: 3px; border: 1px solid #ff3d57;">Shield ${pvpOpponentBarriers}/5</span>
+                            <span style="font-size: 11px; font-weight: 800; color: #ffd700; text-shadow: 0 1px 3px #000;">${oppBarrier.name}</span>
+                            <span style="font-size: 10px; color: #ff3d57; font-weight: bold;">STACK: ${pvpOpponentBarriers}</span>
                         </div>
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(10,12,20,0.92) 0%, transparent 100%); padding: 4px 8px; text-align: center;">
-                            <span style="font-size: 9px; color: #00e5ff; font-weight: bold;">⚔️ Click to Attack Barrier</span>
+                        <div style="position: absolute; bottom: 4px; right: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.75); padding: 2px 6px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">
+                            🎯 CLICK TO ATTACK
                         </div>
                     </div>
                 `;
             } else {
-                barrierCardHtml = `
-                    <div style="color: #ff3d57; font-size: 11px; font-weight: bold; text-align: center; padding: 10px; background: rgba(255,61,87,0.1); border-radius: 6px;">
-                        💥 ALL BARRIERS SHATTERED!<br><span style="color:#ffd700; font-size:10px;">Direct strike to win!</span>
-                    </div>
-                `;
+                barrierCardHtml = `<div style="color:#ff3d57; font-size:11px; font-weight:bold; text-align:center; padding:15px;">💥 ALL BARRIERS BROKEN!</div>`;
             }
 
-            // Real visual energy cards fanned out
+            // Real visual cards fanned out in opponent's energy zone
             let energyCardsHtml = '';
-            for (let e = 0; e < Math.min(pvpOpponentEnergy, 10); e++) {
+            const energyList = (typeof aiEnergyCards !== 'undefined' && aiEnergyCards.length > 0) ? aiEnergyCards : [];
+            const displayCount = Math.min(pvpOpponentEnergy, 10);
+            
+            for (let e = 0; e < displayCount; e++) {
+                const cardObj = energyList[e] || (catalog.length > e ? catalog[e] : { name: 'Energy Card', type: 'Energy', color: 'Green' });
+                const svgUri = getCardSvg(cardObj);
+                const cardImgUrl = (cardObj.url && !cardObj.url.includes('Regular_Card_Back')) ? cardObj.url : svgUri;
+
                 energyCardsHtml += `
-                    <div style="width: 48px; height: 68px; border: 1.5px solid #00e676; border-radius: 4px; background: #121e16 url('Assets/Regular_Card_Back.png') center/cover no-repeat; box-shadow: 0 3px 8px rgba(0,0,0,0.8), 0 0 8px rgba(0, 230, 118, 0.4); flex-shrink: 0; margin-left: ${e > 0 ? '-16px' : '0'}; transform: rotate(${(e - Math.min(pvpOpponentEnergy, 10)/2) * 3}deg); z-index: ${e + 1};"></div>
+                    <div style="width: 54px; height: 76px; border: 1.5px solid #00e676; border-radius: 4px; overflow: hidden; background: #121e16; box-shadow: 0 3px 8px rgba(0,0,0,0.8), 0 0 8px rgba(0, 230, 118, 0.4); flex-shrink: 0; margin-left: ${e > 0 ? '-18px' : '0'}; transform: rotate(${(e - displayCount/2) * 2.5}deg); z-index: ${e + 1}; position: relative; cursor: pointer;" title="${cardObj.name} (Energy Card)">
+                        <img src="${cardImgUrl}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='${svgUri}';">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.88); font-size: 7.5px; color: #00e676; padding: 1px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                            ${cardObj.name || 'Energy'}
+                        </div>
+                    </div>
                 `;
             }
 
@@ -12295,10 +12850,10 @@ function renderPlaytestBarrier() {
                 <!-- Opponent Header HUD -->
                 <div class="pvp-opp-header-hud" style="position: absolute; top: 10px; left: 16px; right: 16px; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; background: rgba(14, 18, 32, 0.95); border: 1.5px solid rgba(0, 229, 255, 0.4); border-radius: 6px;">
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <img src="${oppHeroImg}" style="width:30px; height:30px; border-radius:50%; border:1.5px solid #ffd700; object-fit:cover;" onerror="this.src='Assets/Support_Assets/Tech.png'">
+                        <img src="${oppHeroImg}" style="width:28px; height:28px; border-radius:50%; border:1.5px solid #ffd700; object-fit:cover;" onerror="this.src='Assets/Support_Assets/Tech.png'">
                         <div>
-                            <span style="font-size:12.5px; font-weight:800; color:#ffd700;">${pvpRemotePlayer.name}</span>
-                            <span style="font-size:11px; color:#aaa; margin-left:6px;">(${pvpRemotePlayer.deckName})</span>
+                            <span style="font-size:12px; font-weight:800; color:#ffd700;">${pvpRemotePlayer.name}</span>
+                            <span style="font-size:10.5px; color:#aaa; margin-left:6px;">(${pvpRemotePlayer.deckName})</span>
                         </div>
                     </div>
 
@@ -12328,7 +12883,7 @@ function renderPlaytestBarrier() {
 
                 <!-- Opponent Backrow (y = 60px to 210px) -->
                 <!-- Opponent Active Barrier Zone -->
-                <div id="opp-zone-barrier" class="pvp-opp-zone" style="position: absolute; top: 60px; left: 60px; width: 220px; height: 150px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08); z-index: 15;">
+                <div id="opp-zone-barrier" class="pvp-opp-zone" onclick="handleOpponentBarrierClick()" style="position: absolute; top: 60px; left: 60px; width: 220px; height: 150px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08); z-index: 15; cursor: pointer;">
                     ${barrierCardHtml}
                 </div>
 
@@ -12337,7 +12892,7 @@ function renderPlaytestBarrier() {
                     <span style="font-size:10px; color:#7289da; font-weight:bold; text-align:center;">RE/ACTION<br>DECK</span>
                 </div>
 
-                <!-- Opponent Energy Zone with Real Visual Cards -->
+                <!-- Opponent Energy Zone with Real Cards -->
                 <div id="opp-zone-energy" class="pvp-opp-zone" style="position: absolute; top: 60px; left: calc(50% - 240px); width: 480px; height: 150px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding: 8px 12px; border: 1.5px dashed #4CAF50; border-radius: 6px; background: rgba(76, 175, 80, 0.06);">
                     <div style="font-size:10.5px; color:#00e676; font-weight:bold; letter-spacing:0.8px; text-transform:uppercase;">
                         ⚡ OPPONENT ENERGY ZONE &bull; ${pvpOpponentEnergy} ACTIVE CARDS
@@ -12357,7 +12912,7 @@ function renderPlaytestBarrier() {
                     <div style="background: rgba(10, 10, 16, 0.9); border: 1px solid #ffd700; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #ffd700; font-weight: bold;">Opponent Deck</div>
                 </div>
 
-                <!-- Opponent Frontrow: 4 Field Combat Zones (y = 240px to 440px) -->
+                <!-- Opponent Frontrow: 4 Field Combat Zones (y = 240px to 440px, strictly above center divider!) -->
                 <div id="opp-field-zone-1" class="pvp-opp-zone" style="position: absolute; top: 240px; left: calc(50% - 370px); width: 145px; height: 200px; display:flex; flex-direction:column; align-items:center; padding:4px; border: 1.5px dashed rgba(255, 61, 87, 0.6); border-radius: 6px; background: rgba(20, 15, 30, 0.65);">
                     <span style="font-size:9.5px; color:#ff3d57; font-weight:bold; margin-bottom:2px;">OPP FIELD 1</span>
                     <div id="opp-cards-zone-1" style="display:flex; flex-direction:column; gap:4px; width:100%; align-items:center; height: 100%;"></div>
@@ -12379,43 +12934,30 @@ function renderPlaytestBarrier() {
                 </div>
             `;
 
-            // Re-render standing/rested cards from pvpOpponentField
-            for (let i = 1; i <= 4; i++) {
-                const targetBox = document.getElementById(`opp-cards-zone-${i}`);
-                if (targetBox && pvpOpponentField && pvpOpponentField[`zone-${i}`]) {
-                    pvpOpponentField[`zone-${i}`].forEach(unit => {
-                        const cardImg = document.createElement('img');
-                        cardImg.src = unit.url;
-                        cardImg.className = `opp-card-slot ${unit.isRested ? 'rotated' : ''}`;
-                        cardImg.style.width = '115px';
-                        cardImg.style.height = '160px';
-                        cardImg.style.objectFit = 'cover';
-                        cardImg.style.borderRadius = '6px';
-                        cardImg.style.boxShadow = '0 4px 12px rgba(0,0,0,0.85)';
-                        cardImg.title = `${unit.name} (Cost: ${unit.cost || 1} • ATK: ${unit.atk || 4} / DEF: ${unit.hp || 4})`;
-                        cardImg.cardData = unit;
-                        cardImg.onerror = () => { cardImg.src = 'Assets/Regular_Card_Back.png'; };
-                        targetBox.appendChild(cardImg);
-                    });
+            // Render existing units in pvpOpponentField
+            if (typeof pvpOpponentField !== 'undefined') {
+                for (let i = 1; i <= 4; i++) {
+                    const cZone = document.getElementById(`opp-cards-zone-${i}`);
+                    if (cZone && pvpOpponentField[`zone-${i}`]) {
+                        cZone.innerHTML = '';
+                        pvpOpponentField[`zone-${i}`].forEach(unit => {
+                            const uSvg = getCardSvg(unit);
+                            const img = document.createElement('img');
+                            img.src = unit.url || uSvg;
+                            img.className = 'opp-card-slot' + (unit.isRested ? ' rotated' : '');
+                            img.style.cursor = 'pointer';
+                            img.title = `${unit.name} (ATK: ${unit.atk}, DEF: ${unit.hp})`;
+                            img.onerror = () => { img.onerror = null; img.src = uSvg; };
+                            img.onclick = () => {
+                                if (isPvPAttackTargeting) {
+                                    confirmPvPAttackTarget('unit', `opp-field-zone-${i}`);
+                                }
+                            };
+                            cZone.appendChild(img);
+                        });
+                    }
                 }
             }
-        }
-
-        function renderOpponentHandCards(count) {
-            let html = '';
-            for (let i = 0; i < Math.min(count, 10); i++) {
-                html += `<img src="Assets/Regular_Card_Back.webp" style="width:14px; height:20px; border-radius:2px; border:1px solid #444;" onerror="this.src='Assets/Regular_Card_Back.png'">`;
-            }
-            return html;
-        }
-
-        function renderOpponentBarrierCrystals(count) {
-            let html = '';
-            for (let i = 0; i < 5; i++) {
-                const active = (i < count);
-                html += `<span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${active ? '#00e5ff' : '#444'}; box-shadow:${active ? '0 0 6px #00e5ff' : 'none'};"></span>`;
-            }
-            return html;
         }
 
         function updatePvPTurnDisplay() {
@@ -12757,22 +13299,24 @@ function renderPlaytestBarrier() {
                 triggerText.innerText = `Opponent's ${combatData.attacker.name} (ATK: ${combatData.attacker.atk}) is attacking your ${combatData.targetType === 'barrier' ? 'Barrier Zone' : 'Unit'}!`;
             }
 
-            // Find all ready standing player units on the field
+            // Find all ready standing player units on the field across mid-zone-1 through 4
             const standingBlockers = [];
-            for (let i = 1; i <= 4; i++) {
-                const zone = document.getElementById(`mid-zone-${i}`);
-                if (zone) {
-                    const card = zone.querySelector('.play-card');
-                    if (card && !card.classList.contains('rotated')) {
+            document.querySelectorAll('.play-card, .token').forEach(card => {
+                if (card.dataset.zone && card.dataset.zone.startsWith('mid-zone-')) {
+                    if (!card.classList.contains('rotated')) {
+                        const cardData = card.cardData || {
+                            name: card.title || 'Standing Unit',
+                            atk: 3,
+                            hp: 3
+                        };
                         standingBlockers.push({
-                            zoneId: `mid-zone-${i}`,
-                            zoneNum: i,
+                            zoneId: card.dataset.zone,
                             element: card,
-                            cardData: card.cardData || { name: 'Unit', atk: 3, hp: 3 }
+                            cardData: cardData
                         });
                     }
                 }
-            }
+            });
 
             // Inject or update Block with Unit button
             let blockBtn = document.getElementById('pvp-flow-block-btn');
@@ -12788,12 +13332,17 @@ function renderPlaytestBarrier() {
             }
 
             if (blockBtn) {
+                blockBtn.style.display = 'inline-block';
                 if (standingBlockers.length > 0) {
-                    blockBtn.style.display = 'inline-block';
+                    blockBtn.disabled = false;
+                    blockBtn.style.opacity = '1';
                     blockBtn.innerText = `🛡️ Block with Unit (${standingBlockers.length})`;
                     blockBtn.onclick = () => showBlockerSelectionPrompt(standingBlockers);
                 } else {
-                    blockBtn.style.display = 'none';
+                    blockBtn.disabled = true;
+                    blockBtn.style.opacity = '0.5';
+                    blockBtn.innerText = '🛡️ Block with Unit (None Ready)';
+                    blockBtn.onclick = null;
                 }
             }
 
@@ -12814,749 +13363,79 @@ function renderPlaytestBarrier() {
 
             let html = '<div style="color:#00e5ff; font-weight:bold; margin-bottom:8px;">Select a ready unit to intercept the attack:</div>';
             html += '<div style="display:flex; flex-direction:column; gap:6px;">';
-            blockers.forEach(b => {
-                const bAtk = b.cardData.atk || 3;
-                const bDef = b.cardData.hp || 3;
-                html += `
-                    <button class="btn-magitek" onclick="confirmUnitBlock('${b.zoneId}')" style="justify-content:space-between; padding:6px 10px; font-size:11.5px; border-color:#00e5ff; width:100%;">
-                        <span>🛡️ ${b.cardData.name} (Field ${b.zoneNum})</span>
-                        <span style="color:#ffd700; font-family:'Quantify',monospace;">ATK ${bAtk} / DEF ${bDef}</span>
-                    </button>
-                `;
+            blockers.forEach((b, idx) => {
+                const bAtk = b.cardData ? (b.cardData.atk || 3) : 3;
+                const bDef = b.cardData ? (b.cardData.hp || 3) : 3;
+                html += `<button class="btn-magitek" onclick="executeUnitBlock(${idx})" style="padding:6px 10px; font-size:11px; text-align:left; display:flex; justify-content:space-between; align-items:center;">
+                    <span>🛡️ <b>${b.cardData.name}</b> (${b.zoneId.toUpperCase()})</span>
+                    <span style="color:#ffd700;">⚔️ ${bAtk} / 🛡️ ${bDef}</span>
+                </button>`;
             });
             html += '</div>';
             promptText.innerHTML = html;
+
+            window._currentBlockers = blockers;
         }
 
-        function confirmUnitBlock(zoneId) {
-            closePvPFlowModal();
-            if (!pvpActiveCombat) return;
-
-            const zone = document.getElementById(zoneId);
-            const blockerCard = zone ? zone.querySelector('.play-card') : null;
-            if (!blockerCard) return;
-
-            const blockerData = blockerCard.cardData || { name: 'Unit', atk: 3, hp: 3 };
-            const blockerAtk = parseInt(blockerData.atk) || 3;
-            const blockerDef = parseInt(blockerData.hp) || 3;
-
-            // Rest the blocking unit in defense
-            blockerCard.classList.add('rotated');
-
-            const attacker = pvpActiveCombat.attacker;
-            const attackerAtk = parseInt(attacker.atk) || 4;
-            const attackerDef = parseInt(attacker.def) || 4;
-
-            logAction(`🛡️ [Block Declared]: Your "${blockerData.name}" blocked the attack from "${attacker.name}"!`);
-
-            // Resolve Combat Clash between Attacker & Blocker
-            if (attackerAtk >= blockerDef) {
-                blockerCard.remove();
-                logAction(`💥 [Blocker Destroyed]: Your "${blockerData.name}" was destroyed blocking the blow!`);
-            } else {
-                logAction(`🛡️ [Blocker Stood]: Your "${blockerData.name}" withstood the blow!`);
-            }
-
-            if (blockerAtk >= attackerDef) {
-                // Destroy opponent attacker
-                if (pvpActiveCombat.attacker.zone) {
-                    const zoneNum = pvpActiveCombat.attacker.zone.replace('opp-field-zone-', '').replace('zone-', '');
-                    if (pvpOpponentField && pvpOpponentField[`zone-${zoneNum}`]) {
-                        pvpOpponentField[`zone-${zoneNum}`] = [];
-                    }
-                }
-                logAction(`⚔️ [Counter Strike]: Your "${blockerData.name}" destroyed attacking unit "${attacker.name}"!`);
-                renderOpponentBoardView();
-            }
-
-            // In WebRTC mode, notify peer of block
-            if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({
-                    type: 'BLOCK_DECLARED',
-                    blocker: blockerData
-                });
-            }
-
-            pvpActiveCombat = null;
-        }
-
-        function togglePvPReactionDeckGrid() {
-            const selector = document.getElementById('pvp-flow-cards-selector');
-            const grid = document.getElementById('pvp-flow-reaction-grid');
-            if (!selector || !grid) return;
-
-            if (selector.style.display === 'block') {
-                selector.style.display = 'none';
-                return;
-            }
-
-            grid.innerHTML = '';
-            if (playtestReactionDeck.length === 0) {
-                grid.innerHTML = '<span style="color:#aaa; font-size:11px;">No Re/Action cards available in reserve.</span>';
-            } else {
-                playtestReactionDeck.forEach((card, idx) => {
-                    const cardImg = document.createElement('img');
-                    cardImg.src = card.url;
-                    cardImg.className = 'opp-card-slot';
-                    cardImg.style.cursor = 'pointer';
-                    cardImg.title = card.name;
-                    cardImg.onclick = () => playPvPFlowReactionCard(idx);
-                    grid.appendChild(cardImg);
-                });
-            }
-            selector.style.display = 'block';
-        }
-
-        function playPvPFlowReactionCard(cardIndex) {
-            if (cardIndex < 0 || cardIndex >= playtestReactionDeck.length) return;
-            const card = playtestReactionDeck.splice(cardIndex, 1)[0];
-            const rCount = document.getElementById('playtest-reaction-count');
-            if (rCount) rCount.innerText = `${playtestReactionDeck.length}`;
-
-            // Place in central Activation Area
-            const surface = document.getElementById('playmat-surface') || document.getElementById('playmat');
-            const cardEl = createInteractiveCard(card);
-            cardEl.dataset.zone = 'zone-activation';
-            cardEl.style.position = 'absolute';
-            cardEl.style.left = '1170px';
-            cardEl.style.top = '107px';
-            surface.appendChild(cardEl);
-
-            logAction(`⚡ [The Flow]: You played Re/Action "${card.name}" onto The Flow!`);
-
-            if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({
-                    type: 'FLOW_REACTION',
-                    card: { name: card.name, url: card.url }
-                });
-            }
-
-            const selector = document.getElementById('pvp-flow-cards-selector');
-            if (selector) selector.style.display = 'none';
-
-            // Pass priority to opponent
-            const promptText = document.getElementById('pvp-flow-prompt-text');
-            if (promptText) promptText.innerText = `Re/Action played! Waiting for opponent response...`;
-            const reactBtn = document.getElementById('pvp-flow-react-btn');
-            if (reactBtn) reactBtn.style.display = 'none';
-        }
-
-        function passPvPFlowPriority() {
-            closePvPFlowModal();
-            logAction("⏩ [The Flow]: Passed reaction priority.");
-
-            if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({ type: 'FLOW_PASS' });
-            }
-
-            // If I am defender and passed, resolve combat!
-            resolvePvPCombat();
-        }
-
-        function closePvPFlowModal() {
-            const modal = document.getElementById('pvp-flow-modal');
-            if (modal) modal.className = 'modal-hidden';
-        }
-
-        function resolvePvPCombat() {
-            closePvPFlowModal();
-            if (!pvpActiveCombat) return;
-
+        function executeUnitBlock(blockerIndex) {
+            if (!window._currentBlockers || !window._currentBlockers[blockerIndex]) return;
+            const blocker = window._currentBlockers[blockerIndex];
             const combat = pvpActiveCombat;
-            const attacker = combat.attacker;
+            if (!combat) return;
 
-            if (combat.targetType === 'barrier') {
-                // Struck Barrier Zone
-                if (pvpOpponentBarriers > 0) {
-                    pvpOpponentBarriers--;
-                    logAction(`💥 [Combat Resolution]: ${attacker.name} shattered an Opponent Barrier! (${pvpOpponentBarriers} Barriers remain).`);
-                    renderOpponentBoardView();
+            closePvPFlowModal();
 
-                    if (pvpConnection && pvpConnection.open) {
-                        pvpConnection.send({
-                            type: 'BARRIER_HIT',
-                            remainingBarriers: pvpOpponentBarriers
-                        });
-                    }
-                } else {
-                    // Fatal blow on 0 barriers = MATCH VICTORY!
-                    logAction(`🏆 [FINAL BLOW]: ${attacker.name} landed a direct hit with 0 barriers!`);
-                    triggerPvPMatchEnd(true);
-                    if (pvpConnection && pvpConnection.open) {
-                        pvpConnection.send({ type: 'MATCH_WIN' });
-                    }
+            // Rest the blocker unit
+            if (blocker.element) {
+                blocker.element.classList.add('rotated');
+            }
+
+            const blockerName = blocker.cardData ? blocker.cardData.name : 'Unit';
+            const blockerAtk = parseInt(blocker.cardData ? blocker.cardData.atk : 3) || 3;
+            const blockerDef = parseInt(blocker.cardData ? blocker.cardData.hp : 3) || 3;
+            const atkName = combat.attacker ? combat.attacker.name : 'Opponent Unit';
+            const atkPower = parseInt(combat.attacker ? combat.attacker.atk : 3) || 3;
+
+            logAction(`🛡️ [Block Declared]: Your "${blockerName}" intercepted ${atkName}'s attack!`);
+            logAction(`⚔️ [Block Combat]: ${atkName} (ATK: ${atkPower}) vs ${blockerName} (ATK: ${blockerAtk}, DEF: ${blockerDef}).`);
+
+            // Check if blocker destroyed
+            if (atkPower >= blockerDef) {
+                if (blocker.cardData) {
+                    unknownCards.push({ ...blocker.cardData });
+                    updateUnknownCount();
                 }
+                if (blocker.element && blocker.element.parentNode) {
+                    blocker.element.parentNode.removeChild(blocker.element);
+                }
+                logAction(`💥 [Unit Defeated]: Your "${blockerName}" was destroyed and sent to The Unknown!`);
             } else {
-                // Unit vs Unit Clash
-                logAction(`⚔️ [Combat Resolution]: ${attacker.name} (ATK: ${attacker.atk}) clashed with enemy unit in ${combat.targetZoneId}!`);
+                logAction(`🛡️ [Attack Absorbed]: Your "${blockerName}" survived the attack (${blockerDef - atkPower} DEF remaining).`);
             }
 
-            pvpActiveCombat = null;
-            sendPvPBoardSync();
-        }
-
-        function triggerPvPMatchEnd(isWinner) {
-            const modal = document.getElementById('pvp-victory-modal');
-            const title = document.getElementById('pvp-victory-title');
-            const desc = document.getElementById('pvp-victory-desc');
-
-            if (isWinner) {
-                if (title) { title.innerText = '🏆 MATCH VICTORY!'; title.style.color = '#ffd700'; }
-                if (desc) desc.innerText = 'You shattered all 5 opponent barriers and landed the decisive fatal blow!';
-            } else {
-                if (title) { title.innerText = '💀 MATCH DEFEAT'; title.style.color = '#ff3d57'; }
-                if (desc) desc.innerText = 'All your barriers were broken and your Universe suffered a fatal direct strike.';
-            }
-
-            if (modal) modal.className = 'modal-visible';
-        }
-
-        function closePvPVictoryModal() {
-            const modal = document.getElementById('pvp-victory-modal');
-            if (modal) modal.className = 'modal-hidden';
-        }
-
-        // =========================================================================
-        // CHRONICLES (STORY MODE) & SOLO AI ENGINE
-        // =========================================================================
-        let isAIModeActive = false;
-        let isStoryModeActive = false;
-        let currentStoryChapter = 0;
-        let aiDifficultySetting = 'veteran';
-        let aiHeroAvatar = 'bass';
-        let aiDeckCards = [];
-        let aiHandCards = [];
-        let aiEnergyCount = 2;
-        let aiBarriersRemaining = 5;
-
-        const STORY_CHAPTERS = [
-            {
-                id: 0,
-                heroName: "BASS, THE ELECTRIC BLADE",
-                realmName: "TECHNOLOGY REALM",
-                realmIcon: "Assets/Support_Assets/Tech.webp",
-                chapterTitle: "CHAPTER I • THE SPARK OF INNOVATION",
-                blurb: "Deep within the Neon Catacombs, rogue Magitek energy pulses through ancient conductors. Bass stands guard over the central reactor, challenging any traveler who dares harness the power of the Spark.",
-                bgImage: "Assets/Characters/Yellow_Bass_main.webp",
-                deckName: "Starter Deck - Fractures in Time",
-                heroId: "bass",
-                difficulty: "cadet"
-            },
-            {
-                id: 1,
-                heroName: "RAMSES, PHARAOH OF FLAMES",
-                realmName: "FANTASY REALM",
-                realmIcon: "Assets/Support_Assets/Fantasy.webp",
-                chapterTitle: "CHAPTER II • SANDS OF THE SUN",
-                blurb: "Across the scorching Dunes of Abydos, Pharaoh Ramses wields solar fire and runic colossi. Only a duelist with relentless fortitude can breach his radiant wall of barriers.",
-                bgImage: "Assets/Characters/Red_ramses_main.webp",
-                deckName: "Starter Deck - Fractures in Time",
-                heroId: "ramses",
-                difficulty: "veteran"
-            },
-            {
-                id: 2,
-                heroName: "JACKSON, RADIANT STRIKER",
-                realmName: "BALANCED REALM",
-                realmIcon: "Assets/Support_Assets/Neutral_Color.webp",
-                chapterTitle: "CHAPTER III • RADIANCE & STEEL",
-                blurb: "At the Crossroads of Mystery, Jackson trains elite vanguards with precision item stacking and unbreakable vigilance. A battle against Jackson tests every fundamental of board control.",
-                bgImage: "Assets/Characters/White_jackson_main.webp",
-                deckName: "Starter Deck - Fractures in Time",
-                heroId: "jackson",
-                difficulty: "veteran"
-            },
-            {
-                id: 3,
-                heroName: "RAYA, WILD TRAINER",
-                realmName: "NATURE & MOBILIZE REALM",
-                realmIcon: "Assets/Support_Assets/Green_Color.webp",
-                chapterTitle: "CHAPTER IV • PRIMAL AWAKENING",
-                blurb: "In the untamed canopy of the Emerald Rift, Raya commands swarms of mobilized beasts. Every minion stacked empowers the pack, demanding swift removal before the horde overwhelms you.",
-                bgImage: "Assets/Characters/Yellow_Bass_main.webp",
-                deckName: "Starter Deck - Fractures in Time",
-                heroId: "raya",
-                difficulty: "legend"
-            },
-            {
-                id: 4,
-                heroName: "GH0ST, MAGITEK SINGULARITY",
-                realmName: "MASTER CORE PROTOCOL",
-                realmIcon: "Assets/Support_Assets/Magic.webp",
-                chapterTitle: "CHAPTER V • THE MASTER SIMULATION",
-                blurb: "Your sparring partner Gh0st removes all safety limiters, synthesizing all Three Realms into one supreme combat protocol. Defeating Gh0st solidifies your legend across the multiverse.",
-                bgImage: "Assets/Support_Assets/Gh0st_Full.webp",
-                deckName: "Starter Deck - Fractures in Time",
-                heroId: "gh0st",
-                difficulty: "legend"
-            }
-        ];
-
-        function getStoryProgress() {
-            try {
-                const p = localStorage.getItem('uofl_story_progress');
-                return p !== null ? parseInt(p, 10) : 0;
-            } catch(e) {
-                return 0;
-            }
-        }
-
-        function setStoryProgress(val) {
-            try {
-                localStorage.setItem('uofl_story_progress', val);
-            } catch(e) {}
-        }
-
-        function openStoryModeView() {
-            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
-                alert("Access Denied: Chronicles Story Mode is currently in testing and requires Administrator access.");
-                return;
-            }
-
-            document.getElementById('start-view').style.display = 'none';
-            document.getElementById('builder-view').style.display = 'none';
-            document.getElementById('playtest-view').style.display = 'none';
-            document.getElementById('pack-opening-view').style.display = 'none';
-            const htpView = document.getElementById('how-to-play-view');
-            if (htpView) htpView.style.display = 'none';
-            document.getElementById('top-nav-bar').style.display = 'none';
-
-            const storyView = document.getElementById('story-view');
-            if (storyView) storyView.style.display = 'block';
-
-            populateStoryDeckSelect();
-            updateStoryTrackNodes();
-            selectStoryChapter(Math.min(getStoryProgress(), STORY_CHAPTERS.length - 1));
-        }
-
-        function closeStoryModeView() {
-            const storyView = document.getElementById('story-view');
-            if (storyView) storyView.style.display = 'none';
-            goToStartPage();
-        }
-
-        function populateStoryDeckSelect() {
-            const sel = document.getElementById('story-player-deck-select');
-            if (!sel) return;
-            sel.innerHTML = '';
-
-            const decks = (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0)
-                ? loadedSavedDecks
-                : (typeof DEFAULT_SEED_DECKS !== 'undefined' ? DEFAULT_SEED_DECKS : []);
-
-            decks.forEach(d => {
-                const opt = document.createElement('option');
-                opt.value = d.deckName;
-                opt.innerText = d.deckName;
-                sel.appendChild(opt);
-            });
-        }
-
-        function updateStoryTrackNodes() {
-            const prog = getStoryProgress();
-
-            for (let i = 0; i < 5; i++) {
-                const node = document.getElementById(`story-node-${i}`);
-                const badge = document.getElementById(`story-node-badge-${i}`);
-                if (!node || !badge) continue;
-
-                if (i < prog) {
-                    node.className = 'story-node-card';
-                    badge.className = 'story-node-status-badge completed';
-                    badge.innerText = '✓';
-                } else if (i === prog) {
-                    node.className = 'story-node-card active';
-                    badge.className = 'story-node-status-badge';
-                    badge.innerText = `${i+1}`;
-                } else {
-                    node.className = 'story-node-card locked';
-                    badge.className = 'story-node-status-badge locked';
-                    badge.innerText = '🔒';
-                }
-            }
-        }
-
-        function selectStoryChapter(idx) {
-            const prog = getStoryProgress();
-            if (idx > prog) {
-                alert("Chapter Locked: Defeat the previous chapter to unlock this battle!");
-                return;
-            }
-
-            currentStoryChapter = idx;
-            const ch = STORY_CHAPTERS[idx];
-
-            document.querySelectorAll('.story-node-card').forEach((el, i) => {
-                if (i === idx) el.classList.add('active');
-                else el.classList.remove('active');
-            });
-
-            const title = document.getElementById('story-char-title');
-            const sub = document.getElementById('story-chapter-subtitle');
-            const blurb = document.getElementById('story-narrative-blurb');
-            const realmText = document.getElementById('story-realm-text');
-            const realmIcon = document.getElementById('story-realm-icon');
-            const enemyDeck = document.getElementById('story-enemy-deck-name');
-            const bgLayer = document.getElementById('story-bg-layer');
-
-            if (title) title.innerText = ch.heroName;
-            if (sub) sub.innerText = ch.chapterTitle;
-            if (blurb) blurb.innerText = ch.blurb;
-            if (realmText) realmText.innerText = ch.realmName;
-            if (realmIcon) realmIcon.src = ch.realmIcon;
-            if (enemyDeck) enemyDeck.innerText = ch.deckName;
-            if (bgLayer) bgLayer.style.backgroundImage = `url('${ch.bgImage}')`;
-        }
-
-        function launchStoryBattle() {
-            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
-                alert("Access Denied: Administrator access required.");
-                return;
-            }
-            const ch = STORY_CHAPTERS[currentStoryChapter];
-            const sel = document.getElementById('story-player-deck-select');
-            const playerDeckName = sel ? sel.value : 'Starter Deck - Fractures in Time';
-
-            isStoryModeActive = true;
-            isAIModeActive = true;
-            aiDifficultySetting = ch.difficulty;
-            aiHeroAvatar = ch.heroId;
-
-            closeStoryModeView();
-            startAIPlaytestArena(playerDeckName, ch.deckName, ch.heroName, ch.heroId, ch.difficulty);
-        }
-
-        // --- SOLO AI DUEL MODAL (OPTION 1) ---
-        function openAIMatchModal() {
-            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
-                alert("Access Denied: Solo AI Duel is currently in testing and requires Administrator access.");
-                return;
-            }
-
-            const pSel = document.getElementById('ai-player-deck-select');
-            const oSel = document.getElementById('ai-opponent-deck-select');
-
-            // 1. Compile Available Player Decks
-            let playerDecks = [];
-            if (typeof mainDeck !== 'undefined' && mainDeck.length > 0) {
-                playerDecks.push({ name: `Current Deck (${mainDeck.length} Cards)`, value: '__active_built_deck__' });
-            }
-            playerDecks.push({ name: 'Starter Deck - Fractures in Time (40 Cards)', value: 'Starter Deck - Fractures in Time' });
-            
-            if (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0) {
-                loadedSavedDecks.forEach(d => {
-                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
-                        playerDecks.push({ name: d.deckName, value: d.deckName });
-                    }
-                });
-            } else if (typeof DEFAULT_SEED_DECKS !== 'undefined' && DEFAULT_SEED_DECKS.length > 0) {
-                DEFAULT_SEED_DECKS.forEach(d => {
-                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
-                        playerDecks.push({ name: d.deckName, value: d.deckName });
-                    }
-                });
-            }
-
-            if (pSel) {
-                pSel.innerHTML = '';
-                playerDecks.forEach(d => {
-                    const opt = document.createElement('option');
-                    opt.value = d.value;
-                    opt.innerText = d.name;
-                    pSel.appendChild(opt);
-                });
-            }
-
-            // 2. Compile Available AI Opponent Decks
-            let aiDecks = [
-                { name: 'Starter Deck - Fractures in Time', value: 'Starter Deck - Fractures in Time' },
-                { name: 'Tech Mobilize Swarm (AI Aggro)', value: 'Tech Mobilize Swarm' },
-                { name: 'Magic Control & Spells (AI Control)', value: 'Magic Control & Spells' },
-                { name: 'Fantasy Sea Raiders (AI Midrange)', value: 'Fantasy Sea Raiders' }
-            ];
-
-            if (typeof loadedSavedDecks !== 'undefined' && loadedSavedDecks.length > 0) {
-                loadedSavedDecks.forEach(d => {
-                    if (d.deckName !== 'Starter Deck - Fractures in Time') {
-                        aiDecks.push({ name: `${d.deckName} (Custom)`, value: d.deckName });
-                    }
-                });
-            }
-
-            if (oSel) {
-                oSel.innerHTML = '';
-                aiDecks.forEach(d => {
-                    const opt = document.createElement('option');
-                    opt.value = d.value;
-                    opt.innerText = d.name;
-                    oSel.appendChild(opt);
-                });
-            }
-
-            const modal = document.getElementById('ai-match-modal');
-            if (modal) modal.className = 'modal-visible';
-        }
-
-        function closeAIMatchModal() {
-            const modal = document.getElementById('ai-match-modal');
-            if (modal) modal.className = 'modal-hidden';
-        }
-
-        function launchCustomAIDuel() {
-            if (currentAccessRole !== 'admin' && !isAdminModeActive) {
-                alert("Access Denied: Administrator access required.");
-                return;
-            }
-            const pSel = document.getElementById('ai-player-deck-select');
-            const oSel = document.getElementById('ai-opponent-deck-select');
-            const hSel = document.getElementById('ai-hero-select');
-            const dSel = document.getElementById('ai-difficulty-select');
-
-            const playerDeckName = pSel ? pSel.value : 'Starter Deck - Fractures in Time';
-            const aiDeckName = oSel ? oSel.value : 'Starter Deck - Fractures in Time';
-            const aiHero = hSel ? hSel.value : 'bass';
-            const diff = dSel ? dSel.value : 'veteran';
-
-            isStoryModeActive = false;
-            isAIModeActive = true;
-            aiDifficultySetting = diff;
-            aiHeroAvatar = aiHero;
-
-            closeAIMatchModal();
-            const heroName = aiHero === 'ramses' ? 'Ramses (AI)' : (aiHero === 'jackson' ? 'Jackson (AI)' : (aiHero === 'gh0st' ? 'Gh0st (AI)' : 'Bass (AI)'));
-            startAIPlaytestArena(playerDeckName, aiDeckName, heroName, aiHero, diff);
-        }
-
-        // --- CORE AI ARENA EXECUTION ---
-        function startAIPlaytestArena(playerDeckName, aiDeckName, aiDisplayName, aiHeroId, difficulty) {
-            // 1. Properly load player deck
-            let targetDeckData = null;
-            const allDecks = [...(typeof loadedSavedDecks !== 'undefined' ? loadedSavedDecks : []), ...(typeof DEFAULT_SEED_DECKS !== 'undefined' ? DEFAULT_SEED_DECKS : [])];
-            
-            if (playerDeckName && playerDeckName !== '__active_built_deck__') {
-                const found = allDecks.find(d => d.deckName === playerDeckName);
-                if (found && found.deckDataJson) {
-                    try {
-                        targetDeckData = typeof found.deckDataJson === 'object' ? found.deckDataJson : JSON.parse(found.deckDataJson);
-                    } catch(e) {}
-                }
-            } else if (typeof mainDeck !== 'undefined' && mainDeck.length > 0) {
-                // Use current active built deck
-                targetDeckData = {
-                    mainDeck: mainDeck.map(c => c.id || c.name),
-                    barriers: barrierDeck.map(c => c.id || c.name),
-                    reactionDeck: reactionDeck.map(c => c.id || c.name)
-                };
-            }
-
-            if (!targetDeckData && allDecks.length > 0 && allDecks[0].deckDataJson) {
-                try {
-                    targetDeckData = typeof allDecks[0].deckDataJson === 'object' ? allDecks[0].deckDataJson : JSON.parse(allDecks[0].deckDataJson);
-                } catch(e) {}
-            }
-
-            // Map IDs to actual catalog card objects
-            mainDeck = [];
-            barrierDeck = [];
-            reactionDeck = [];
-
-            if (targetDeckData) {
-                (targetDeckData.barriers || []).forEach(id => {
-                    const found = catalog.find(c => c.id === id || c.name === id);
-                    if (found) barrierDeck.push({ ...found });
-                });
-                (targetDeckData.mainDeck || []).forEach(id => {
-                    const found = catalog.find(c => c.id === id || c.name === id);
-                    if (found) mainDeck.push({ ...found });
-                });
-                (targetDeckData.reactionDeck || []).forEach(id => {
-                    const found = catalog.find(c => c.id === id || c.name === id);
-                    if (found) reactionDeck.push({ ...found });
-                });
-            }
-
-            // Guarantee separation: NO BARRIERS in mainDeck!
-            mainDeck = mainDeck.filter(c => !c.type || !c.type.includes('Barrier'));
-            if (barrierDeck.length === 0) {
-                barrierDeck = catalog.filter(c => c.type && c.type.includes('Barrier')).slice(0, 5);
-            }
-            if (mainDeck.length === 0) {
-                mainDeck = catalog.filter(c => c.type && !c.type.includes('Barrier') && !c.type.includes('Action')).slice(0, 40);
-            }
-
-            // 2. Launch Playtest Area
-            startPlaytest();
-
-            // 3. Setup AI parameters
-            pvpRemotePlayer = {
-                name: aiDisplayName,
-                deckName: aiDeckName,
-                hero: aiHeroId
-            };
-            pvpLocalPlayer = {
-                name: "Player",
-                deckName: playerDeckName,
-                hero: (playerSettings && playerSettings.splashHero) || 'bass'
-            };
-
-            // Player goes first in Cadet/Veteran; 50/50 in Legend
-            pvpDiceRoll = {
-                hostRoll: difficulty === 'legend' ? (Math.random() > 0.5 ? 90 : 30) : 80,
-                guestRoll: 50,
-                hostFirst: difficulty !== 'legend' || Math.random() > 0.5
-            };
-            currentPvPRole = 'host';
-
-            // Launch Split Board
-            initPvPSplitBoard();
-
-            // 4. Populate AI Deck with strictly non-barrier cards
-            const nonBarrierCatalog = catalog.filter(c => !c.type || !c.type.includes('Barrier'));
-            const barrierCatalog = catalog.filter(c => c.type && c.type.includes('Barrier'));
-
-            aiDeckCards = [];
-            for (let i = 0; i < 40; i++) {
-                const randCard = nonBarrierCatalog[Math.floor(Math.random() * nonBarrierCatalog.length)];
-                if (randCard) aiDeckCards.push({ ...randCard });
-            }
-
-            aiBarrierCards = [];
-            for (let i = 0; i < 5; i++) {
-                const bCard = barrierCatalog[i % barrierCatalog.length];
-                if (bCard) aiBarrierCards.push({ ...bCard });
-            }
-
-            aiHandCards = aiDeckCards.splice(0, 7);
-            aiEnergyCount = 2;
-            aiBarriersRemaining = 5;
-            pvpOpponentBarriers = 5;
-            pvpOpponentEnergy = 2;
-            pvpOpponentHandCount = 7;
-            pvpOpponentField = { 'zone-1': [], 'zone-2': [], 'zone-3': [], 'zone-4': [] };
-
-            renderOpponentBoardView();
-            renderPlaytestBarrier();
-
-            logAction(`🤖 [Match Initialized]: Solo Duel vs ${aiDisplayName} (${difficulty.toUpperCase()} AI) initialized.`);
-        }
-
-        // Hook into passPvPTurn to trigger AI turn if AI mode is active
-        const prevPassPvPTurn = passPvPTurn;
-        passPvPTurn = function() {
-            prevPassPvPTurn();
-            if (isAIModeActive && !pvpIsMyTurn) {
-                // AI's turn! Execute with realistic thinking delay
-                setTimeout(() => runAITurn(), 800);
-            }
-        };
-
-        function runAITurn() {
-            if (!isAIModeActive || pvpIsMyTurn) return;
-
-            logAction(`🤖 ${pvpRemotePlayer.name} is taking their turn...`);
-
-            // Step 1: Charge Phase
-            // Ready all rested AI units
-            for (let i = 1; i <= 4; i++) {
-                if (pvpOpponentField && pvpOpponentField[`zone-${i}`]) {
-                    pvpOpponentField[`zone-${i}`].forEach(u => u.isRested = false);
-                }
-            }
-
-            // Draw card (Keep card identity private from human player!)
-            if (aiDeckCards.length > 0) {
-                aiHandCards.push(aiDeckCards.pop());
-                logAction(`🎴 ${pvpRemotePlayer.name} drew a card.`);
-            }
-
-            // Charge Energy (Max 10) - Placing card face down into Energy Zone
-            if (aiEnergyCount < 10 && aiHandCards.length > 1) {
-                const chargeCard = aiHandCards.pop();
-                aiEnergyCount++;
-                pvpOpponentEnergy = aiEnergyCount;
-                
-                // Check for Spark: ability
-                if (chargeCard && chargeCard.text && chargeCard.text.includes('Spark:')) {
-                    const sparkMatch = chargeCard.text.match(/Spark:\s*([^.]+)/i);
-                    const sparkTxt = sparkMatch ? sparkMatch[1].trim() : "Bonus Energy triggered";
-                    logAction(`✨ [Spark Ability]: ${pvpRemotePlayer.name} triggered Spark from charged energy! (${sparkTxt})`);
-                }
-                
-                // Private logging: do NOT disclose which card was placed face-down
-                logAction(`⚡ ${pvpRemotePlayer.name} charged 1 Energy (${aiEnergyCount} active).`);
-            }
-
-            // Step 2: Main Phase (Summon Units by Paying Energy Cost & Trigger Arrive Effects)
-            let currentEnergy = aiEnergyCount;
-            let playedUnit = false;
-
-            for (let i = 1; i <= 4; i++) {
-                const isZoneEmpty = !pvpOpponentField[`zone-${i}`] || pvpOpponentField[`zone-${i}`].length === 0;
-                if (isZoneEmpty && aiHandCards.length > 0) {
-                    // Match any unit card (Legend, Minion, or non-Barrier/non-Action)
-                    const unitCard = aiHandCards.find(c => {
-                        if (!c) return false;
-                        const isUnit = c.type && (c.type.includes('Legend') || c.type.includes('Minion') || (!c.type.includes('Barrier') && !c.type.includes('Action')));
-                        const cost = parseInt(c.cost) || 1;
-                        return isUnit && cost <= currentEnergy;
-                    });
-
-                    if (unitCard) {
-                        const unitCost = parseInt(unitCard.cost) || 1;
-                        currentEnergy -= unitCost;
-                        aiHandCards.splice(aiHandCards.indexOf(unitCard), 1);
-
-                        // Store in pvpOpponentField so it persists cleanly across renders!
-                        pvpOpponentField[`zone-${i}`] = [{
-                            ...unitCard,
-                            isRested: false,
-                            atk: parseInt(unitCard.atk) || 4,
-                            hp: parseInt(unitCard.hp) || 4
-                        }];
-
-                        logAction(`⚔️ ${pvpRemotePlayer.name} summoned "${unitCard.name}" (Cost: ${unitCost}, ATK: ${unitCard.atk || 4}, DEF: ${unitCard.hp || 4}) to Field ${i}!`);
-
-                        // Evaluate Arrive: effect on summon
-                        if (unitCard.text && unitCard.text.includes('Arrive:')) {
-                            const arriveMatch = unitCard.text.match(/Arrive:\s*([^.]+)/i);
-                            const arriveTxt = arriveMatch ? arriveMatch[1].trim() : "Combat ability triggered";
-                            
-                            if (/destroy/i.test(arriveTxt)) {
-                                for (let pz = 1; pz <= 4; pz++) {
-                                    const pZone = document.getElementById(`mid-zone-${pz}`);
-                                    const pCard = pZone ? pZone.querySelector('.play-card') : null;
-                                    if (pCard) {
-                                        const pName = pCard.cardData ? pCard.cardData.name : 'Unit';
-                                        pCard.remove();
-                                        logAction(`💥 [Arrive Ability]: "${unitCard.name}" destroyed your "${pName}"!`);
-                                        break;
-                                    }
-                                }
-                            } else if (/item|stack|reinforce/i.test(arriveTxt)) {
-                                pvpOpponentField[`zone-${i}`][0].atk += 1;
-                                logAction(`✨ [Arrive Ability]: "${unitCard.name}" reinforced with combat gear (+1 ATK)!`);
-                            } else if (/draw/i.test(arriveTxt)) {
-                                if (aiDeckCards.length > 0) {
-                                    aiHandCards.push(aiDeckCards.pop());
-                                    logAction(`✨ [Arrive Ability]: "${unitCard.name}" allowed ${pvpRemotePlayer.name} to draw a card.`);
-                                }
-                            } else {
-                                logAction(`✨ [Arrive Ability]: "${unitCard.name}" activated: "${arriveTxt}".`);
+            // Check if attacker destroyed by counter-strike
+            if (combat.attacker && blockerAtk >= (combat.attacker.def || 3)) {
+                if (isAIModeActive) {
+                    for (let i = 1; i <= 4; i++) {
+                        if (pvpOpponentField && pvpOpponentField[`zone-${i}`]) {
+                            const uIdx = pvpOpponentField[`zone-${i}`].findIndex(u => u.name === atkName);
+                            if (uIdx !== -1) {
+                                pvpOpponentField[`zone-${i}`].splice(uIdx, 1);
+                                logAction(`💥 [Counterstrike]: ${atkName} was destroyed by "${blockerName}"!`);
+                                renderOpponentBoardView();
+                                break;
                             }
                         }
-
-                        playedUnit = true;
                     }
                 }
             }
 
-            pvpOpponentHandCount = aiHandCards.length;
-            renderOpponentBoardView();
+            // Barrier is 100% saved!
+            logAction(`✨ [Barrier Protected]: Your Barrier Zone took 0 damage.`);
 
-            // Step 3: Attack Phase (with 750ms pacing)
-            setTimeout(() => {
-                executeAIAttackPhase();
-            }, 750);
+            pvpActiveCombat = null;
+            window._currentBlockers = null;
+            sendPvPBoardSync();
         }
 
         function executeAIAttackPhase() {
