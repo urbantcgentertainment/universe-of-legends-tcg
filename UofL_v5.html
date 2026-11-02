@@ -3213,7 +3213,38 @@
             transform: scale(1.03);
             box-shadow: 0 0 30px rgba(255, 109, 0, 0.9);
         }
-</style>
+
+        /* Highlight Light for Single-Clicked Card Inspection */
+        .card-selected-highlight {
+            outline: 3px solid #00e5ff !important;
+            border-color: #00e5ff !important;
+            box-shadow: 0 0 22px rgba(0, 229, 255, 0.95), 0 0 40px rgba(0, 229, 255, 0.4), inset 0 0 10px rgba(0, 229, 255, 0.5) !important;
+            filter: brightness(1.15) contrast(1.05) !important;
+            z-index: 45 !important;
+            transition: all 0.15s ease-in-out !important;
+        }
+
+        /* Golden Yellow Ambient Highlight for Cards with SPARK Keyword in Energy Zone */
+        .energy-spark-card {
+            outline: 2.5px solid #ffd700 !important;
+            border-color: #ffd700 !important;
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.95), 0 0 32px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.5) !important;
+            animation: sparkPulseGlow 2.2s infinite alternate ease-in-out !important;
+            position: relative;
+        }
+
+        @keyframes sparkPulseGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.7), inset 0 0 6px rgba(255, 215, 0, 0.3);
+                border-color: #ffd700;
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 45px rgba(255, 235, 59, 0.85), inset 0 0 14px rgba(255, 215, 0, 0.7);
+                border-color: #fff176;
+            }
+        }
+
+    </style>
 
     
 
@@ -3676,6 +3707,7 @@
                     <option value="shield">🛡️ Shield Token</option>
                     <option value="sealed">🔒 Sealed Token</option>
                     <option value="temptation">🍎 Temptation Token</option>
+                    <option value="control">👁️ Control Token</option>
                 </select>
 
                 <!-- Streamlined Dropdown for Auxiliary Tools -->
@@ -7516,27 +7548,173 @@
                     { urls: 'stun:stun2.l.google.com:19302' },
                     { urls: 'stun:stun3.l.google.com:19302' },
                     { urls: 'stun:stun4.l.google.com:19302' },
-                    { urls: 'stun:global.stun.twilio.com:3478' },
-                    { urls: 'stun:openrelay.metered.ca:80' },
-                    {
-                        urls: 'turn:openrelay.metered.ca:80',
-                        username: 'openrelayproject',
-                        credential: 'openrelayproject'
-                    },
-                    {
-                        urls: 'turn:openrelay.metered.ca:443',
-                        username: 'openrelayproject',
-                        credential: 'openrelayproject'
-                    },
-                    {
-                        urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-                        username: 'openrelayproject',
-                        credential: 'openrelayproject'
-                    }
+                    { urls: 'stun:stun.cloudflare.com:3478' },
+                    { urls: 'stun:global.stun.twilio.com:3478' }
                 ],
                 iceCandidatePoolSize: 10
             }
         };
+// =========================================================================
+        // DUAL-TRANSPORT MATCHMAKING & REAL-TIME RELAY ENGINE (PC & MOBILE 100%)
+        // =========================================================================
+        let pvpRelayWs = null;
+        let pvpRelaySse = null;
+        let pvpRelayActive = false;
+        let pvpConnectionMode = 'none'; // 'webrtc' | 'relay'
+        const pvpSeenPacketIds = new Set();
+
+        function getRelayTopic(roomCode, recipient) {
+            const clean = (roomCode || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            return `uol_tcg_relay_${clean}_${recipient}`;
+        }
+
+        // Universal send function used across the entire game
+        function sendPvPPacket(packet) {
+            if (!packet || typeof packet !== 'object') return;
+            if (!packet._pid) {
+                packet._pid = Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+            }
+
+            // 1. Try direct WebRTC DataChannel if open
+            if (pvpConnection && pvpConnection.open && typeof pvpConnection.send === 'function') {
+                try {
+                    pvpConnection.send(packet);
+                } catch(e) {
+                    console.warn("[PvP WebRTC Send Warning]:", e);
+                }
+            }
+
+            // 2. Transmit over Universal Cloud Relay (guaranteed mobile carrier delivery)
+            if (currentPvPRoomCode) {
+                const targetRecipient = (currentPvPRole === 'host') ? 'guest' : 'host';
+                const topic = getRelayTopic(currentPvPRoomCode, targetRecipient);
+                try {
+                    fetch(`https://ntfy.sh/${topic}`, {
+                        method: 'POST',
+                        headers: { 'Title': 'UofL Match Packet' },
+                        body: JSON.stringify(packet)
+                    }).catch(() => {});
+                } catch(e) {}
+            }
+        }
+
+        // Hook pvpConnection wrapper to provide unified .send()
+        function ensurePvPConnectionWrapper() {
+            if (!pvpConnection) {
+                pvpConnection = {
+                    open: true,
+                    send: (data) => sendPvPPacket(data),
+                    close: () => {
+                        closePvPRelay();
+                        if (pvpPeer) { try { pvpPeer.destroy(); } catch(e){} }
+                    }
+                };
+            }
+        }
+
+        function closePvPRelay() {
+            if (pvpRelayWs) {
+                try { pvpRelayWs.close(); } catch(e){}
+                pvpRelayWs = null;
+            }
+            if (pvpRelaySse) {
+                try { pvpRelaySse.close(); } catch(e){}
+                pvpRelaySse = null;
+            }
+            pvpRelayActive = false;
+        }
+
+        function initPvPRelayListener(roomCode, myRole) {
+            closePvPRelay();
+            const listenTopic = getRelayTopic(roomCode, myRole);
+            console.log(`[PvP Relay] Listening on channel: ${listenTopic} as ${myRole.toUpperCase()}`);
+
+            // Use WebSocket listener with automatic EventSource (SSE) fallback
+            try {
+                pvpRelayWs = new WebSocket(`wss://ntfy.sh/${listenTopic}/ws`);
+                pvpRelayActive = true;
+
+                pvpRelayWs.onmessage = (event) => {
+                    try {
+                        const parsed = JSON.parse(event.data);
+                        if (parsed.event === 'message' && parsed.message) {
+                            const packet = JSON.parse(parsed.message);
+                            handleIncomingPvPPacket(packet, myRole === 'host');
+                        }
+                    } catch(e) {}
+                };
+
+                pvpRelayWs.onerror = () => {
+                    // Fallback to Server-Sent Events (SSE) if mobile carrier blocks WebSockets
+                    if (!pvpRelaySse && typeof EventSource !== 'undefined') {
+                        console.log("[PvP Relay] Falling back to SSE channel for mobile...");
+                        try {
+                            pvpRelaySse = new EventSource(`https://ntfy.sh/${listenTopic}/sse`);
+                            pvpRelaySse.onmessage = (ev) => {
+                                try {
+                                    const parsed = JSON.parse(ev.data);
+                                    if (parsed.event === 'message' && parsed.message) {
+                                        const packet = JSON.parse(parsed.message);
+                                        handleIncomingPvPPacket(packet, myRole === 'host');
+                                    }
+                                } catch(e) {}
+                            };
+                        } catch(e) {}
+                    }
+                };
+            } catch(e) {}
+        }
+
+        function handleIncomingPvPPacket(packet, isHost) {
+            if (!packet || !packet.type) return;
+
+            // Deduplicate packets if both WebRTC and Relay deliver the same event
+            if (packet._pid) {
+                if (pvpSeenPacketIds.has(packet._pid)) return;
+                pvpSeenPacketIds.add(packet._pid);
+                if (pvpSeenPacketIds.size > 250) {
+                    const first = pvpSeenPacketIds.values().next().value;
+                    pvpSeenPacketIds.delete(first);
+                }
+            }
+
+            console.log(`[PvP Inbound Packet] (${packet.type}):`, packet);
+
+            // Handle connection discovery packet from guest
+            if (packet.type === 'CONNECT_REQUEST' && isHost) {
+                console.log("[PvP Host] Guest CONNECT_REQUEST received via Relay!");
+                ensurePvPConnectionWrapper();
+                pvpConnection.open = true;
+
+                const status = document.getElementById('pvp-host-status');
+                if (status) {
+                    status.innerHTML = `<span style="color:#00e676; font-weight:bold;">🤝 Challenger connected! Exchanging handshake...</span>`;
+                }
+
+                // Send Host Handshake immediately
+                const myDeck = getSelectedPvPDeckName(true);
+                const myHero = (playerSettings && playerSettings.splashHero) || 'bass';
+                pvpLocalPlayer = { name: 'Vincent (Host)', deckName: myDeck, hero: myHero, ready: true };
+
+                sendPvPPacket({
+                    type: 'HANDSHAKE',
+                    isHost: true,
+                    player: pvpLocalPlayer
+                });
+
+                // Roll dice
+                const hostRoll = Math.floor(Math.random() * 100) + 1;
+                const guestRoll = Math.floor(Math.random() * 100) + 1;
+                pvpDiceRoll = { hostRoll, guestRoll, hostFirst: hostRoll >= guestRoll };
+                setTimeout(() => {
+                    sendPvPPacket({ type: 'DICE_ROLL', dice: pvpDiceRoll });
+                    renderPvPHandshake();
+                }, 200);
+                return;
+            }
+
+            handlePvPDataPacket(packet, isHost);
+        }
 
         function getPvPPeerId(code) {
             if (!code) return '';
@@ -7548,72 +7726,46 @@
         }
 
         function initPvPPeerHost(roomCode) {
-            if (typeof Peer === 'undefined') {
-                console.warn("PeerJS library not loaded from CDN.");
-                return;
-            }
-
             const hostPeerId = getPvPPeerId(roomCode);
             const status = document.getElementById('pvp-host-status');
             if (status) {
                 status.innerHTML = `<span style="color:#ffd700;">⏳ Registering room code on matchmaking network...</span>`;
             }
 
-            try {
-                if (pvpPeer) {
-                    try { pvpPeer.destroy(); } catch(e){}
-                    pvpPeer = null;
-                }
+            // 1. Initialize Universal Cloud Relay Listener (guarantees mobile connection)
+            initPvPRelayListener(roomCode, 'host');
+            ensurePvPConnectionWrapper();
 
-                pvpPeer = new Peer(hostPeerId, PEER_SERVER_CONFIG);
+            if (status) {
+                status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Room is LIVE and listening!</span> Share code with opponent.`;
+            }
 
-                pvpPeer.on('open', (id) => {
-                    console.log("[PvP Host] Verified live on WebRTC network with ID:", id);
-                    if (status) {
-                        status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Room is LIVE and listening!</span> Share code with opponent.`;
+            // 2. Initialize PeerJS WebRTC Host for direct P2P (where supported)
+            if (typeof Peer !== 'undefined') {
+                try {
+                    if (pvpPeer) {
+                        try { pvpPeer.destroy(); } catch(e){}
+                        pvpPeer = null;
                     }
-                });
 
-                pvpPeer.on('connection', (conn) => {
-                    console.log("[PvP Host] Opponent connected to room!");
-                    pvpConnection = conn;
-                    if (status) {
-                        status.innerHTML = `<span style="color:#00e5ff; font-weight:bold;">🤝 Opponent connected! Exchanging handshake...</span>`;
-                    }
-                    setupPvPConnectionListeners(conn, true);
-                });
+                    pvpPeer = new Peer(hostPeerId, PEER_SERVER_CONFIG);
 
-                pvpPeer.on('error', (err) => {
-                    console.error("[PvP Host] Peer error:", err);
-                    if (err.type === 'unavailable-id') {
-                        console.warn("[PvP Host] ID was in cooldown, retrying clean connection in 1.5s...");
-                        if (status) {
-                            status.innerHTML = `<span style="color:#ffd700;">⏳ Room ID is reconnecting, please wait...</span>`;
-                        }
-                        setTimeout(() => {
-                            if (pvpPeer) {
-                                try { pvpPeer.destroy(); } catch(e){}
-                                pvpPeer = null;
-                            }
-                            pvpPeer = new Peer(hostPeerId, PEER_SERVER_CONFIG);
-                            pvpPeer.on('open', (id) => {
-                                if (status) status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Room is LIVE and listening!</span> Share code with opponent.`;
-                            });
-                            pvpPeer.on('connection', (conn) => {
-                                pvpConnection = conn;
-                                setupPvPConnectionListeners(conn, true);
-                            });
-                        }, 1500);
-                        return;
-                    }
-                    if (status) {
-                        status.innerHTML = `<span style="color:#ff5252;">⚠️ Network status: ${err.type || 'disconnected'}. Click "Generate Code" to retry.</span>`;
-                    }
-                });
-            } catch (e) {
-                console.error("[PvP Host] Exception starting peer:", e);
-                if (status) {
-                    status.innerHTML = `<span style="color:#ff5252;">⚠️ Connection error: ${e.message}</span>`;
+                    pvpPeer.on('open', (id) => {
+                        console.log("[PvP Host] Verified live on WebRTC network with ID:", id);
+                    });
+
+                    pvpPeer.on('connection', (conn) => {
+                        console.log("[PvP Host] Direct WebRTC connection received from opponent!");
+                        conn.serialization = 'json';
+                        pvpConnection = conn;
+                        setupPvPConnectionListeners(conn, true);
+                    });
+
+                    pvpPeer.on('error', (err) => {
+                        console.warn("[PvP Host] WebRTC Peer notice:", err.type);
+                    });
+                } catch(e) {
+                    console.warn("[PvP Host] PeerJS initialization skipped:", e);
                 }
             }
         }
@@ -7631,166 +7783,116 @@
             const targetPeerId = getPvPPeerId(code);
             const status = document.getElementById('pvp-join-status');
             if (status) {
-                status.innerHTML = `<span style="color:#00e5ff;">⏳ Step 1/3: Connecting to matchmaking server...</span>`;
+                status.innerHTML = `<span style="color:#00e5ff;">⏳ Connecting to room <b>${code}</b>...</span>`;
             }
 
-            if (typeof Peer === 'undefined') {
-                alert("WebRTC PeerJS library is loading. Please check your connection.");
-                return;
-            }
+            let connectionEstablished = false;
 
-            try {
-                if (pvpPeer) {
-                    try { pvpPeer.destroy(); } catch(e){}
-                    pvpPeer = null;
+            // 1. Start Universal Cloud Relay (Instant cross-network mobile connection)
+            initPvPRelayListener(code, 'guest');
+            ensurePvPConnectionWrapper();
+
+            // Send CONNECT_REQUEST and HANDSHAKE over relay
+            const myDeck = getSelectedPvPDeckName(false);
+            const myHero = (playerSettings && playerSettings.splashHero) || 'bass';
+            pvpLocalPlayer = { name: 'Guest Challenger', deckName: myDeck, hero: myHero, ready: true };
+
+            const sendJoinPing = () => {
+                if (connectionEstablished) return;
+                sendPvPPacket({
+                    type: 'CONNECT_REQUEST',
+                    code: code,
+                    player: pvpLocalPlayer
+                });
+                sendPvPPacket({
+                    type: 'HANDSHAKE',
+                    isHost: false,
+                    player: pvpLocalPlayer
+                });
+            };
+
+            // Ping immediately and every 1.5s until handshake established
+            sendJoinPing();
+            const relayPingInterval = setInterval(() => {
+                if (connectionEstablished || !currentPvPRoomCode) {
+                    clearInterval(relayPingInterval);
+                } else {
+                    sendJoinPing();
                 }
+            }, 1500);
 
-                // Create random guest peer ID
-                pvpPeer = new Peer(PEER_SERVER_CONFIG);
-
-                let connTimeout = setTimeout(() => {
+            let connTimeout = setTimeout(() => {
+                if (!connectionEstablished) {
+                    clearInterval(relayPingInterval);
                     if (status) {
-                        status.innerHTML = `<span style="color:#ff5252;">❌ Connection timed out. Make sure the host has opened the room and generated their code.</span>`;
+                        status.innerHTML = `<span style="color:#ff5252;">❌ Could not connect. Ensure host is on the Host screen with the room open.</span>`;
                     }
                     alert(`Could not connect to room "${code}".
 
 Ensure that:
 1. The host is currently on the Host screen with the room code showing "Room is LIVE".
 2. The code matches.`);
-                }, 28000);
+                }
+            }, 18000);
 
-                // Progressive status updates
-                setTimeout(() => {
-                    if (status && !pvpConnection) {
-                        status.innerHTML = `<span style="color:#ffd700;">⏳ Step 2/3: Gathering STUN/TURN network relays...</span>`;
-                    }
-                }, 4000);
-
-                setTimeout(() => {
-                    if (status && !pvpConnection) {
-                        status.innerHTML = `<span style="color:#ffd700;">⏳ Step 3/3: Negotiating peer handshake across NAT/Firewall...</span>`;
-                    }
-                }, 10000);
-
-                pvpPeer.on('open', (myGuestId) => {
-                    console.log("[PvP Guest] Guest registered with ID:", myGuestId, "Connecting to target:", targetPeerId);
-                    if (status) {
-                        status.innerHTML = `<span style="color:#ffd700;">🤝 Found server. Negotiating direct WebRTC channel with host...</span>`;
-                    }
-
-                    // Connect without deprecated reliable flag for maximum modern compatibility
-                    const conn = pvpPeer.connect(targetPeerId);
-                    pvpConnection = conn;
-
-                    const handleChannelOpen = () => {
+            // Hook into handshake to clear timeout immediately
+            const originalHandlePacket = handlePvPDataPacket;
+            handlePvPDataPacket = function(packet, isHost) {
+                if (packet && (packet.type === 'HANDSHAKE' || packet.type === 'DICE_ROLL')) {
+                    if (!connectionEstablished) {
+                        connectionEstablished = true;
                         clearTimeout(connTimeout);
-                        console.log("[PvP Guest] Connection channel OPEN!");
+                        clearInterval(relayPingInterval);
                         if (status) {
-                            status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Direct peer connection opened! Exchanging deck...</span>`;
+                            status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Connected to duel! Exchanging deck data...</span>`;
                         }
-                    };
+                    }
+                }
+                originalHandlePacket(packet, isHost);
+            };
 
-                    if (conn.open) {
-                        handleChannelOpen();
-                    } else {
-                        conn.on('open', handleChannelOpen);
+            // 2. Also attempt direct WebRTC P2P via PeerJS with JSON serialization
+            if (typeof Peer !== 'undefined') {
+                try {
+                    if (pvpPeer) {
+                        try { pvpPeer.destroy(); } catch(e){}
+                        pvpPeer = null;
                     }
 
-                    conn.on('error', (err) => {
-                        clearTimeout(connTimeout);
-                        console.error("[PvP Guest Connection Error]:", err);
-                        if (status) {
-                            status.innerHTML = `<span style="color:#ff5252;">❌ Channel error: ${err}</span>`;
+                    pvpPeer = new Peer(PEER_SERVER_CONFIG);
+
+                    pvpPeer.on('open', (myGuestId) => {
+                        console.log("[PvP Guest] PeerJS open with ID:", myGuestId);
+                        const conn = pvpPeer.connect(targetPeerId, {
+                            serialization: 'json'
+                        });
+
+                        const onOpen = () => {
+                            console.log("[PvP Guest] Direct WebRTC P2P connection opened!");
+                            connectionEstablished = true;
+                            clearTimeout(connTimeout);
+                            clearInterval(relayPingInterval);
+                            pvpConnection = conn;
+                            if (status) {
+                                status.innerHTML = `<span style="color:#00e676; font-weight:bold;">✓ Direct peer connection opened! Exchanging deck...</span>`;
+                            }
+                        };
+
+                        if (conn.open) {
+                            onOpen();
+                        } else {
+                            conn.on('open', onOpen);
                         }
+
+                        setupPvPConnectionListeners(conn, false);
                     });
 
-                    setupPvPConnectionListeners(conn, false);
-                });
-
-                pvpPeer.on('error', (err) => {
-                    clearTimeout(connTimeout);
-                    console.error("[PvP Guest Peer Error]:", err);
-                    let msg = `Could not connect to room "${code}".`;
-                    if (err.type === 'peer-unavailable') {
-                        msg = `Room "${code}" was not found on the matchmaking server.
-
-Please make sure the host has clicked "Generate Room Code" and is currently waiting in the room before you connect!`;
-                    }
-                    if (status) {
-                        status.innerHTML = `<span style="color:#ff5252;">❌ ${msg.split(String.fromCharCode(10)).join('<br>')}</span>`;
-                    }
-                    alert(msg);
-                });
-            } catch(e) {
-                console.error("[PvP Guest] Exception:", e);
-                if (status) {
-                    status.innerHTML = `<span style="color:#ff5252;">❌ Connection error: ${e.message}</span>`;
+                    pvpPeer.on('error', (err) => {
+                        console.warn("[PvP Guest] WebRTC notice:", err.type);
+                    });
+                } catch(e) {
+                    console.warn("[PvP Guest] WebRTC initialization skipped:", e);
                 }
-            }
-        }
-
-        
-        // --- MULTIPLAYER NETWORK PING TEST DIAGNOSTIC TOOL ---
-        async function runPvPNetworkPingTest() {
-            const diagBox = document.getElementById('pvp-network-diag-box');
-            if (diagBox) {
-                diagBox.style.display = 'block';
-                diagBox.innerHTML = '<span style="color:#ffd700;">⏳ Testing network latency to WebRTC signaling and STUN/TURN servers...</span>';
-            }
-
-            const startTime = Date.now();
-            let signalingLatency = null;
-            let stunStatus = "Testing...";
-            let turnStatus = "Testing...";
-
-            try {
-                // Test 1: Signaling Server (HTTP Ping to 0.peerjs.com)
-                const sigStart = Date.now();
-                await fetch('https://0.peerjs.com/', { mode: 'no-cors' });
-                signalingLatency = Date.now() - sigStart;
-            } catch(e) {
-                signalingLatency = 'Offline/Blocked';
-            }
-
-            try {
-                // Test 2: STUN & TURN Candidate Resolution via RTCPeerConnection
-                const pc = new RTCPeerConnection(PEER_SERVER_CONFIG.config);
-                pc.createDataChannel('pingTestChannel');
-
-                let foundStun = false;
-                let foundTurn = false;
-
-                pc.onicecandidate = (evt) => {
-                    if (evt.candidate) {
-                        const candStr = evt.candidate.candidate;
-                        if (candStr.includes('srflx')) foundStun = true;
-                        if (candStr.includes('relay')) foundTurn = true;
-                    }
-                };
-
-                const offer = await pc.createOffer();
-                await pc.setLocalDescription(offer);
-
-                await new Promise(r => setTimeout(r, 2200));
-                pc.close();
-
-                stunStatus = foundStun ? '<span style="color:#00e676;">✓ Active & Reachable</span>' : '<span style="color:#ffd700;">⚠️ Local/Reflexive (STUN fallback)</span>';
-                turnStatus = foundTurn ? '<span style="color:#00e676;">✓ Active (Relays Ready for Mobile)</span>' : '<span style="color:#00e676;">✓ OpenRelay Configured</span>';
-            } catch(e) {
-                stunStatus = `<span style="color:#ff5252;">Error: ${e.message}</span>`;
-            }
-
-            const totalDuration = Date.now() - startTime;
-            if (diagBox) {
-                diagBox.innerHTML = `
-                    <div style="font-size:11.5px; font-weight:bold; color:#00e5ff; margin-bottom:4px;">📶 Multiplayer Network Diagnostic Results:</div>
-                    <div style="display:flex; flex-direction:column; gap:3px; font-size:11px; text-align:left;">
-                        <div>• <b>Signaling Server (PeerJS Cloud):</b> ${typeof signalingLatency === 'number' ? `<span style="color:#00e676;">Online (${signalingLatency}ms latency)</span>` : signalingLatency}</div>
-                        <div>• <b>STUN NAT Traversal:</b> ${stunStatus}</div>
-                        <div>• <b>TURN Mobile Relay (OpenRelay):</b> ${turnStatus}</div>
-                        <div>• <b>Total Diagnostic Time:</b> ${totalDuration}ms</div>
-                    </div>
-                `;
             }
         }
 
@@ -7809,7 +7911,7 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
                 pvpLocalPlayer = { name: myName, deckName: myDeck, hero: myHero, ready: true };
 
                 try {
-                    conn.send({
+                    sendPvPPacket({
                         type: 'HANDSHAKE',
                         isHost: isHost,
                         player: pvpLocalPlayer
@@ -7825,7 +7927,7 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
                     pvpDiceRoll = { hostRoll, guestRoll, hostFirst: hostRoll >= guestRoll };
                     setTimeout(() => {
                         try {
-                            conn.send({ type: 'DICE_ROLL', dice: pvpDiceRoll });
+                            sendPvPPacket({ type: 'DICE_ROLL', dice: pvpDiceRoll });
                             renderPvPHandshake();
                         } catch(e){}
                     }, 300);
@@ -7940,7 +8042,7 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
 
         function launchPvPArena() {
             if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({ type: 'LAUNCH_ARENA' });
+                sendPvPPacket({ type: 'LAUNCH_ARENA' });
             }
             launchPvPArenaLocal();
         }
@@ -8018,6 +8120,7 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
             const tokenList = [
                 { id: 'token_shield', name: 'Shield Token', type: 'Token - Tech', color: 'Yellow', cost: '-', atk: '-', hp: '-', text: (TOKEN_DEFINITIONS.shield && TOKEN_DEFINITIONS.shield.text) || 'If this unit would be destroyed, remove this card instead.', url: 'Assets/Tokens/Shield.webp' },
                 { id: 'token_sealed', name: 'Sealed Token', type: 'Token - Tech', color: 'Yellow', cost: '-', atk: '-', hp: '-', text: (TOKEN_DEFINITIONS.sealed && TOKEN_DEFINITIONS.sealed.text) || 'This unit can not attack, block, activate abilities or stand during the Charge phase.', url: 'Assets/Tokens/Sealed.webp' },
+                                { id: 'token_control', name: 'Control Token', type: 'Token - Magic', color: 'Purple', cost: '-', atk: '1', hp: '1', text: (TOKEN_DEFINITIONS.control && TOKEN_DEFINITIONS.control.text) || 'Token - Magic (This card always stacks on top of units). Do not inherit Attack or Defense of stacked cards. (Sets stack ATK: 1 / DEF: 1)', url: 'Assets/Tokens/Control.webp' },
                 { id: 'token_temptation', name: 'Temptation Token', type: 'Token - Magic', color: 'Blue', cost: '-', atk: '-1', hp: '-1', text: (TOKEN_DEFINITIONS.temptation && TOKEN_DEFINITIONS.temptation.text) || 'A unit must be played on this card. (-1 ATK / -1 DEF)', url: 'Assets/Tokens/Temptation.webp' }
             ];
 
@@ -9872,7 +9975,7 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
 
             // In Multiplayer PvP, notify remote opponent of revealed cards!
             if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({
+                sendPvPPacket({
                     type: 'CARDS_REVEALED',
                     cards: currentRevealedDeckCards
                 });
@@ -10101,7 +10204,39 @@ Please make sure the host has clicked "Generate Room Code" and is currently wait
             updatePlaymatScale();
         }
 
-                function resetPlaytestDetailToActiveBarrier() {
+                
+        // --- FIELD CARD SELECTION & PERSISTENT LEFT-PANEL PINNING ---
+        let pinnedCardElement = null;
+        let pinnedCardData = null;
+
+        function selectFieldCardForInspection(element, cardData) {
+            if (!element) return;
+            const data = cardData || element.cardData;
+            if (!data) return;
+
+            // Remove light highlight from previously selected card
+            document.querySelectorAll('.card-selected-highlight').forEach(el => el.classList.remove('card-selected-highlight'));
+
+            pinnedCardElement = element;
+            pinnedCardData = data;
+            element.classList.add('card-selected-highlight');
+
+            // Persistently display clicked card info in left area
+            updatePlaytestDetailView(data);
+        }
+
+        function clearFieldCardInspection() {
+            document.querySelectorAll('.card-selected-highlight').forEach(el => el.classList.remove('card-selected-highlight'));
+            pinnedCardElement = null;
+            pinnedCardData = null;
+            resetPlaytestDetailToActiveBarrier();
+        }
+
+        function resetPlaytestDetailToActiveBarrier() {
+            if (pinnedCardData) {
+                updatePlaytestDetailView(pinnedCardData);
+                return;
+            }
             if (activeBarrier) {
                 updatePlaytestDetailView(activeBarrier);
             } else {
@@ -10874,6 +11009,18 @@ function renderPlaytestBarrier() {
                 png: "Assets/Tokens/Sealed.png",
                 text: "This unit can not attack, block, activate abilities or stand during the Charge phase."
             },
+                        control: {
+                name: "Control Token",
+                type: "Token - Magic",
+                cost: "-",
+                atk: "1",
+                hp: "1",
+                color: "Purple",
+                url: "Assets/Tokens/Control.webp",
+                webp: "Assets/Tokens/Control.webp",
+                png: "Assets/Tokens/Control.png",
+                text: "Token - Magic (This card always stacks on top of units). Do not inherit Attack or Defense of stacked cards. (Sets stack ATK: 1 / DEF: 1)"
+            },
             temptation: {
                 name: "Temptation Token",
                 type: "Token - Magic",
@@ -10984,9 +11131,10 @@ function renderPlaytestBarrier() {
         }
 
         // --- DRAG, DROP & MULTI-SELECT ---
-        function handleCardClick(event) {
+                function handleCardClick(event) {
             event.stopPropagation();
-            const targetId = event.currentTarget.id;
+            const target = event.currentTarget;
+            const targetId = target.id;
 
             if (event.shiftKey) {
                 if (selectedElements.has(targetId)) {
@@ -10999,12 +11147,18 @@ function renderPlaytestBarrier() {
                 selectedElements.add(targetId);
             }
             updateSelectionVisuals();
+
+            // Single click on card on field highlights it and locks info in left area
+            if (target.cardData) {
+                selectFieldCardForInspection(target, target.cardData);
+            }
         }
 
         function clearSelection(event) {
-            if (event.target.id === 'playmat' || event.target.id === 'hand') {
+            if (event.target.id === 'playmat' || event.target.id === 'playmat-surface' || event.target.id === 'hand') {
                 selectedElements.clear();
                 updateSelectionVisuals();
+                clearFieldCardInspection();
             }
         }
 
@@ -11272,7 +11426,35 @@ function renderPlaytestBarrier() {
             return isNaN(n) ? 0 : n;
         }
 
-        function updateZoneCombatStats(zoneId) {
+        
+        // --- ZONE COMBAT STATS & TOKEN MODIFIERS ---
+        function getZoneTotalStats(zoneId) {
+            if (!zoneId || !zoneId.startsWith('mid-zone-')) return { atk: 0, def: 0 };
+            const cardsInZone = Array.from(document.querySelectorAll('.play-card, .token'))
+                .filter(c => c.dataset.zone === zoneId);
+            if (cardsInZone.length === 0) return { atk: 0, def: 0 };
+
+            // Control Token Rule: Control tokens go on top and turn the whole stack value for ATK and DEF to 1 for each
+            const hasControlToken = cardsInZone.some(c => {
+                const name = (c.cardData && c.cardData.name) || c.title || c.id || '';
+                return /control/i.test(name);
+            });
+
+            if (hasControlToken) {
+                return { atk: 1, def: 1 };
+            }
+
+            let atk = 0;
+            let def = 0;
+            cardsInZone.forEach(c => {
+                const data = c.cardData || {};
+                atk += parseCardStat(data.atk);
+                def += parseCardStat(data.hp);
+            });
+            return { atk, def };
+        }
+
+                function updateZoneCombatStats(zoneId) {
             if (!zoneId || !zoneId.startsWith('mid-zone-')) return;
             const badge = document.getElementById('stats-' + zoneId);
             if (!badge) return;
@@ -11285,26 +11467,19 @@ function renderPlaytestBarrier() {
                 return;
             }
 
-            let totalAtk = 0;
-            let totalDef = 0;
-
-            cardsInZone.forEach(c => {
-                const data = c.cardData || {};
-                totalAtk += parseCardStat(data.atk);
-                totalDef += parseCardStat(data.hp);
-            });
+            const stats = getZoneTotalStats(zoneId);
+            const totalAtk = stats.atk;
+            const totalDef = stats.def;
 
             badge.style.display = 'flex';
             badge.innerHTML = `<img src="Assets/Support_Assets/Symbols_Atk.webp" alt="" style="width:12px;height:12px;margin-right:3px;object-fit:contain;" onerror="handleSupportAssetError(this,'Symbols_Atk.png')"><span style="color: #ff9800; font-size: 11px; margin-right: 2px;">ATK</span><b style="color: #ff9800; font-size: 14px;">${totalAtk}</b><span style="color: #666; margin: 0 4px;">/</span><img src="Assets/Support_Assets/Symbols_Health.webp" alt="" style="width:12px;height:12px;margin-right:3px;object-fit:contain;" onerror="handleSupportAssetError(this,'Symbols_Health.png')"><span style="color: #00b4ff; font-size: 11px; margin-right: 2px;">DEF</span><b style="color: #00b4ff; font-size: 14px;">${totalDef}</b>`;
         }
 
-        function repositionCardsInZone(zoneId) {
+                function repositionCardsInZone(zoneId) {
             if (!zoneId || zoneId === 'hand' || zoneId === 'zone-activation') return;
             const zone = document.getElementById(zoneId);
             if (!zone) return;
 
-            // Direct native layout offsets inside #playmat-surface
-            // This completely eliminates any scale-drift, rounding errors, or screen-space misalignment!
             const zoneLeft = zone.offsetLeft;
             const zoneTop = zone.offsetTop;
             const zoneW = zone.offsetWidth || 145;
@@ -11316,10 +11491,25 @@ function renderPlaytestBarrier() {
             let cardsInZone = Array.from(document.querySelectorAll('.play-card, .token'))
                 .filter(c => c.dataset.zone === zoneId);
 
-            // Update energy count watermark
+            // Update energy count watermark & Spark keyword golden highlight
             if (zoneId === 'bottom-fan-zone') {
                 const eText = document.getElementById('energy-count-live');
                 if (eText) eText.innerText = `${cardsInZone.length} / ${MAX_ENERGY}`;
+
+                // Golden yellow highlight for cards with SPARK keyword in Energy Zone
+                cardsInZone.forEach(c => {
+                    const text = (c.cardData && c.cardData.text) || '';
+                    if (/spark/i.test(text)) {
+                        c.classList.add('energy-spark-card');
+                        c.title = `⚡ SPARK ABILITY: ${(c.cardData && c.cardData.name) || 'Card'}
+${text}`;
+                    } else {
+                        c.classList.remove('energy-spark-card');
+                    }
+                });
+            } else {
+                // If cards moved out of energy zone, remove energy spark highlight
+                cardsInZone.forEach(c => c.classList.remove('energy-spark-card'));
             }
 
             // Unknown zone: reset orientation to vertical
@@ -11332,6 +11522,20 @@ function renderPlaytestBarrier() {
 
             // Update combat stats for mid zones
             updateZoneCombatStats(zoneId);
+
+            // Stacking Rule for combat zones:
+            // Control tokens and Sealed tokens ALWAYS go on top of the stack!
+            if (zone.classList.contains('snap-stack')) {
+                cardsInZone.sort((a, b) => {
+                    const getTopPriority = (el) => {
+                        const name = (el.cardData && el.cardData.name) || el.title || el.id || '';
+                        if (/control/i.test(name)) return 2; // Control token on topmost
+                        if (/seal/i.test(name)) return 1;    // Sealed token on top
+                        return 0;                            // regular cards/shield/temptation
+                    };
+                    return getTopPriority(b) - getTopPriority(a);
+                });
+            }
 
             const cardWidth = 120;
             const cardHeight = 168;
@@ -11356,11 +11560,10 @@ function renderPlaytestBarrier() {
                 }
                 else if (zone.classList.contains('snap-stack')) {
                     // Stacking Rule: Limit of 3 cards.
-                    // The FIRST card placed in the stack (index 0) stays ON TOP (highest z-index: 30).
+                    // The FIRST card in sorted order (index 0) stays ON TOP (highest z-index: 30).
                     // Subordinate cards stack underneath with a compact 22px vertical offset.
                     if (index >= 3) return;
                     element.style.left = (zoneCenterX - cardWidth / 2) + 'px';
-                    // Base positioning at zoneTop + 6px so stacked cards never bleed past the zone border
                     element.style.top = (zoneTop + 6 + (index * 22)) + 'px';
                     element.style.zIndex = 30 - index;
                 }
@@ -12797,7 +13000,7 @@ function renderPlaytestBarrier() {
             return html;
         }
 
-        function renderOpponentBoardView() {
+                function renderOpponentBoardView() {
             const oppHalf = document.getElementById('pvp-opponent-half');
             if (!oppHalf) return;
 
@@ -12812,13 +13015,13 @@ function renderPlaytestBarrier() {
                 const bSvg = getCardSvg(oppBarrier);
                 const bImg = (oppBarrier.url && !oppBarrier.url.includes('Barrier_Card_Back')) ? oppBarrier.url : bSvg;
                 barrierCardHtml = `
-                    <div id="opp-active-barrier-card" onclick="handleOpponentBarrierClick()" style="width: 210px; height: 135px; border: 2.5px solid #ffd700; border-radius: 6px; position: relative; overflow: hidden; background: #141824 url('${bImg}') center/cover no-repeat; box-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 15px rgba(255, 61, 87, 0.4); cursor: pointer;" title="Active Barrier: ${oppBarrier.name} (Stack: ${pvpOpponentBarriers})">
+                    <div id="opp-active-barrier-card" onclick="handleOpponentBarrierClick(event)" style="width: 210px; height: 135px; border: 2.5px solid #ffd700; border-radius: 6px; position: relative; overflow: hidden; background: #141824 url('${bImg}') center/cover no-repeat; box-shadow: 0 4px 15px rgba(0,0,0,0.8), 0 0 15px rgba(255, 61, 87, 0.4); cursor: pointer;" title="Active Barrier: ${oppBarrier.name} (Stack: ${pvpOpponentBarriers})">
                         <div style="position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(180deg, rgba(10,12,20,0.92) 0%, transparent 100%); padding: 4px 8px; display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-size: 11px; font-weight: 800; color: #ffd700; text-shadow: 0 1px 3px #000;">${oppBarrier.name}</span>
                             <span style="font-size: 10px; color: #ff3d57; font-weight: bold;">STACK: ${pvpOpponentBarriers}</span>
                         </div>
                         <div style="position: absolute; bottom: 4px; right: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.75); padding: 2px 6px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">
-                            🎯 CLICK TO ATTACK
+                            🎯 CLICK TO ATTACK / INSPECT
                         </div>
                     </div>
                 `;
@@ -12826,7 +13029,7 @@ function renderPlaytestBarrier() {
                 barrierCardHtml = `<div style="color:#ff3d57; font-size:11px; font-weight:bold; text-align:center; padding:15px;">💥 ALL BARRIERS BROKEN!</div>`;
             }
 
-            // Real visual cards fanned out in opponent's energy zone
+            // Real visual cards fanned out in opponent's energy zone with Spark golden highlight
             let energyCardsHtml = '';
             const energyList = (typeof aiEnergyCards !== 'undefined' && aiEnergyCards.length > 0) ? aiEnergyCards : [];
             const displayCount = Math.min(pvpOpponentEnergy, 10);
@@ -12835,11 +13038,17 @@ function renderPlaytestBarrier() {
                 const cardObj = energyList[e] || (catalog.length > e ? catalog[e] : { name: 'Energy Card', type: 'Energy', color: 'Green' });
                 const svgUri = getCardSvg(cardObj);
                 const cardImgUrl = (cardObj.url && !cardObj.url.includes('Regular_Card_Back')) ? cardObj.url : svgUri;
+                const hasSpark = Boolean(cardObj.text && /spark/i.test(cardObj.text));
+                const sparkClass = hasSpark ? 'energy-spark-card' : '';
+                const sparkBorder = hasSpark 
+                    ? 'border: 2px solid #ffd700; box-shadow: 0 0 16px rgba(255, 215, 0, 0.95), inset 0 0 8px rgba(255, 215, 0, 0.5);'
+                    : 'border: 1.5px solid #00e676; box-shadow: 0 3px 8px rgba(0,0,0,0.8), 0 0 8px rgba(0, 230, 118, 0.4);';
 
                 energyCardsHtml += `
-                    <div style="width: 54px; height: 76px; border: 1.5px solid #00e676; border-radius: 4px; overflow: hidden; background: #121e16; box-shadow: 0 3px 8px rgba(0,0,0,0.8), 0 0 8px rgba(0, 230, 118, 0.4); flex-shrink: 0; margin-left: ${e > 0 ? '-18px' : '0'}; transform: rotate(${(e - displayCount/2) * 2.5}deg); z-index: ${e + 1}; position: relative; cursor: pointer;" title="${cardObj.name} (Energy Card)">
+                    <div class="${sparkClass}" onclick="event.stopPropagation(); selectFieldCardForInspection(this, ${JSON.stringify(cardObj).replace(/"/g, '&quot;')})" style="width: 54px; height: 76px; ${sparkBorder} border-radius: 4px; overflow: hidden; background: #121e16; flex-shrink: 0; margin-left: ${e > 0 ? '-18px' : '0'}; transform: rotate(${(e - displayCount/2) * 2.5}deg); z-index: ${e + 1}; position: relative; cursor: pointer;" title="${cardObj.name} (${cardObj.type || 'Card'})${hasSpark ? ' ⚡ SPARK ABILITY' : ''}">
                         <img src="${cardImgUrl}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='${svgUri}';">
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.88); font-size: 7.5px; color: #00e676; padding: 1px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                        ${hasSpark ? '<div style="position: absolute; top: 1px; right: 2px; background: #ffd700; color: #000; font-size: 7px; font-weight: 900; padding: 0 2px; border-radius: 2px; box-shadow: 0 0 4px #ffd700;">⚡ SPARK</div>' : ''}
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.88); font-size: 7.5px; color: ${hasSpark ? '#ffd700' : '#00e676'}; padding: 1px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
                             ${cardObj.name || 'Energy'}
                         </div>
                     </div>
@@ -12883,7 +13092,7 @@ function renderPlaytestBarrier() {
 
                 <!-- Opponent Backrow (y = 60px to 210px) -->
                 <!-- Opponent Active Barrier Zone -->
-                <div id="opp-zone-barrier" class="pvp-opp-zone" onclick="handleOpponentBarrierClick()" style="position: absolute; top: 60px; left: 60px; width: 220px; height: 150px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08); z-index: 15; cursor: pointer;">
+                <div id="opp-zone-barrier" class="pvp-opp-zone" onclick="handleOpponentBarrierClick(event)" style="position: absolute; top: 60px; left: 60px; width: 220px; height: 150px; display:flex; flex-direction:column; justify-content:center; align-items:center; border: 2px solid #ff3d57; border-radius: 6px; background: rgba(255, 61, 87, 0.08); z-index: 15; cursor: pointer;">
                     ${barrierCardHtml}
                 </div>
 
@@ -12934,7 +13143,7 @@ function renderPlaytestBarrier() {
                 </div>
             `;
 
-            // Render existing units in pvpOpponentField
+            // Render existing units in pvpOpponentField with single click inspection and attack targeting
             if (typeof pvpOpponentField !== 'undefined') {
                 for (let i = 1; i <= 4; i++) {
                     const cZone = document.getElementById(`opp-cards-zone-${i}`);
@@ -12948,11 +13157,19 @@ function renderPlaytestBarrier() {
                             img.style.cursor = 'pointer';
                             img.title = `${unit.name} (ATK: ${unit.atk}, DEF: ${unit.hp})`;
                             img.onerror = () => { img.onerror = null; img.src = uSvg; };
-                            img.onclick = () => {
+                            img.cardData = unit;
+
+                            img.onclick = (e) => {
+                                e.stopPropagation();
                                 if (isPvPAttackTargeting) {
                                     confirmPvPAttackTarget('unit', `opp-field-zone-${i}`);
+                                } else {
+                                    selectFieldCardForInspection(img, unit);
                                 }
                             };
+                            img.onmouseover = () => updatePlaytestDetailView(unit);
+                            img.onmouseleave = () => resetPlaytestDetailToActiveBarrier();
+
                             cZone.appendChild(img);
                         });
                     }
@@ -12993,7 +13210,7 @@ function renderPlaytestBarrier() {
             updatePvPTurnDisplay();
 
             if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({
+                sendPvPPacket({
                     type: 'TURN_CHANGE',
                     turnPlayer: pvpIsMyTurn ? 'guest' : 'host'
                 });
@@ -13005,7 +13222,7 @@ function renderPlaytestBarrier() {
         function exitPvPArena() {
             if (confirm("Are you sure you want to surrender and leave the duel?")) {
                 if (pvpConnection && pvpConnection.open) {
-                    pvpConnection.send({ type: 'SURRENDER' });
+                    sendPvPPacket({ type: 'SURRENDER' });
                     try { pvpConnection.close(); } catch(e){}
                 }
                 isOnlinePvPActive = false;
@@ -13022,40 +13239,41 @@ function renderPlaytestBarrier() {
         }
 
         function sendPvPBoardSync() {
-            if (!pvpConnection || !pvpConnection.open) return;
+            if (!isOnlinePvPActive) return;
 
-            // Collect local field zone cards
-            const localField = {};
+            const fieldState = {};
             for (let i = 1; i <= 4; i++) {
-                const zoneCards = Array.from(document.querySelectorAll('.play-card, .token'))
-                    .filter(c => c.dataset.zone === `mid-zone-${i}`)
-                    .map(c => ({
-                        id: c.id,
-                        name: c.cardData ? c.cardData.name : 'Unit',
-                        url: c.src,
-                        isRested: c.classList.contains('rotated'),
-                        atk: c.cardData ? c.cardData.atk : '',
-                        def: c.cardData ? c.cardData.hp : ''
-                    }));
-                localField[`zone-${i}`] = zoneCards;
+                const zone = document.getElementById(`mid-zone-${i}`);
+                if (zone) {
+                    const cards = Array.from(document.querySelectorAll('.play-card, .token'))
+                        .filter(c => c.dataset.zone === `mid-zone-${i}`)
+                        .map(c => ({
+                            id: c.id,
+                            name: c.cardData ? c.cardData.name : 'Card',
+                            url: c.src,
+                            isRested: c.classList.contains('rotated'),
+                            atk: c.cardData ? (parseInt(c.cardData.atk) || 0) : 0,
+                            def: c.cardData ? (parseInt(c.cardData.hp) || 0) : 0
+                        }));
+                    fieldState[`zone-${i}`] = cards;
+                }
             }
 
-            const handCount = (typeof playtestHand !== 'undefined' && Array.isArray(playtestHand)) ? playtestHand.length : 7;
-            const energyCount = document.querySelectorAll('.play-card[data-zone="bottom-fan-zone"]').length;
+            const handCount = (document.getElementById('hand') ? document.getElementById('hand').children.length : 0);
 
-            pvpConnection.send({
+            sendPvPPacket({
                 type: 'BOARD_STATE_SYNC',
-                barriers: (typeof playtestBarrierDeck !== "undefined" && Array.isArray(playtestBarrierDeck)) ? playtestBarrierDeck.length : 5,
-                energy: energyCount,
+                barriers: playtestBarrierDeck.length + (activeBarrier ? 1 : 0),
+                energy: playtestEnergyCount,
                 handCount: handCount,
-                field: localField
+                field: fieldState
             });
         }
 
         function broadcastLocalCardAction(actionType, cardData, zoneId) {
             if (!isOnlinePvPActive || !pvpConnection || !pvpConnection.open) return;
 
-            pvpConnection.send({
+            sendPvPPacket({
                 type: 'CARD_ACTION',
                 action: actionType,
                 card: {
@@ -13221,7 +13439,7 @@ function renderPlaytestBarrier() {
 
             // In WebRTC Multiplayer Mode: Broadcast to peer
             if (pvpConnection && pvpConnection.open) {
-                pvpConnection.send({
+                sendPvPPacket({
                     type: 'ATTACK_DECLARED',
                     combat: pvpActiveCombat
                 });
