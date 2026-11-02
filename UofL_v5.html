@@ -472,13 +472,13 @@
             transition: width 0.2s ease, aspect-ratio 0.2s ease, max-width 0.2s ease, box-shadow 0.2s ease;
         }
         .detail-image.vertical-perspective {
-            width: 220px;
-            max-width: 245px;
+            width: 295px;
+            max-width: 325px;
             aspect-ratio: 2.5 / 3.5;
         }
         .detail-image.horizontal-perspective {
             width: 100%;
-            max-width: 335px;
+            max-width: 340px;
             aspect-ratio: 3.5 / 2.5;
         }
         .detail-title {
@@ -4135,7 +4135,7 @@
 
     <!-- ================= CARD DATABASE EDITOR MODAL (ADMIN ONLY) ================= -->
     <div id="card-editor-modal" class="modal-hidden">
-        <div class="modal-content" style="max-width: 950px; width: 95vw; background: #141622; border: 2px solid #ab47bc; box-shadow: 0 10px 40px rgba(0,0,0,0.9); max-height: 90vh; display: flex; flex-direction: column;">
+        <div class="modal-content" style="max-width: 1260px; width: 96vw; background: #141622; border: 2px solid #ab47bc; box-shadow: 0 10px 40px rgba(0,0,0,0.9); max-height: 92vh; display: flex; flex-direction: column;">
             
             <!-- Modal Header -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2a2c3d; padding-bottom: 10px; margin-bottom: 12px; flex-shrink: 0;">
@@ -4146,27 +4146,28 @@
                 <button class="close-btn" onclick="closeCardEditorModal()">X</button>
             </div>
 
-            <!-- Modal Body (Two-Column Flex) -->
-            <div style="display: flex; gap: 15px; overflow-y: auto; flex-grow: 1; padding-right: 4px;">
+            <!-- Modal Body (Three-Column Flex: List | Enriched Image Preview | Attribute Form) -->
+            <div style="display: flex; gap: 16px; overflow-y: auto; flex-grow: 1; padding-right: 4px; align-items: stretch;">
                 
-                <!-- Left Column: Card Selector & Live Preview (~300px) -->
-                <div style="width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px;">
+                <!-- Column 1: Card Selector List (~240px) -->
+                <div style="width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px;">
                     <div style="font-size: 12px; font-weight: bold; color: #ffd700;">Select Card to Edit:</div>
                     <input type="text" id="card-editor-search" placeholder="Filter card list..." oninput="filterCardEditorList(this.value)" style="width: 100%; box-sizing: border-box; background: #0e1017; border: 1px solid #3a3b4f; border-radius: 4px; padding: 6px 10px; color: #fff; font-size: 12px;">
                     
-                    <select id="card-editor-select" size="11" onchange="loadCardIntoEditor(this.value)" style="width: 100%; height: 230px; background: #0e1017; color: #fff; border: 1px solid #3a3b4f; border-radius: 4px; padding: 4px; font-size: 12px; outline: none;">
+                    <select id="card-editor-select" size="20" onchange="loadCardIntoEditor(this.value)" style="width: 100%; flex-grow: 1; min-height: 420px; background: #0e1017; color: #fff; border: 1px solid #3a3b4f; border-radius: 4px; padding: 4px; font-size: 12px; outline: none;">
                         <!-- Populated by JS -->
                     </select>
-
-                    <div style="background: #0e1017; border: 1px solid #2a2c3d; border-radius: 6px; padding: 10px; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                        <div style="font-size: 11px; color: #888; margin-bottom: 6px;">Image Preview:</div>
-                        <img id="card-editor-image-preview" src="Assets/Regular_Card_Back.png" style="width: 180px; max-height: 250px; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);" onerror="this.onerror=null; this.src=getDefaultCardBackSvg();">
-                        <div id="card-editor-img-caption" style="font-size: 10px; color: #aaa; margin-top: 6px; word-break: break-all;">No card selected</div>
-                    </div>
                 </div>
 
-                <!-- Right Column: Card Attribute Fields Form (~600px) -->
-                <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
+                <!-- Column 2: Large High-Res Card Image Preview (~340px) Positioned Right of Card List -->
+                <div style="width: 340px; flex-shrink: 0; background: #0e1017; border: 1.5px solid #2a2c3d; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);">
+                    <div style="font-size: 11px; font-weight: bold; color: #ffd700; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase;">Image Preview</div>
+                    <img id="card-editor-image-preview" src="Assets/Regular_Card_Back.png" style="width: 100%; max-width: 320px; height: auto; max-height: 460px; object-fit: contain; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.85), 0 0 15px rgba(186,104,200,0.25); border: 1.5px solid rgba(186,104,200,0.4);" onerror="this.onerror=null; this.src=getDefaultCardBackSvg();">
+                    <div id="card-editor-img-caption" style="font-size: 10.5px; color: #aaa; margin-top: 8px; text-align: center; word-break: break-all; max-width: 310px;">No card selected</div>
+                </div>
+
+                <!-- Column 3: Card Attribute Fields Form (Flex Grow) -->
+                <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px; min-width: 380px;">
                     
                     <!-- Row 1: Name & ID -->
                     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
@@ -4573,33 +4574,33 @@
     
     <!-- ================= UNIT FIELD CONTEXT MENU (ATTACK, EFFECT, BLOCK) ================= -->
     <div id="unit-context-menu" class="modal-hidden">
-        <div class="modal-content" style="position: fixed; max-width: 380px; width: 350px; background: rgba(12, 16, 28, 0.98); border: 2px solid #00e5ff; border-radius: 8px; box-shadow: 0 10px 45px rgba(0,0,0,0.95), 0 0 30px rgba(0, 229, 255, 0.45); padding: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a354d; padding-bottom: 8px; margin-bottom: 12px;">
-                <span id="unit-context-title" style="font-size: 13.5px; font-weight: 800; color: #00e5ff;">⚔️ Unit Actions</span>
-                <button class="btn-red" onclick="closeUnitContextMenu()" style="padding: 2px 7px; font-size: 10.5px;">✕</button>
+        <div class="modal-content" style="position: fixed; max-width: 290px; width: 280px; background: rgba(12, 16, 28, 0.98); border: 2px solid #00e5ff; border-radius: 8px; box-shadow: 0 10px 45px rgba(0,0,0,0.95), 0 0 30px rgba(0, 229, 255, 0.45); padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a354d; padding-bottom: 6px; margin-bottom: 8px;">
+                <span id="unit-context-title" style="font-size: 11.5px; font-weight: 800; color: #00e5ff;">⚔️ Unit Actions</span>
+                <button class="btn-red" onclick="closeUnitContextMenu()" style="padding: 1px 6px; font-size: 9.5px;">✕</button>
             </div>
             
-            <div id="unit-context-main-actions" style="display: flex; flex-direction: column; gap: 8px;">
-                <button id="unit-context-attack-btn" class="btn-green" onclick="handleUnitContextAttackClick()" style="padding: 8px 12px; font-size: 12px; font-weight: bold; text-align: left; background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(15, 30, 20, 0.9)); border-color: #4CAF50;">
-                    ⚔️ <b>Declare Attack</b> (Target Barrier or Rested Unit)
+            <div id="unit-context-main-actions" style="display: flex; flex-direction: column; gap: 6px;">
+                <button id="unit-context-attack-btn" class="btn-green" onclick="handleUnitContextAttackClick()" style="padding: 6px 10px; font-size: 10.5px; font-weight: 600; text-align: left; background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(15, 30, 20, 0.9)); border-color: #4CAF50; line-height: 1.3;">
+                    ⚔️ <b>Declare Attack</b> <span style="font-size: 9px; opacity: 0.8; font-weight: normal; display: block;">Target Barrier or Rested Unit</span>
                 </button>
-                <button class="btn-purple" onclick="handleUnitContextEffectClick()" style="padding: 8px 12px; font-size: 12px; font-weight: bold; text-align: left; background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(25, 15, 40, 0.9)); border-color: #9d4edd;">
-                    ✨ <b>Use Card Effect / Ability</b>
+                <button class="btn-purple" onclick="handleUnitContextEffectClick()" style="padding: 6px 10px; font-size: 10.5px; font-weight: 600; text-align: left; background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(25, 15, 40, 0.9)); border-color: #9d4edd; line-height: 1.3;">
+                    ✨ <b>Use Card Effect</b> <span style="font-size: 9px; opacity: 0.8; font-weight: normal; display: block;">Activate Special Ability</span>
                 </button>
-                <button class="btn-blue" onclick="handleUnitContextBlockClick()" style="padding: 8px 12px; font-size: 12px; font-weight: bold; text-align: left; background: linear-gradient(135deg, rgba(0, 229, 255, 0.3), rgba(15, 30, 45, 0.9)); border-color: #00e5ff;">
-                    🛡️ <b>Guard / Stand to Block</b>
+                <button class="btn-blue" onclick="handleUnitContextBlockClick()" style="padding: 6px 10px; font-size: 10.5px; font-weight: 600; text-align: left; background: linear-gradient(135deg, rgba(0, 229, 255, 0.3), rgba(15, 30, 45, 0.9)); border-color: #00e5ff; line-height: 1.3;">
+                    🛡️ <b>Guard / Stand</b> <span style="font-size: 9px; opacity: 0.8; font-weight: normal; display: block;">Stand Unit to Block</span>
                 </button>
             </div>
 
             <!-- Target Selection View (Appears when Declare Attack is selected) -->
-            <div id="unit-context-target-view" style="display: none; margin-top: 10px;">
-                <div style="font-size: 11.5px; font-weight: bold; color: #ffd700; margin-bottom: 8px;">
+            <div id="unit-context-target-view" style="display: none; margin-top: 8px;">
+                <div style="font-size: 10.5px; font-weight: bold; color: #ffd700; margin-bottom: 6px;">
                     🎯 Choose a legal target for this attack:
                 </div>
-                <div id="unit-context-targets-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto;">
+                <div id="unit-context-targets-list" style="display: flex; flex-direction: column; gap: 5px; max-height: 200px; overflow-y: auto;">
                     <!-- Populated dynamically with barriers and rested opponent units -->
                 </div>
-                <button class="btn-gray" onclick="showUnitContextMainView()" style="width: 100%; margin-top: 8px; padding: 4px; font-size: 11px;">
+                <button class="btn-gray" onclick="showUnitContextMainView()" style="width: 100%; margin-top: 6px; padding: 3px 6px; font-size: 10px;">
                     ◀ Back to Actions
                 </button>
             </div>
@@ -4954,25 +4955,7 @@
             img.src = 'Assets/Regular_Card_Back.png';
         }
 
-        function handleBarrierBackImgError(img) {
-            if (!img) return;
-            if (!img.dataset.triedWebp) {
-                img.dataset.triedWebp = 'true';
-                img.src = 'Assets/Barrier_Card_Back.webp';
-                return;
-            }
-            if (!img.dataset.triedLower) {
-                img.dataset.triedLower = 'true';
-                img.src = 'assets/Barrier_Card_Back.png';
-                return;
-            }
-            if (!img.dataset.triedRoot) {
-                img.dataset.triedRoot = 'true';
-                img.src = 'Barrier_Card_Back.png';
-                return;
-            }
-            img.src = getDefaultBarrierBackSvg();
-        }
+
     
 
         // --- 1. FULL CARD DATABASE (149 Cards) ---
@@ -7358,20 +7341,7 @@
             }
         }
 
-        function cycleSplashHero(direction = 1) {
-            setSplashHero(currentSplashHeroIndex + direction);
-        }
 
-        function handleHeroImgError(img) {
-            if (!img) return;
-            const hero = SPLASH_HEROES[currentSplashHeroIndex] || SPLASH_HEROES[0];
-            if (!img.dataset.triedPng) {
-                img.dataset.triedPng = 'true';
-                img.src = hero.png;
-                return;
-            }
-            img.style.display = 'none';
-        }
 
         // =====================================================================
         // --- PLAYER SETTINGS & PREFERENCES ENGINE ---
@@ -9583,16 +9553,6 @@ Ensure that:
         // =====================================================================
         // --- GOOGLE SHEETS SAVED DECKS ENGINE ---
         // =====================================================================
-        function initBuilder() {
-            loadCustomCardOverrides();
-            seedStarterDeck();
-            renderSavedDecksDropdown();
-            renderCatalog(catalog);
-            fetchLiveGoogleSheetBackend();
-            refreshSavedDecks();
-            updateDeckView();
-            resetBuilderDetailView();
-        }
 
         // --- CATALOG RENDERING & FILTERING ---
         function renderCatalog(cardsToRender) {
@@ -10224,12 +10184,12 @@ Ensure that:
 
             if (content) {
                 const rect = unitEl.getBoundingClientRect();
-                const mWidth = 350;
-                let left = rect.right + 12;
+                const mWidth = 280;
+                let left = rect.right + 10;
                 if (left + mWidth > window.innerWidth - 10) {
-                    left = Math.max(10, rect.left - mWidth - 12);
+                    left = Math.max(10, rect.left - mWidth - 10);
                 }
-                let top = Math.max(20, Math.min(window.innerHeight - 340, rect.top - 20));
+                let top = Math.max(20, Math.min(window.innerHeight - 300, rect.top - 10));
                 content.style.left = left + 'px';
                 content.style.top = top + 'px';
             }
@@ -10288,8 +10248,8 @@ Ensure that:
             // Target Option 1: Opponent Barrier Zone (Always legal)
             const bBtn = document.createElement('button');
             bBtn.className = 'btn-red';
-            bBtn.style.padding = '8px 10px';
-            bBtn.style.fontSize = '11.5px';
+            bBtn.style.padding = '5px 8px';
+            bBtn.style.fontSize = '10px';
             bBtn.style.textAlign = 'left';
             bBtn.style.display = 'flex';
             bBtn.style.justifyContent = 'space-between';
@@ -10751,7 +10711,10 @@ function renderPlaytestBarrier() {
             const bZone = document.getElementById('zone-top-left');
             const surface = document.getElementById('playmat-surface');
 
-            if (bZone) {
+            const stackInd = document.getElementById('barrier-stack-indicator');
+            if (stackInd) {
+                stackInd.innerText = `Stack: ${playtestBarrierDeck.length}`;
+            } else if (bZone) {
                 bZone.innerHTML = `
                     <div style="font-size: 11px; font-weight: bold; color: #ffd700; letter-spacing: 1px; text-transform: uppercase;">Barrier Zone</div>
                     <div id="barrier-stack-indicator" style="font-size: 10px; color: #aaa;">Stack: ${playtestBarrierDeck.length}</div>
@@ -11445,12 +11408,10 @@ function renderPlaytestBarrier() {
             // Center of circle: left = 1090 + 140 = 1230px, top = 51 + 140 = 191px.
             // Card (120px x 168px) centered in circle:
             // left = 1230 - 60 = 1170px; top = 191 - 84 = 107px.
-            const jitterX = Math.random() * 24 - 12;
-            const jitterY = Math.random() * 24 - 12;
-
+            const actCoords = getActivationZoneCoordinates();
             cardEl.style.position = 'absolute';
-            cardEl.style.left = (1170 + jitterX) + 'px';
-            cardEl.style.top = (107 + jitterY) + 'px';
+            cardEl.style.left = actCoords.left;
+            cardEl.style.top = actCoords.top;
             cardEl.style.zIndex = 30;
 
             surface.appendChild(cardEl);
@@ -11542,7 +11503,24 @@ function renderPlaytestBarrier() {
             img.src = getCardSvg(def);
         }
 
-        function spawnToken(tokenKey = 'shield') {
+                function getActivationZoneCoordinates() {
+            const actZone = document.getElementById('zone-activation');
+            if (actZone) {
+                const zLeft = actZone.offsetLeft;
+                const zTop = actZone.offsetTop;
+                const zW = actZone.offsetWidth || 140;
+                const zH = actZone.offsetHeight || 160;
+                const jitterX = Math.random() * 20 - 10;
+                const jitterY = Math.random() * 20 - 10;
+                return {
+                    left: (zLeft + (zW - 120) / 2 + jitterX) + 'px',
+                    top: (zTop + (zH - 168) / 2 + jitterY) + 'px'
+                };
+            }
+            return { left: '1170px', top: '107px' };
+        }
+
+function spawnToken(tokenKey = 'shield') {
             const def = TOKEN_DEFINITIONS[tokenKey.toLowerCase()] || TOKEN_DEFINITIONS.shield;
             const surface = document.getElementById('playmat-surface') || document.getElementById('playmat');
             const token = document.createElement('img');
@@ -11569,10 +11547,9 @@ function renderPlaytestBarrier() {
             token.style.borderRadius = '6px';
             token.style.zIndex = 30;
 
-            const jitterX = Math.random() * 24 - 12;
-            const jitterY = Math.random() * 24 - 12;
-            token.style.left = (1170 + jitterX) + 'px';
-            token.style.top = (107 + jitterY) + 'px';
+            const actCoords = getActivationZoneCoordinates();
+            token.style.left = actCoords.left;
+            token.style.top = actCoords.top;
 
             token.onclick = (e) => handleCardClick(e);
             token.ondblclick = () => toggleRotation(token);
@@ -11842,8 +11819,9 @@ function renderPlaytestBarrier() {
                     const el = document.getElementById(id);
                     if (!el) return;
                     el.style.position = 'absolute';
-                    el.style.left = (1170 + Math.random() * 24 - 12) + 'px';
-                    el.style.top = (107 + Math.random() * 24 - 12) + 'px';
+                    const actCoords = getActivationZoneCoordinates();
+                    el.style.left = actCoords.left;
+                    el.style.top = actCoords.top;
                     el.style.zIndex = 30;
                     surface.appendChild(el);
                 });
@@ -11961,6 +11939,9 @@ function renderPlaytestBarrier() {
             const zone = document.getElementById(zoneId);
             if (!zone) return;
 
+            const cardWidth = 120;
+            const cardHeight = 168;
+
             const zoneLeft = zone.offsetLeft;
             const zoneTop = zone.offsetTop;
             const zoneW = zone.offsetWidth || 145;
@@ -11982,8 +11963,7 @@ function renderPlaytestBarrier() {
                     const text = (c.cardData && c.cardData.text) || '';
                     if (/spark/i.test(text)) {
                         c.classList.add('energy-spark-card');
-                        c.title = `⚡ SPARK ABILITY: ${(c.cardData && c.cardData.name) || 'Card'}
-${text}`;
+                        c.title = `⚡ SPARK ABILITY: ${(c.cardData && c.cardData.name) || 'Card'}\n${text}`;
                     } else {
                         c.classList.remove('energy-spark-card');
                     }
@@ -12004,22 +11984,25 @@ ${text}`;
             // Update combat stats for mid zones
             updateZoneCombatStats(zoneId);
 
+            const surfaceEl = document.getElementById('playmat-surface') || document.getElementById('playmat');
+
             // Stacking Rule for combat zones:
-            // Control tokens (priority 2) and Sealed tokens (priority 1) ALWAYS go on top of the stack!
+            // Control tokens (3) & Sealed tokens (2) on top; Units (1) in middle; Shield (0) moves UNDER unit; Temptation (-1) ALWAYS bottom!
             if (zone.classList.contains('snap-stack')) {
                 cardsInZone.sort((a, b) => {
                     const getTopPriority = (el) => {
                         const name = (el.cardData && el.cardData.name) || el.title || el.id || '';
                         const src = el.src || '';
-                        if (/control/i.test(name) || /control/i.test(src)) return 2; // Control token on topmost
-                        if (/seal/i.test(name) || /seal/i.test(src)) return 1;       // Sealed token on top
-                        return 0;                                                    // regular cards/shield/temptation
+                        if (/control/i.test(name) || /control/i.test(src)) return 3; // Control token topmost
+                        if (/seal/i.test(name) || /seal/i.test(src)) return 2;       // Sealed token on top
+                        if (/tempt/i.test(name) || /tempt/i.test(src)) return -1;    // Temptation token ALWAYS on bottom
+                        if (/shield/i.test(name) || /shield/i.test(src)) return 0;   // Shield token moves UNDER unit
+                        return 1;                                                    // Regular unit cards
                     };
                     return getTopPriority(b) - getTopPriority(a);
                 });
 
                 // Re-append sorted elements in DOM tree order so index 0 is topmost element
-                const surfaceEl = document.getElementById('playmat-surface') || document.getElementById('playmat');
                 if (surfaceEl) {
                     cardsInZone.slice().reverse().forEach(el => surfaceEl.appendChild(el));
                 }
@@ -12030,64 +12013,13 @@ ${text}`;
                 const hasCtrl = cardsInZone.some(c => /control/i.test((c.cardData && c.cardData.name) || c.title || c.id || c.src || ''));
 
                 cardsInZone.forEach(c => {
-                    // Shield visual indicator
-                    if (hasShield) {
-                        c.classList.add('unit-is-shielded');
-                    } else {
-                        c.classList.remove('unit-is-shielded');
-                    }
-
-                    // Sealed visual indicator
-                    if (hasSeal) {
-                        c.classList.add('unit-is-sealed');
-                    } else {
-                        c.classList.remove('unit-is-sealed');
-                    }
-
-                    // Controlled visual indicator
-                    if (hasCtrl) {
-                        c.classList.add('unit-is-controlled');
-                    } else {
-                        c.classList.remove('unit-is-controlled');
-                    }
+                    if (hasShield) c.classList.add('unit-is-shielded'); else c.classList.remove('unit-is-shielded');
+                    if (hasSeal) c.classList.add('unit-is-sealed'); else c.classList.remove('unit-is-sealed');
+                    if (hasCtrl) c.classList.add('unit-is-controlled'); else c.classList.remove('unit-is-controlled');
                 });
-
-                // Attach/update shield badge overlay on top card
-                const topCard = cardsInZone[0];
-                if (topCard) {
-                    let sBadge = topCard.querySelector ? topCard.querySelector('.shield-indicator-badge') : null;
-                    if (hasShield && !sBadge) {
-                        const bEl = document.createElement('div');
-                        bEl.className = 'shield-indicator-badge';
-                        bEl.innerText = '🛡️ SHIELDED';
-                        topCard.style.position = 'absolute';
-                        // For img elements, attach badge as absolute sibling
-                        let existingBadge = document.getElementById(`shield_badge_${zoneId}`);
-                        if (!existingBadge && surfaceEl) {
-                            existingBadge = document.createElement('div');
-                            existingBadge.id = `shield_badge_${zoneId}`;
-                            existingBadge.className = 'shield-indicator-badge';
-                            existingBadge.innerText = '🛡️ SHIELDED';
-                            surfaceEl.appendChild(existingBadge);
-                        }
-                        if (existingBadge) {
-                            existingBadge.style.display = 'block';
-                            existingBadge.style.left = (zoneCenterX - cardWidth / 2 + 4) + 'px';
-                            existingBadge.style.top = (zoneTop + 10) + 'px';
-                        }
-                    } else if (!hasShield) {
-                        const existingBadge = document.getElementById(`shield_badge_${zoneId}`);
-                        if (existingBadge) existingBadge.style.display = 'none';
-                    }
-                }
-            } else {
-                const existingBadge = document.getElementById(`shield_badge_${zoneId}`);
-                if (existingBadge) existingBadge.style.display = 'none';
             }
 
-            const cardWidth = 120;
-            const cardHeight = 168;
-
+            // Position each card with proper 22px vertical offsets in stack
             cardsInZone.forEach((element, index) => {
                 element.style.position = 'absolute';
 
@@ -12108,7 +12040,7 @@ ${text}`;
                 }
                 else if (zone.classList.contains('snap-stack')) {
                     // Stacking Rule: Limit of 3 cards.
-                    // The FIRST card in sorted order (index 0) stays ON TOP (highest z-index: 30).
+                    // The FIRST card in sorted order (index 0) stays ON TOP (highest z-index: 38).
                     // Subordinate cards stack underneath with a compact 22px vertical offset.
                     if (index >= 3) return;
                     element.style.left = (zoneCenterX - cardWidth / 2) + 'px';
@@ -12126,6 +12058,35 @@ ${text}`;
                     element.style.zIndex = 10 + index;
                 }
             });
+
+            // Update Shield badge tied directly to the unit / top card of the stack
+            let existingBadge = document.getElementById(`shield_badge_${zoneId}`);
+            if (zone.classList.contains('snap-stack')) {
+                const hasShield = cardsInZone.some(c => /shield/i.test((c.cardData && c.cardData.name) || c.title || c.id || c.src || ''));
+                const topCard = cardsInZone[0];
+                if (hasShield && topCard) {
+                    if (!existingBadge && surfaceEl) {
+                        existingBadge = document.createElement('div');
+                        existingBadge.id = `shield_badge_${zoneId}`;
+                        existingBadge.className = 'shield-indicator-badge';
+                        existingBadge.innerText = '🛡️ SHIELDED';
+                        surfaceEl.appendChild(existingBadge);
+                    }
+                    if (existingBadge) {
+                        existingBadge.style.display = 'block';
+                        const cLeft = parseFloat(topCard.style.left) || (zoneCenterX - cardWidth / 2);
+                        const cTop = parseFloat(topCard.style.top) || (zoneTop + 6);
+                        existingBadge.style.left = (cLeft + 6) + 'px';
+                        existingBadge.style.top = (cTop + 6) + 'px';
+                        existingBadge.style.zIndex = 42;
+                        existingBadge.style.pointerEvents = 'none';
+                    }
+                } else if (existingBadge) {
+                    existingBadge.style.display = 'none';
+                }
+            } else if (existingBadge) {
+                existingBadge.style.display = 'none';
+            }
         }
 
         function syncDynamicViewportHeight() {
@@ -13421,68 +13382,7 @@ ${text}`;
             }, 750);
         }
 
-        function executeAIAttackPhase() {
-            if (!isAIModeActive || pvpIsMyTurn) return;
 
-            // Find an eligible standing AI unit in pvpOpponentField
-            let attackerUnit = null;
-            let attackerZone = 0;
-
-            for (let i = 1; i <= 4; i++) {
-                if (pvpOpponentField && pvpOpponentField[`zone-${i}`] && pvpOpponentField[`zone-${i}`].length > 0) {
-                    const u = pvpOpponentField[`zone-${i}`][0];
-                    if (!u.isRested) {
-                        attackerUnit = u;
-                        attackerZone = i;
-                        break;
-                    }
-                }
-            }
-
-            if (attackerUnit) {
-                // Rest the attacker
-                attackerUnit.isRested = true;
-                renderOpponentBoardView();
-
-                const atkName = attackerUnit.name || 'Unit';
-                const atkPower = attackerUnit.atk || 4;
-
-                // Tactical Combat Evaluation: Check for standing player units to fight
-                let targetPlayerZone = null;
-                let targetPlayerCard = null;
-
-                for (let pz = 1; pz <= 4; pz++) {
-                    const pZone = document.getElementById(`mid-zone-${pz}`);
-                    const pCard = pZone ? pZone.querySelector('.play-card') : null;
-                    if (pCard && !pCard.classList.contains('rotated')) {
-                        targetPlayerZone = `mid-zone-${pz}`;
-                        targetPlayerCard = pCard;
-                        break;
-                    }
-                }
-
-                if (targetPlayerCard && targetPlayerCard.cardData && (parseInt(targetPlayerCard.cardData.hp) || 4) <= atkPower) {
-                    const defName = targetPlayerCard.cardData.name;
-                    logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) attacked your standing "${defName}"!`);
-                    openPvPFlowModalAsDefender({
-                        attacker: { name: atkName, atk: atkPower, def: attackerUnit.hp || 4 },
-                        targetType: 'unit',
-                        targetZoneId: targetPlayerZone
-                    });
-                } else {
-                    logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) declared attack on your Barrier Zone!`);
-                    openPvPFlowModalAsDefender({
-                        attacker: { name: atkName, atk: atkPower, def: attackerUnit.hp || 4 },
-                        targetType: 'barrier',
-                        targetZoneId: 'zone-top-left'
-                    });
-                }
-            } else {
-                // Pass turn back to player with an action log
-                logAction(`⏩ ${pvpRemotePlayer.name} passed turn. It is now your turn!`);
-                passPvPTurn();
-            }
-        }
 
 
         function initPvPSplitBoard() {
@@ -13773,6 +13673,18 @@ ${text}`;
         }
 
         function passPvPTurn() {
+            if (typeof isAIModeActive !== 'undefined' && isAIModeActive) {
+                if (!pvpIsMyTurn) return;
+                pvpIsMyTurn = false;
+                readyAllCards();
+                updatePvPTurnDisplay();
+                logAction(`You passed turn to ${pvpRemotePlayer ? pvpRemotePlayer.name : 'AI'}.`);
+                setTimeout(() => {
+                    runAITurn();
+                }, 600);
+                return;
+            }
+
             if (!isOnlinePvPActive) {
                 readyAllCards();
                 return;
@@ -13803,7 +13715,7 @@ ${text}`;
                 if (playmat) playmat.classList.remove('pvp-split-active');
                 const oppHalf = document.getElementById('pvp-opponent-half');
                 if (oppHalf) oppHalf.remove();
-                const clash = document.getElementById('pvp-clash-divider');
+                const clash = document.getElementById('pvp-center-clash-divider') || document.getElementById('pvp-clash-divider');
                 if (clash) clash.remove();
                 const badge = document.getElementById('pvp-match-controls-badge');
                 if (badge) badge.remove();
@@ -14273,14 +14185,14 @@ ${text}`;
                     const defName = targetPlayerCard.cardData.name;
                     logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) attacked your standing "${defName}"!`);
                     openPvPFlowModalAsDefender({
-                        attacker: { name: atkName, atk: atkPower },
+                        attacker: { name: atkName, atk: atkPower, def: attackerUnit.hp || 4 },
                         targetType: 'unit',
                         targetZoneId: targetPlayerZone
                     });
                 } else {
                     logAction(`⚔️ [AI Combat]: ${pvpRemotePlayer.name}'s "${atkName}" (ATK: ${atkPower}) declared attack on your Barrier Zone!`);
                     openPvPFlowModalAsDefender({
-                        attacker: { name: atkName, atk: atkPower },
+                        attacker: { name: atkName, atk: atkPower, def: attackerUnit.hp || 4 },
                         targetType: 'barrier',
                         targetZoneId: 'zone-top-left'
                     });
