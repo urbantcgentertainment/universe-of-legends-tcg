@@ -8605,27 +8605,48 @@ Ensure that:
                         const json = await resp.json();
                         if (json.success) {
                             if (banner) {
-                                banner.style.background = 'rgba(76, 175, 80, 0.2)';
+                                banner.style.display = 'block';
+                                banner.style.background = 'rgba(76, 175, 80, 0.25)';
                                 banner.style.color = '#a5d6a7';
-                                banner.innerText = `Success: ${json.message || `Card "${name}" updated in Google Sheet!`}`;
+                                banner.innerText = `✅ Success: ${json.message || `Card "${name}" updated in Google Sheet!`}`;
                             }
-                            alert(`Success: Card "${name}" saved to Google Sheet!`);
+                            alert(`✅ Success: Card "${name}" was updated directly in your Google Sheet!`);
+                            logAction(`Admin saved card "${name}" to Google Sheet backend.`);
+                            return;
+                        } else {
+                            if (banner) {
+                                banner.style.display = 'block';
+                                banner.style.background = 'rgba(244, 67, 54, 0.25)';
+                                banner.style.color = '#ef9a9a';
+                                banner.innerText = `❌ Google Sheet Error: ${json.error || 'Failed to update sheet.'}`;
+                            }
+                            alert(`❌ Google Sheet Update Failed: ${json.error || 'Unknown error'}\n\nNote: Card changes were saved locally in your browser cache. Please verify that the Google Apps Script in "Universe of Legends - Saved Decks" is deployed with a "New version".`);
                             return;
                         }
+                    } else {
+                        throw new Error(`HTTP error ${resp.status}: ${resp.statusText}`);
                     }
                 } catch (err) {
                     console.error("Card Sheet update error:", err);
+                    if (banner) {
+                        banner.style.display = 'block';
+                        banner.style.background = 'rgba(244, 67, 54, 0.25)';
+                        banner.style.color = '#ef9a9a';
+                        banner.innerText = `⚠️ Network Error connecting to Google Sheet: ${err.message || err}`;
+                    }
+                    alert(`⚠️ Network Error: Could not connect to Google Sheet backend (${err.message || err}).\n\nCard changes were saved locally in your browser cache.`);
+                    return;
                 }
             }
 
             if (banner) {
                 banner.style.display = 'block';
-                banner.style.background = 'rgba(76, 175, 80, 0.2)';
-                banner.style.color = '#a5d6a7';
-                banner.innerText = `Card "${name}" updated locally! (Configure Web App URL in ⚙ Backend to sync directly to Google Sheet).`;
+                banner.style.background = 'rgba(255, 152, 0, 0.25)';
+                banner.style.color = '#ffb74d';
+                banner.innerText = `ℹ️ Card "${name}" updated locally in browser. Enter Web App URL in ⚙ Backend to sync to Google Sheet.`;
             }
-            alert(`Card "${name}" updated successfully!`);
-            logAction(`Admin edited card: "${name}" (${fullType}, ${color}).`);
+            alert(`ℹ️ Card "${name}" updated locally in browser cache!\n\nTo sync directly to your Google Sheet, configure the Apps Script Web App URL in ⚙ Backend Settings.`);
+            logAction(`Admin edited card locally: "${name}" (${fullType}, ${color}).`);
         }
 
         function addNewCardFromEditor() {

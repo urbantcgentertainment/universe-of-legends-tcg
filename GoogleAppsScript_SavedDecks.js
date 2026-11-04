@@ -249,6 +249,8 @@ function doPost(e) {
         if (kwIdx !== -1 && payload.keywords !== undefined) cardSheet.getRange(foundRow, kwIdx + 1).setValue(payload.keywords);
         if (imgIdx !== -1 && payload.image !== undefined) cardSheet.getRange(foundRow, imgIdx + 1).setValue(payload.image);
 
+        SpreadsheetApp.flush();
+
         return createJsonResponse({ 
           success: true, 
           action: 'updated',
@@ -270,6 +272,7 @@ function doPost(e) {
           else newRow.push('');
         }
         cardSheet.appendRow(newRow);
+        SpreadsheetApp.flush();
 
         return createJsonResponse({ 
           success: true, 
