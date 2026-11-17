@@ -9315,6 +9315,7 @@ Ensure that:
 
         function goToStartPage() {
             closeAllBuilderModals();
+            if (typeof resetSplitBoardToSoloSandbox === 'function') resetSplitBoardToSoloSandbox();
             const packView = document.getElementById('pack-opening-view');
             if (packView) packView.style.display = 'none';
             const htpView = document.getElementById('how-to-play-view');
@@ -9794,9 +9795,26 @@ Ensure that:
                 });
             }
 
+            const resolveCardEntry = (entry) => {
+                if (!entry) return null;
+                if (typeof entry === 'object' && entry.name) {
+                    return catalog.find(c => c.id === entry.id || c.name.toLowerCase() === entry.name.toLowerCase()) || entry;
+                }
+                const key = String(entry).trim().toLowerCase();
+                return catalog.find(c => (c.id && c.id.toLowerCase() === key) || (c.name && c.name.toLowerCase() === key));
+            };
+
+            if (Array.isArray(data.barriers)) {
+                barrierDeck = [];
+                data.barriers.forEach(id => {
+                    const found = resolveCardEntry(id);
+                    if (found) barrierDeck.push({ ...found });
+                });
+            }
+
             if (Array.isArray(data.mainDeck)) {
                 data.mainDeck.forEach(id => {
-                    const found = catalog.find(c => c.id === id || c.name === id);
+                    const found = resolveCardEntry(id);
                     if (found) {
                         mainDeck.push({ ...found });
                     }
@@ -11173,8 +11191,35 @@ Ensure that:
             if (modal) modal.className = 'modal-hidden';
         }
 
+        function resetSplitBoardToSoloSandbox() {
+            isOnlinePvPActive = false;
+            if (typeof isAIModeActive !== 'undefined') isAIModeActive = false;
+            if (typeof isStoryModeActive !== 'undefined') isStoryModeActive = false;
+            const playmat = document.getElementById('playmat');
+            if (playmat) playmat.classList.remove('pvp-split-active');
+            const oppHalf = document.getElementById('pvp-opponent-half');
+            if (oppHalf) oppHalf.remove();
+            const clash = document.getElementById('pvp-center-clash-divider') || document.getElementById('pvp-clash-divider');
+            if (clash) clash.remove();
+            const turnHud = document.getElementById('pvp-turn-hud');
+            if (turnHud) turnHud.style.display = 'none';
+            const badge = document.getElementById('pvp-match-controls-badge');
+            if (badge) badge.remove();
+            // Re-center solo zones after removing .pvp-split-active
+            setTimeout(() => {
+                for (let i = 1; i <= 4; i++) {
+                    if (typeof repositionCardsInZone === 'function') repositionCardsInZone(`mid-zone-${i}`);
+                }
+                if (typeof repositionCardsInZone === 'function') {
+                    repositionCardsInZone('bottom-fan-zone');
+                    repositionCardsInZone('zone-top-left');
+                }
+            }, 0);
+        }
+
         function startPlaytest() {
             closeAllBuilderModals();
+            resetSplitBoardToSoloSandbox();
             const startV = document.getElementById('start-view');
             if (startV) startV.style.display = 'none';
             if (mainDeck.length === 0) {
@@ -11368,6 +11413,7 @@ function renderPlaytestBarrier() {
         }
 
         function returnToBuilder() {
+            resetSplitBoardToSoloSandbox();
             const packView = document.getElementById('pack-opening-view');
             if (packView) packView.style.display = 'none';
             const htpView = document.getElementById('how-to-play-view');
@@ -14809,9 +14855,17 @@ function spawnToken(tokenKey = 'shield') {
             updatePvPTurnDisplay();
         }
 
-        // Hook into match victory to unlock next story chapter
-        const prevTriggerPvPMatchEnd = triggerPvPMatchEnd;
-        triggerPvPMatchEnd = function(isWinner) {
+        // Base PvP Match End handler + Story Chapter unlock hook
+        function baseTriggerPvPMatchEnd(isWinner) {
+            const modal = document.getElementById('pvp-victory-modal');
+            const title = document.getElementById('pvp-victory-title');
+            const desc = document.getElementById('pvp-victory-desc');
+            if (title) title.innerText = isWinner ? '🏆 MATCH VICTORY!' : '💀 DEFEAT';
+            if (desc) desc.innerHTML = isWinner ? 'You shattered all of your opponent\'s barriers and struck directly for victory!' : 'Your barriers were shattered and your opponent struck the final blow.';
+            if (modal) modal.className = 'modal-visible';
+        }
+        const prevTriggerPvPMatchEnd = typeof triggerPvPMatchEnd === 'function' ? triggerPvPMatchEnd : baseTriggerPvPMatchEnd;
+        function triggerPvPMatchEnd(isWinner) {
             prevTriggerPvPMatchEnd(isWinner);
 
             if (isStoryModeActive && isWinner) {
@@ -14824,18 +14878,18 @@ function spawnToken(tokenKey = 'shield') {
                     }
                 }
             }
-        };
+        }
 
         // =====================================================================
         // --- SUPABASE CLOUD AUTH & UNIVERSE SYNC ENGINE (PHASE 1) ---
         // =====================================================================
-        const SUPABASE_URL = "https://qksoyhkdbnoretreblyc.supabase.co";
-        const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_5IYw17Qwsau6nYnRoGVWFA_GLMHWn7A";
-        let sbClient = null;
-        let sbCurrentUser = null;
-        let sbCurrentProfile = null;
-        let sbAuthMode = 'signin';
-        let sbCloudUniverses = [];
+        var SUPABASE_URL = "https://qksoyhkdbnoretreblyc.supabase.co";
+        var SUPABASE_PUBLISHABLE_KEY = "sb_publishable_5IYw17Qwsau6nYnRoGVWFA_GLMHWn7A";
+        var sbClient = null;
+        var sbCurrentUser = null;
+        var sbCurrentProfile = null;
+        var sbAuthMode = 'signin';
+        var sbCloudUniverses = [];
 
         function initSupabaseClient() {
             if (sbClient) return sbClient;
@@ -15199,12 +15253,12 @@ function spawnToken(tokenKey = 'shield') {
         // =====================================================================
         // --- PHASE 2: ROBUST DECK BUILDER ENGINE ---
         // =====================================================================
-        let builderViewMode = 'grid';
-        let collapsedStackGroups = new Set();
-        let maybeboardDeck = [];
-        let customCardCategories = {};
-        let pinnedCardIds = [];
-        let deckSnapshots = [];
+        var builderViewMode = 'grid';
+        var collapsedStackGroups = new Set();
+        var maybeboardDeck = [];
+        var customCardCategories = {};
+        var pinnedCardIds = [];
+        var deckSnapshots = [];
 
         try {
             pinnedCardIds = JSON.parse(localStorage.getItem('uofl_pinned_cards') || '[]');
@@ -15803,9 +15857,9 @@ function spawnToken(tokenKey = 'shield') {
         // =====================================================================
         // --- PHASE 3: MULTIVERSE EXPLORER (THE MULTIVERSE NEXUS) ---
         // =====================================================================
-        let explorerPublicUniverses = [];
-        let explorerActiveTab = 'recent';
-        let currentInspectedUniverse = null;
+        var explorerPublicUniverses = [];
+        var explorerActiveTab = 'recent';
+        var currentInspectedUniverse = null;
 
         function buildStarterShowcaseUniverses() {
             const starters = (typeof DEFAULT_SEED_DECKS !== 'undefined' ? DEFAULT_SEED_DECKS : []);
