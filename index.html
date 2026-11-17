@@ -1126,8 +1126,8 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(4, 6, 14, 0.88);
-            backdrop-filter: blur(6px);
+            background: rgba(8, 12, 24, 0.42);
+            backdrop-filter: blur(2.5px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -3351,8 +3351,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(6, 8, 16, 0.92);
-            backdrop-filter: blur(8px);
+            background: rgba(8, 12, 24, 0.45);
+            backdrop-filter: blur(3px);
             z-index: 1100;
             align-items: center;
             justify-content: center;
@@ -3665,6 +3665,58 @@
 
     
         .nav-actions { flex-wrap: wrap; }
+    
+        /* === 3D DICE ROLL ANIMATION & WIDER RE/ACTION MODAL === */
+        .dice-3d {
+            width: 118px;
+            height: 118px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 55%, #090d18 100%);
+            border: 3.5px solid #00e5ff;
+            box-shadow: 0 0 35px rgba(0, 229, 255, 0.75), inset 0 0 18px rgba(0, 229, 255, 0.35), 0 10px 25px rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 900;
+            color: #ffd700;
+            margin: 0 auto 16px auto;
+            transform-style: preserve-3d;
+            text-shadow: 0 0 14px rgba(255, 215, 0, 0.8);
+        }
+        .dice-rolling {
+            animation: diceTumble 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes diceTumble {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(0.65); }
+            35% { transform: rotateX(540deg) rotateY(360deg) rotateZ(180deg) scale(1.18) translateY(-24px); }
+            70% { transform: rotateX(900deg) rotateY(720deg) rotateZ(310deg) scale(1.06) translateY(-8px); }
+            100% { transform: rotateX(1080deg) rotateY(1080deg) rotateZ(360deg) scale(1) translateY(0); }
+        }
+        #reaction-modal .modal-content {
+            width: 92vw !important;
+            max-width: 1040px !important;
+            padding: 22px 24px !important;
+        }
+        #reaction-modal-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)) !important;
+            gap: 16px !important;
+            justify-items: center;
+            padding: 8px 4px;
+        }
+        #reaction-modal-grid .card-thumb {
+            width: 100% !important;
+            max-width: 195px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8) !important;
+            transition: transform 0.16s ease, box-shadow 0.16s ease !important;
+        }
+        #reaction-modal-grid .card-thumb:hover {
+            transform: translateY(-5px) scale(1.04) !important;
+            box-shadow: 0 10px 26px rgba(0,0,0,0.9), 0 0 18px rgba(0, 229, 255, 0.65) !important;
+        }
+
     </style>
 
     
@@ -3771,7 +3823,7 @@
             <!-- Authenticated Role Status Banner -->
             <div id="start-auth-status" style="display: none; align-items: center; gap: 12px;">
                 <span id="start-role-badge" style="font-size: 11.5px; padding: 5px 14px; clip-path: var(--clip-btn); font-weight: 800; letter-spacing: 0.6px;"></span>
-                <button class="btn-blue" onclick="logoutPasscode()" style="padding: 5px 12px; font-size: 11px;">Switch Code</button>
+                <button class="btn-blue" onclick="logoutPasscode()" style="padding: 5px 12px; font-size: 11px;">Sign Out</button>
             </div>
         </div>
 
@@ -3781,19 +3833,41 @@
             <div class="start-left-column">
                 <div class="start-command-title">Magitek Tactical Terminal</div>
 
-                <!-- 1. Passcode Gate Section (Shown if unauthenticated) -->
-                <div id="start-gate-section" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+                <!-- 1. Duelist Cloud Account Gate Section (Shown if unauthenticated) -->
+                <div id="start-gate-section" style="display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: 100%;">
                     <div style="font-size: 14px; font-weight: 800; color: var(--fantasy-gold); letter-spacing: 1px; text-transform: uppercase;">
-                        Enter Access Passcode
+                        🌌 Duelist Cloud Account
                     </div>
-                    <div style="font-size: 12px; color: #9aa8c2; line-height: 1.4;">
-                        Authenticate your terminal to unlock the Deck Builder, Testing Arena, and Pack Simulator.
+                    <div style="font-size: 11.5px; color: #9aa8c2; line-height: 1.35;">
+                        Sign in to your existing account or create a new Duelist profile to unlock the Deck Builder, Multiverse Explorer, and Testing Arena.
                     </div>
-                    <div style="display: flex; gap: 8px; width: 100%; align-items: center; margin-top: 4px;">
-                        <input type="password" id="start-passcode-input" onkeydown="if(event.key==='Enter') submitStartPasscode()" placeholder="Access Code..." style="flex: 1 1 auto; min-width: 0; width: 100%; background: #070912; border: 1.5px solid var(--tech-cyan-dim); clip-path: var(--clip-btn); padding: 9px 12px; color: #fff; font-size: 13.5px; outline: none; transition: border-color 0.2s;">
-                        <button id="start-passcode-submit-btn" class="btn-blue" onclick="submitStartPasscode()" style="padding: 9px 16px; font-size: 12.5px; min-width: 78px; flex-shrink: 0;">Enter</button>
+
+                    <!-- Mode Toggle Tabs: Existing Player Login vs New Player Sign Up -->
+                    <div style="display: flex; gap: 6px; width: 100%;">
+                        <button id="start-gate-tab-signin" class="btn-green" onclick="switchStartGateMode('signin')" style="flex: 1; padding: 7px 10px; font-size: 11.5px; font-weight: 800;">Existing Player Login</button>
+                        <button id="start-gate-tab-signup" class="btn-gray" onclick="switchStartGateMode('signup')" style="flex: 1; padding: 7px 10px; font-size: 11.5px; font-weight: 800;">New Player Sign Up</button>
                     </div>
-                    <div id="start-passcode-error" style="color: var(--crystal-red); font-size: 12px; font-weight: 700; display: none;"></div>
+
+                    <!-- New Player Username Field -->
+                    <div id="start-gate-username-wrap" style="display: none; width: 100%;">
+                        <input type="text" id="start-gate-username" placeholder="Choose Duelist Handle (e.g. ViviSpin)..." style="width: 100%; box-sizing: border-box; background: #070912; border: 1.5px solid var(--tech-cyan-dim); border-radius: 4px; padding: 8px 11px; color: #fff; font-size: 12.5px; outline: none;">
+                    </div>
+
+                    <!-- Email & Password Fields -->
+                    <input type="email" id="start-gate-email" onkeydown="if(event.key==='Enter') submitStartCloudAuth()" placeholder="Email Address..." style="width: 100%; box-sizing: border-box; background: #070912; border: 1.5px solid var(--tech-cyan-dim); border-radius: 4px; padding: 8px 11px; color: #fff; font-size: 12.5px; outline: none;">
+                    <input type="password" id="start-gate-password" onkeydown="if(event.key==='Enter') submitStartCloudAuth()" placeholder="Password (min 6 characters)..." style="width: 100%; box-sizing: border-box; background: #070912; border: 1.5px solid var(--tech-cyan-dim); border-radius: 4px; padding: 8px 11px; color: #fff; font-size: 12.5px; outline: none;">
+
+                    <button id="start-gate-submit-btn" class="btn-green" onclick="submitStartCloudAuth()" style="width: 100%; padding: 9px 14px; font-size: 12.5px; font-weight: 800;">Sign In &amp; Enter Universe ▶</button>
+                    <div id="start-passcode-error" style="color: var(--crystal-red); font-size: 11.5px; font-weight: 700; display: none;"></div>
+
+                    <!-- Collapsible Admin Override for Developer Card Editor Access -->
+                    <details style="width: 100%; margin-top: 2px; font-size: 10.5px; color: #64748b;">
+                        <summary style="cursor: pointer; user-select: none;">🔑 Developer / Admin Passcode Override</summary>
+                        <div style="display: flex; gap: 6px; margin-top: 6px;">
+                            <input type="password" id="start-passcode-input" onkeydown="if(event.key==='Enter') submitStartPasscode()" placeholder="Admin Code..." style="flex: 1; background: #070912; border: 1px solid #334155; border-radius: 4px; padding: 5px 8px; color: #fff; font-size: 11.5px;">
+                            <button id="start-passcode-submit-btn" class="btn-purple" onclick="submitStartPasscode()" style="padding: 5px 10px; font-size: 11px;">Unlock</button>
+                        </div>
+                    </details>
                 </div>
 
                 <!-- 2. Master Duel Vertical Menu Blades (Enabled once authenticated) -->
@@ -5213,6 +5287,31 @@
             <button id="coin-flip-proceed-btn" class="btn-green" onclick="closeCoinFlipModal()" style="display: none; padding: 8px 24px; font-size: 13px; font-weight: 800; margin: 0 auto;">
                 ENTER ARENA ▶
             </button>
+        </div>
+    </div>
+
+    <!-- ================= VISUAL COIN FLIP & DICE ROLL OVERLAY (TEST PAGE TOOLS) ================= -->
+    <div id="rng-visualizer-modal" class="modal-hidden" onclick="if(event.target===this) closeRngVisualizerModal()">
+        <div class="modal-content" style="max-width: 400px; width: 88vw; background: rgba(12, 16, 28, 0.96); border: 2px solid #00e5ff; border-radius: 12px; box-shadow: 0 10px 45px rgba(0,0,0,0.9), 0 0 30px rgba(0, 229, 255, 0.45); text-align: center; padding: 22px 20px;">
+            <div id="rng-visualizer-header" style="font-size: 14px; font-weight: 900; color: #00e5ff; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;">
+                🎲 TABLETOP ROLLER
+            </div>
+            <div id="rng-coin-graphic" class="coin-3d" style="display: none;">
+                👑
+            </div>
+            <div id="rng-dice-graphic" class="dice-3d" style="display: none;">
+                20
+            </div>
+            <div id="rng-result-title" style="font-size: 20px; font-weight: 900; color: #ffd700; margin-bottom: 6px;">
+                Rolling...
+            </div>
+            <div id="rng-result-sub" style="font-size: 12px; color: #cbd5e1; margin-bottom: 16px;">
+                Calculating outcome...
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button id="rng-reroll-btn" class="btn-blue" style="padding: 7px 16px; font-size: 12px; font-weight: 800;">↻ Again</button>
+                <button class="btn-green" onclick="closeRngVisualizerModal()" style="padding: 7px 20px; font-size: 12px; font-weight: 800;">Done ✓</button>
+            </div>
         </div>
     </div>
 
@@ -7818,7 +7917,9 @@
             } else {
                 isAdminModeActive = false;
                 if (roleBadge) {
-                    roleBadge.innerText = 'Access Granted (Player Mode)';
+                    const handle = (typeof sbCurrentProfile !== 'undefined' && sbCurrentProfile && (sbCurrentProfile.display_name || sbCurrentProfile.username))
+                        || (typeof sbCurrentUser !== 'undefined' && sbCurrentUser && sbCurrentUser.email ? sbCurrentUser.email.split('@')[0] : null);
+                    roleBadge.innerText = handle ? `🌌 Duelist: @${handle}` : 'Access Granted (Player Mode)';
                     roleBadge.style.background = 'rgba(46, 125, 50, 0.15)';
                     roleBadge.style.color = '#81c784';
                     roleBadge.style.border = '1px solid #2e7d32';
@@ -7833,8 +7934,91 @@
             }
         }
 
-        function logoutPasscode() {
+        async function logoutPasscode() {
+            if (typeof sbClient !== 'undefined' && sbClient && sbCurrentUser) {
+                try { await sbClient.auth.signOut(); } catch(e) {}
+            }
             showPasscodeGate();
+        }
+
+        var startGateMode = 'signin';
+        function switchStartGateMode(mode) {
+            startGateMode = mode;
+            const tabIn = document.getElementById('start-gate-tab-signin');
+            const tabUp = document.getElementById('start-gate-tab-signup');
+            const userWrap = document.getElementById('start-gate-username-wrap');
+            const submitBtn = document.getElementById('start-gate-submit-btn');
+            const errBox = document.getElementById('start-passcode-error');
+            if (errBox) errBox.style.display = 'none';
+
+            if (mode === 'signup') {
+                if (tabIn) tabIn.className = 'btn-gray';
+                if (tabUp) tabUp.className = 'btn-green';
+                if (userWrap) userWrap.style.display = 'block';
+                if (submitBtn) submitBtn.innerHTML = 'Create Account &amp; Enter Universe ▶';
+            } else {
+                if (tabIn) tabIn.className = 'btn-green';
+                if (tabUp) tabUp.className = 'btn-gray';
+                if (userWrap) userWrap.style.display = 'none';
+                if (submitBtn) submitBtn.innerHTML = 'Sign In &amp; Enter Universe ▶';
+            }
+        }
+
+        async function submitStartCloudAuth() {
+            const client = initSupabaseClient();
+            const errBox = document.getElementById('start-passcode-error');
+            const showGateMsg = (msg, isOk = false) => {
+                if (!errBox) return;
+                errBox.style.display = 'block';
+                errBox.style.color = isOk ? '#00e676' : '#ff5252';
+                errBox.innerText = msg;
+            };
+
+            if (!client) {
+                showGateMsg('Cloud service could not initialize. Please check your connection.');
+                return;
+            }
+
+            const email = (document.getElementById('start-gate-email')?.value || '').trim();
+            const password = document.getElementById('start-gate-password')?.value || '';
+            const username = (document.getElementById('start-gate-username')?.value || '').trim();
+
+            if (!email || password.length < 6) {
+                showGateMsg('Please enter a valid email address and a password (6+ characters).');
+                return;
+            }
+
+            const btn = document.getElementById('start-gate-submit-btn');
+            if (btn) btn.disabled = true;
+            showGateMsg(startGateMode === 'signup' ? 'Creating your Duelist account...' : 'Signing in to Multiverse...', true);
+
+            try {
+                if (startGateMode === 'signup') {
+                    const { data, error } = await client.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: { username: username || email.split('@')[0] }
+                        }
+                    });
+                    if (error) throw error;
+                    if (data && data.user) {
+                        applyAccessRole('player');
+                    } else {
+                        showGateMsg('Account created! Please sign in.', true);
+                    }
+                } else {
+                    const { data, error } = await client.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
+                    if (data && data.user) {
+                        applyAccessRole('player');
+                    }
+                }
+            } catch (err) {
+                showGateMsg(err.message || 'Authentication failed. Please check your credentials.');
+            } finally {
+                if (btn) btn.disabled = false;
+            }
         }
 
 
@@ -10717,18 +10901,121 @@ Ensure that:
             else if (val === 'backend') openBackendModal();
         }
 
+        var rngAnimTimer = null;
+        var rngIntervalTimer = null;
+
+        function closeRngVisualizerModal() {
+            const modal = document.getElementById('rng-visualizer-modal');
+            if (modal) modal.className = 'modal-hidden';
+            if (rngAnimTimer) clearTimeout(rngAnimTimer);
+            if (rngIntervalTimer) clearInterval(rngIntervalTimer);
+        }
+
         function rollDice(sides = 6) {
             const roll = Math.floor(Math.random() * sides) + 1;
-            alert('🎲 Rolled 1d' + sides + ': ' + roll);
             logAction('🎲 Rolled 1d' + sides + ': ' + roll);
+
+            const modal = document.getElementById('rng-visualizer-modal');
+            const hdr = document.getElementById('rng-visualizer-header');
+            const coinEl = document.getElementById('rng-coin-graphic');
+            const diceEl = document.getElementById('rng-dice-graphic');
+            const titleEl = document.getElementById('rng-result-title');
+            const subEl = document.getElementById('rng-result-sub');
+            const rerollBtn = document.getElementById('rng-reroll-btn');
+
+            if (modal && diceEl) {
+                if (rngAnimTimer) clearTimeout(rngAnimTimer);
+                if (rngIntervalTimer) clearInterval(rngIntervalTimer);
+
+                if (hdr) hdr.innerText = `🎲 ROLLING 1D${sides}`;
+                if (coinEl) coinEl.style.display = 'none';
+                diceEl.style.display = 'flex';
+                diceEl.style.borderRadius = sides === 20 ? '50%' : '22px';
+                diceEl.className = 'dice-3d';
+                void diceEl.offsetWidth;
+                diceEl.className = 'dice-3d dice-rolling';
+
+                if (titleEl) {
+                    titleEl.style.color = '#94a3b8';
+                    titleEl.innerText = 'Rolling Die...';
+                }
+                if (subEl) subEl.innerText = `Tumbling ${sides}-sided die across the playmat...`;
+                if (rerollBtn) {
+                    rerollBtn.innerText = `↻ Roll 1d${sides} Again`;
+                    rerollBtn.onclick = () => rollDice(sides);
+                }
+
+                modal.className = 'modal-visible';
+
+                rngIntervalTimer = setInterval(() => {
+                    diceEl.innerText = Math.floor(Math.random() * sides) + 1;
+                }, 75);
+
+                rngAnimTimer = setTimeout(() => {
+                    clearInterval(rngIntervalTimer);
+                    diceEl.innerText = roll;
+                    if (titleEl) {
+                        titleEl.style.color = (roll === sides) ? '#00e676' : (roll === 1 ? '#ff5252' : '#ffd700');
+                        titleEl.innerText = `🎲 Rolled ${roll}!`;
+                    }
+                    if (subEl) {
+                        subEl.innerText = (roll === sides)
+                            ? `Critical High Roll on 1d${sides}!`
+                            : `Result logged to Actions Taken (1d${sides}: ${roll}).`;
+                    }
+                }, 1100);
+            }
             return roll;
         }
 
         function flipCoin() {
             const isHeads = Math.random() < 0.5;
             const res = isHeads ? 'HEADS' : 'TAILS';
-            alert('🪙 Coin Flip: ' + res);
             logAction('🪙 Coin Flip: ' + res);
+
+            const modal = document.getElementById('rng-visualizer-modal');
+            const hdr = document.getElementById('rng-visualizer-header');
+            const coinEl = document.getElementById('rng-coin-graphic');
+            const diceEl = document.getElementById('rng-dice-graphic');
+            const titleEl = document.getElementById('rng-result-title');
+            const subEl = document.getElementById('rng-result-sub');
+            const rerollBtn = document.getElementById('rng-reroll-btn');
+
+            if (modal && coinEl) {
+                if (rngAnimTimer) clearTimeout(rngAnimTimer);
+                if (rngIntervalTimer) clearInterval(rngIntervalTimer);
+
+                if (hdr) hdr.innerText = '🪙 MAGITEK COIN TOSS';
+                if (diceEl) diceEl.style.display = 'none';
+                coinEl.style.display = 'flex';
+                coinEl.innerText = '🪙';
+                coinEl.className = 'coin-3d';
+                void coinEl.offsetWidth;
+                coinEl.className = 'coin-3d coin-spinning';
+
+                if (titleEl) {
+                    titleEl.style.color = '#94a3b8';
+                    titleEl.innerText = 'Flipping Coin...';
+                }
+                if (subEl) subEl.innerText = 'Spinning coin in the air...';
+                if (rerollBtn) {
+                    rerollBtn.innerText = '↻ Flip Again';
+                    rerollBtn.onclick = () => flipCoin();
+                }
+
+                modal.className = 'modal-visible';
+
+                rngAnimTimer = setTimeout(() => {
+                    coinEl.innerText = isHeads ? '👑' : '🛡️';
+                    if (titleEl) {
+                        titleEl.style.color = isHeads ? '#ffd700' : '#00e5ff';
+                        titleEl.innerText = `🪙 ${res}!`;
+                    }
+                    if (subEl) {
+                        subEl.innerText = `Coin landed on ${res} — logged to Actions Taken.`;
+                    }
+                }, 1750);
+            }
             return res;
         }
 
@@ -11707,7 +11994,7 @@ function renderPlaytestBarrier() {
                 img.src = card.url;
                 img.onerror = () => handleCardImageError(img, card);
                 img.className = 'card-thumb';
-                img.style.width = '100px';
+                img.style.width = '185px';
                 img.onmouseover = () => updatePlaytestDetailView(card);
                 img.onclick = () => pullSearchedCard(index);
                 grid.appendChild(img);
@@ -12037,7 +12324,7 @@ function renderPlaytestBarrier() {
                 img.src = card.url;
                 img.onerror = () => handleCardImageError(img, card);
                 img.className = 'card-thumb';
-                img.style.width = '100px';
+                img.style.width = '185px';
                 img.onmouseover = () => updatePlaytestDetailView(card);
                 img.onclick = () => playReactionCard(index);
                 grid.appendChild(img);
@@ -14908,6 +15195,10 @@ function spawnToken(tokenKey = 'shield') {
         async function handleSupabaseSession(session) {
             sbCurrentUser = session ? session.user : null;
             if (sbCurrentUser && sbClient) {
+                // Automatically unlock the Start Screen when signed into a Cloud Account
+                if (typeof applyAccessRole === 'function' && currentAccessRole !== 'admin') {
+                    applyAccessRole('player');
+                }
                 try {
                     const { data } = await sbClient
                         .from('profiles')
@@ -14944,6 +15235,10 @@ function spawnToken(tokenKey = 'shield') {
 
             if (sbCurrentUser) {
                 const label = (sbCurrentProfile && (sbCurrentProfile.display_name || sbCurrentProfile.username)) || sbCurrentUser.email.split('@')[0];
+                const roleBadge = document.getElementById('start-role-badge');
+                if (roleBadge && currentAccessRole !== 'admin') {
+                    roleBadge.innerText = `🌌 Duelist: @${label}`;
+                }
                 if (startBtn) startBtn.innerHTML = `👤 ${label}`;
                 if (navBtn) navBtn.innerHTML = `👤 ${label}`;
                 if (loggedOut) loggedOut.style.display = 'none';
